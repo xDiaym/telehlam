@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#0F1427"
+    android:orientation="horizontal"
     android:padding="11dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/chat_avatar"
-        android:layout_width="48dp"
-        android:layout_height="48dp" />
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:src="@drawable/defoult_user_photo"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="0dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -22,17 +27,19 @@
             android:layout_gravity="start"
             android:layout_marginStart="11dp"
             android:layout_marginLeft="11dp"
-            android:layout_marginTop="3dp" />
+            android:layout_marginTop="3dp"
+            android:textColor="#FFFFFF" />
 
         <TextView
             android:id="@+id/chat_last_message"
             android:layout_width="wrap_content"
-            android:layout_height="12dp"
+            android:layout_height="19dp"
+            android:layout_gravity="bottom"
+            android:textColor="#FFFFFF"
             android:layout_marginStart="11dp"
             android:layout_marginLeft="11dp"
             android:layout_marginTop="3dp"
-            android:layout_marginBottom="5dp"
-            android:layout_gravity="bottom" />
+            android:layout_marginBottom="5dp" />
 
     </FrameLayout>
 
