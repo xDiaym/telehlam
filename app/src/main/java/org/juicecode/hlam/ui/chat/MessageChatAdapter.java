@@ -9,20 +9,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.hlam.R;
-import org.juicecode.hlam.ui.home.ChatListAdapter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.ChatViewHolder>{
-    List<Message> messages = new ArrayList<>();
+    List<IncomingMessage> incomingMessages = new ArrayList<>();
+    List<OutcomingMessage> outcomingMessages = new ArrayList<>();
 
     @NonNull
 
-    public void setItem(Message message){
+    public void setItem(IncomingMessage incomingMessage,OutcomingMessage outcomingMessage){
 
-        this.messages.add(message);
+        this.incomingMessages.add(incomingMessage);
+        this.outcomingMessages.add(outcomingMessage);
         notifyDataSetChanged();
     }
     @Override
@@ -38,18 +38,27 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
 
     @Override
     public int getItemCount() {
-        return messages.size();
+        return incomingMessages.size();
     }
 
     public class ChatViewHolder extends RecyclerView.ViewHolder {
-        private TextView message;
+        private TextView outcomingMessage;
+        private TextView incomingMessage;
 
 
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
-            message = itemView.findViewById(R.id.message);
-            String messageValue = messages.get(getItemCount()-1).getMessageString();
-            message.setText(messageValue);
+            outcomingMessage = itemView.findViewById(R.id.outcoming_message_field);
+            incomingMessage = itemView.findViewById(R.id.incoming_message_field);
+            String IncomingMessageValue = incomingMessages.get(getItemCount()-1).getMessage();
+            incomingMessage.setText(IncomingMessageValue);
+            String OutcomingMessageValue = outcomingMessages.get(getItemCount()-1).getMessage();
+            outcomingMessage.setText(OutcomingMessageValue);
+            if(OutcomingMessageValue==""){
+                outcomingMessage.setVisibility(View.INVISIBLE);
+            }else{
+                incomingMessage.setVisibility(View.INVISIBLE);
+            }
         }
     }
 }

@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0F1427">
+    android:background="@color/colorPrimaryDark">
 
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#1A1F32"
+        android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,7 +32,7 @@
         android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#1A1F32"
+        android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

@@ -33,14 +33,27 @@ public class ChatFragment extends Fragment {
         LinearLayoutManager linearLayout = new LinearLayoutManager(context);
         chat.setLayoutManager(linearLayout);
         final MessageChatAdapter messageListAdapter = new MessageChatAdapter();
+
         chat.setAdapter(messageListAdapter);
+        chat.setHasFixedSize(false);
+        chat.setNestedScrollingEnabled(false);
         sendbutton = view.findViewById(R.id.send_message_button);
         sendbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String messageValue = messageField.getText().toString();
-                Message message = new Message(messageValue);
-                messageListAdapter.setItem(message);
+                StringBuffer stringBuffer= new StringBuffer(messageValue);
+                Character lastletter = stringBuffer.charAt(stringBuffer.length()-1);
+                String last = Character.toString(lastletter);
+                if(last.equals(".")){
+                IncomingMessage incomingMessage = new IncomingMessage("");
+                OutcomingMessage outcomingMessage = new OutcomingMessage(messageValue);
+                messageListAdapter.setItem(incomingMessage,outcomingMessage);
+                }else{
+                    IncomingMessage incomingMessage = new IncomingMessage(messageValue);
+                    OutcomingMessage outcomingMessage = new OutcomingMessage("");
+                    messageListAdapter.setItem(incomingMessage,outcomingMessage);
+                }
                 messageField.setText("");
             }
         });
@@ -52,10 +65,8 @@ public class ChatFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
-                /*FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                HomeFragment homeFragment = new HomeFragment();
-                fragmentTransaction.replace(R.id.drawer_layout,homeFragment,"tag").commit();*/
+                messageField.clearFocus();
+
             }
         });
         nameOfContact.setText(nameOfContactValue);

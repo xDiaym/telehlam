@@ -1,14 +1,17 @@
 package org.juicecode.hlam.ui.chat;
 
-public class Message {
+public class OutcomingMessage {
     private String message;
     private String date;
+    public OutcomingMessage(String text){
+        this.message = text;
+    }
 
-    public String getMessageString() {
+    public String getMessage() {
         return message;
     }
 
-    public void setMessageString(String message) {
+    public void setMessage(String message) {
         this.message = message;
     }
 
@@ -18,9 +21,5 @@ public class Message {
 
     public void setDate(String date) {
         this.date = date;
-    }
-
-    public Message(String m){
-        this.message = m;
     }
 }
