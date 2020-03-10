@@ -25,10 +25,8 @@ import java.util.Random;
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatViewHolder> {
 
     private static int chatItemCount = 0;
-    private Context parent;
 
-    ChatListAdapter(Context context, int chatCount) {
-        parent = context;
+    ChatListAdapter(int chatCount) {
         chatItemCount = chatCount;
     }
 
@@ -39,11 +37,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.chat_list_item, parent, false);
 
-        ChatViewHolder viewHolder = new ChatViewHolder(view);
-        viewHolder.chatName.setText("WTF");
-        // chatItemCount++;
-
-        return viewHolder;
+        return new ChatViewHolder(view);
     }
 
     @Override
@@ -68,6 +62,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         return chatItemCount;
     }
 
+
     class ChatViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView chatAvatar;
@@ -81,23 +76,24 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
             chatName = itemView.findViewById(R.id.chat_name);
             chatLastMessage = itemView.findViewById(R.id.chat_last_message);
 
-            // TODO(all):make new class for listener
+            // TODO(all): make new class for listener
             itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-
                     MainActivity mainActivity = (MainActivity)v.getContext();
                     FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
+                    
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    
                     ChatFragment chatFragment = new ChatFragment();
                     Bundle sendingChatName = new Bundle();
+                    
                     String chatNameValue = (String) chatName.getText();
                     sendingChatName.putString("chatName",chatNameValue);
+                    
                     chatFragment.setArguments(sendingChatName);
                     fragmentTransaction.replace(R.id.drawer_layout,chatFragment,"tag").addToBackStack(null).commit();
-
-                    Toast.makeText(parent, chatName.getText(), Toast.LENGTH_LONG).show();
                 }
             });
         }
