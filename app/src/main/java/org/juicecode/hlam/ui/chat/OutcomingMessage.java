@@ -3,7 +3,8 @@ package org.juicecode.hlam.ui.chat;
 public class OutcomingMessage {
     private String message;
     private String date;
-    public OutcomingMessage(String text){
+
+    public OutcomingMessage(String text) {
         this.message = text;
     }
 

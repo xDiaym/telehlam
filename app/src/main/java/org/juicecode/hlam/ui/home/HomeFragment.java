@@ -18,14 +18,11 @@ import org.juicecode.hlam.ui.chat.ChatFragment;
 
 public class HomeFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
-    private RecyclerView chatList;
-
-    
-    private ChatListAdapter chatListAdapter;
-
     // TODO(all): delete temp var
     private static final int EXAMPLE_USER_COUNT = 42;
+    private HomeViewModel homeViewModel;
+    private RecyclerView chatList;
+    private ChatListAdapter chatListAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
