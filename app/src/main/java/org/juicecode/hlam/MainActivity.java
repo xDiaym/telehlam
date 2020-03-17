@@ -70,6 +70,5 @@ public class MainActivity extends AppCompatActivity {
 
     public void showFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-
     }
 }
