@@ -8,37 +8,36 @@
     android:orientation="vertical">
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/chat_header"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/chat_avatar"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/default_user_photo"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="0dp"
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/chat_avatar"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginLeft="48dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/defoult_user_photo"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="0dp"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toTopOf="parent" />
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
+    </View>
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -105,4 +104,5 @@
         app:layout_constraintStart_toEndOf="@+id/message_field"
         app:layout_constraintTop_toTopOf="@+id/view2"
         app:srcCompat="@drawable/send_image" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
