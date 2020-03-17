@@ -28,7 +28,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
 
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.incoming_message, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.outcoming_message, parent, false);
         return new ChatViewHolder(view);
     }
 
@@ -49,17 +49,14 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
 
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
+
             outcomingMessage = itemView.findViewById(R.id.outcoming_message_field);
-            incomingMessage = itemView.findViewById(R.id.incoming_message_field);
-            String IncomingMessageValue = incomingMessages.get(getItemCount() - 1).getMessage();
-            incomingMessage.setText(IncomingMessageValue);
             String OutcomingMessageValue = outcomingMessages.get(getItemCount() - 1).getMessage();
             outcomingMessage.setText(OutcomingMessageValue);
-            if (OutcomingMessageValue.isEmpty()) {
+
+            if(OutcomingMessageValue.isEmpty()) {
                 outcomingMessage.setVisibility(View.INVISIBLE);
-            } else {
-                incomingMessage.setVisibility(View.INVISIBLE);
+            }
             }
         }
     }
-}
