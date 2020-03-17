@@ -48,19 +48,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-        // TODO(all): delete name generator
-        StringBuilder name = new StringBuilder();
-        Random random = new Random();
-
-        name.append((char) (random.nextInt(90 - 65 + 1) + 65));
-        for (int i = 0; i < 6; i++) {
-            name.append((char) (random.nextInt(122 - 97 + 1) + 97));
-        }
-
-        holder.bind(
-                String.format(Locale.getDefault(), "%s N%d", name.toString(), position),
-                "Lorem ipsum dolor sit amet..."
-        );
+        // TODO(all): set real name
+        holder.bind("John Doe", "Hello world!");
     }
 
     @Override
