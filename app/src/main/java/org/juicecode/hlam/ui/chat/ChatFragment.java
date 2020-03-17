@@ -66,10 +66,10 @@ public class ChatFragment extends Fragment {
 
         Bundle arguments = getArguments();
         String nameOfContactValue = arguments.getString("chatName");
-        nameOfContact = view.findViewById(R.id.nameOfContact);
+        nameOfContact = view.findViewById(R.id.chat_name);
         nameOfContact.setText(nameOfContactValue);
 
-        goBack = view.findViewById(R.id.goBack);
+        goBack = view.findViewById(R.id.go_back_button);
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
