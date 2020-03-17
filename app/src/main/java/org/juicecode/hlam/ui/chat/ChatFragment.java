@@ -27,8 +27,10 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
+
         chat = view.findViewById(R.id.chat);
         messageField = view.findViewById(R.id.message_field);
+
         Context context = getContext();
         LinearLayoutManager linearLayout = new LinearLayoutManager(context);
         chat.setLayoutManager(linearLayout);
@@ -36,7 +38,8 @@ public class ChatFragment extends Fragment {
 
         chat.setAdapter(messageListAdapter);
         chat.setHasFixedSize(false);
-        chat.setNestedScrollingEnabled(false);
+        chat.setNestedScrollingEnabled(false); // TODO(all): delete
+
         sendbutton = view.findViewById(R.id.send_message_button);
         sendbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,8 +47,8 @@ public class ChatFragment extends Fragment {
                 String messageValue = messageField.getText().toString();
                 if(!messageValue.isEmpty()) {
                     StringBuffer stringBuffer = new StringBuffer(messageValue);
-                    Character lastletter = stringBuffer.charAt(stringBuffer.length() - 1);
-                    String last = Character.toString(lastletter);
+                    Character lastLetter = stringBuffer.charAt(stringBuffer.length() - 1);
+                    String last = Character.toString(lastLetter);
                     if (last.equals(".")) {
                         IncomingMessage incomingMessage = new IncomingMessage("");
                         OutcomingMessage outcomingMessage = new OutcomingMessage(messageValue);
@@ -60,9 +63,12 @@ public class ChatFragment extends Fragment {
                 messageField.setText("");
             }
         });
+
         Bundle arguments = getArguments();
         String nameOfContactValue = arguments.getString("chatName");
         nameOfContact = view.findViewById(R.id.nameOfContact);
+        nameOfContact.setText(nameOfContactValue);
+
         goBack = view.findViewById(R.id.goBack);
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +78,7 @@ public class ChatFragment extends Fragment {
 
             }
         });
-        nameOfContact.setText(nameOfContactValue);
+
         return view;
     }
 

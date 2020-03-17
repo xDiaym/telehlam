@@ -57,6 +57,6 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
             if(OutcomingMessageValue.isEmpty()) {
                 outcomingMessage.setVisibility(View.INVISIBLE);
             }
-            }
         }
     }
+}
