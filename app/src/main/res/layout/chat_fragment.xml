@@ -76,8 +76,9 @@
         <!-- TODO(all): Move colors into colors.xml -->
         <EditText
             android:id="@+id/message_field"
-            android:layout_width="330dp"
+            android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_weight="100"
             android:inputType="text"
             android:textColor="#FFFFFF"
             android:hint="@string/message_field_hint"
