@@ -18,26 +18,8 @@
         android:maxWidth="180dp"
         android:text=""
         android:textColor="#FFFFFF"
-
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/outcoming_message_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-
-        android:background="@drawable/bg_outcoming_message"
-        android:maxWidth="180dp"
-        android:text=""
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,8 +25,10 @@ import java.util.Random;
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatViewHolder> {
 
     private static int chatItemCount = 0;
+    private Context parent;
 
-    ChatListAdapter(int chatCount) {
+    ChatListAdapter(Context context, int chatCount) {
+        parent = context;
         chatItemCount = chatCount;
     }
 
@@ -37,31 +39,23 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.chat_list_item, parent, false);
 
-        return new ChatViewHolder(view);
+        ChatViewHolder viewHolder = new ChatViewHolder(view);
+        viewHolder.chatName.setText("WTF");
+        // chatItemCount++;
+
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-        // TODO(all): delete name generator
-        StringBuilder name = new StringBuilder();
-        Random random = new Random();
-
-        name.append((char) (random.nextInt(90 - 65 + 1) + 65));
-        for (int i = 0; i < 6; i++) {
-            name.append((char) (random.nextInt(122 - 97 + 1) + 97));
-        }
-
-        holder.bind(
-                String.format(Locale.getDefault(), "%s N%d", name.toString(), position),
-                "Lorem ipsum dolor sit amet..."
-        );
+        // TODO(all): set real name
+        holder.bind("John Doe", "Hello world!");
     }
 
     @Override
     public int getItemCount() {
         return chatItemCount;
     }
-
 
     class ChatViewHolder extends RecyclerView.ViewHolder {
 
@@ -76,24 +70,23 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
             chatName = itemView.findViewById(R.id.chat_name);
             chatLastMessage = itemView.findViewById(R.id.chat_last_message);
 
-            // TODO(all): make new class for listener
+            // TODO(all):make new class for listener
             itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    MainActivity mainActivity = (MainActivity)v.getContext();
+
+                    MainActivity mainActivity = (MainActivity) v.getContext();
                     FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
-                    
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    
                     ChatFragment chatFragment = new ChatFragment();
                     Bundle sendingChatName = new Bundle();
-                    
                     String chatNameValue = (String) chatName.getText();
-                    sendingChatName.putString("chatName",chatNameValue);
-                    
+                    sendingChatName.putString("chatName", chatNameValue);
                     chatFragment.setArguments(sendingChatName);
-                    fragmentTransaction.replace(R.id.drawer_layout,chatFragment,"tag").addToBackStack(null).commit();
+                    fragmentTransaction.replace(R.id.drawer_layout, chatFragment, "tag").addToBackStack(null).commit();
+
+                    Toast.makeText(parent, chatName.getText(), Toast.LENGTH_LONG).show();
                 }
             });
         }

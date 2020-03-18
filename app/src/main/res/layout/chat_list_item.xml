@@ -10,7 +10,7 @@
         android:id="@+id/chat_avatar"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:src="@drawable/defoult_user_photo"
+        android:src="@drawable/default_user_photo"
         app:civ_border_color="#FF000000"
         app:civ_border_width="0dp" />
 
@@ -34,11 +34,11 @@
             android:layout_width="wrap_content"
             android:layout_height="19dp"
             android:layout_gravity="bottom"
-            android:textColor="#FFFFFF"
             android:layout_marginStart="11dp"
             android:layout_marginLeft="11dp"
             android:layout_marginTop="3dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:textColor="#FFFFFF" />
 
     </FrameLayout>
 

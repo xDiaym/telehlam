@@ -1,102 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical">
 
-    <View
-        android:id="@+id/view"
+    <!--TODO(all): исправтье палитру. BackgroundPrimaryDark вообще нет -->
+    <LinearLayout
+        android:id="@+id/chat_header"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="55dp"
         android:background="@color/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/go_back_button"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            app:layout_constraintEnd_toStartOf="@+id/chat_avatar"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/chat_avatar"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginEnd="6dp"
+            android:src="@drawable/default_user_photo"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="0dp"
+            app:layout_constraintStart_toStartOf="@+id/go_back_button"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/chat_name"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginEnd="3dp"/>
+
+    </LinearLayout>
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/chat_avatar"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginLeft="48dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/defoult_user_photo"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="0dp"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+    <!--TODO(all): исправтье палитру. BackgroundPrimaryDark вообще нет -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat"
         android:layout_width="match_parent"
-        android:layout_height="614dp"
-        app:layout_constraintBottom_toTopOf="@+id/view2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.0"
+        android:layout_height="0dp"
+        android:layout_weight="100"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chat_header"
         tools:itemCount="0" />
 
-    <TextView
-        android:id="@+id/nameOfContact"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="14dp"
-        android:textColor="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/chat_avatar"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
 
-    <ImageButton
-        android:id="@+id/goBack"
-        android:layout_width="45dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="12dp"
-        android:background="@android:color/transparent"
-        android:scaleType="centerInside"
-        app:layout_constraintEnd_toStartOf="@+id/chat_avatar"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/view"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/arrow_back" />
+        <!-- TODO(all): Move colors into colors.xml -->
+        <EditText
+            android:id="@+id/message_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
+            android:layout_weight="100"
+            android:inputType="textMultiLine|textCapSentences"
+            android:textColor="#FFFFFF"
+            android:lineSpacingMultiplier="1.3"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:hint="@string/message_field_hint"
+            android:textColorHint="#7CFFFFFF"
+            android:textSize="17sp"
+            android:background="@android:color/transparent"
+            android:maxHeight="140dp" />
 
-    <EditText
-        android:id="@+id/message_field"
-        android:layout_width="220dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginLeft="64dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:hint="Введите сообщение"
-        android:inputType="textPersonName"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#7CFFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/view2"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageButton
+            android:id="@+id/send_message_button"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:srcCompat="@drawable/ic_send_white" />
 
-    <ImageButton
-        android:id="@+id/send_message_button"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitXY"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.881"
-        app:layout_constraintStart_toEndOf="@+id/message_field"
-        app:layout_constraintTop_toTopOf="@+id/view2"
-        app:srcCompat="@drawable/send_image" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</LinearLayout>
