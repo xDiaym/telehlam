@@ -94,7 +94,7 @@
             android:textColorHint="#7CFFFFFF"
             android:textSize="17sp"
             android:background="@android:color/transparent"
-            android:maxHeight="14 0dp" />
+            android:maxHeight="140dp" />
 
         <ImageButton
             android:id="@+id/send_message_button"
