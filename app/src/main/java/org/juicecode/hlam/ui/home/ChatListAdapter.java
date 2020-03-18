@@ -1,7 +1,6 @@
 package org.juicecode.hlam.ui.home;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.juicecode.hlam.MainActivity;
 import org.juicecode.hlam.R;
 import org.juicecode.hlam.ui.chat.ChatFragment;
-
-import java.util.Locale;
-import java.util.Random;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatViewHolder> {
 
@@ -66,7 +62,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            chatAvatar = itemView.findViewById(R.id.chat_avatar);
+            chatAvatar = itemView.findViewById(R.id.contact_avatar);
             chatName = itemView.findViewById(R.id.chat_name);
             chatLastMessage = itemView.findViewById(R.id.chat_last_message);
 
