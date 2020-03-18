@@ -82,5 +82,4 @@ public class ChatFragment extends Fragment {
         return view;
     }
 
-
 }
