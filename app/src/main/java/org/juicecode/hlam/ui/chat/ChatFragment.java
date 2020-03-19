@@ -47,9 +47,6 @@ public class ChatFragment extends Fragment {
 
         sendbutton = view.findViewById(R.id.send_message_button);
         sendbutton.setOnClickListener(new View.OnClickListener() {
-            // TODO(all): replace this test code
-            private boolean isOutgoing = false;
-
             @Override
             public void onClick(View v) {
                 String messageText = messageField.getText()
@@ -57,7 +54,7 @@ public class ChatFragment extends Fragment {
                         .trim();
                 if (!messageText.isEmpty()) {
                     Message message;
-
+                    // TODO(all): delete test code
                     if (new Random().nextBoolean()) {
                         message = new OutgoingMessage(messageText, null);
                     } else {

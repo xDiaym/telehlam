@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.juicecode.hlam.R;
 import org.juicecode.hlam.core.messaging.IncomingMessage;
 import org.juicecode.hlam.core.messaging.Message;
+import org.juicecode.hlam.core.messaging.OutgoingMessage;
 
 import java.text.Format;
 import java.util.LinkedList;
@@ -52,7 +53,19 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        switch (getItemViewType(position)) {
+            case Message.MESSAGE_INCOMING:
+                ((IncomingMessageHolder) holder).bind(messages.get(position).getText());
+                break;
 
+            case Message.MESSAGE_OUTGOING:
+                ((OutgoingMessageHolder) holder).bind(messages.get(position).getText());
+                break;
+
+            default:
+                // TODO(all): create custom class for error
+                throw new Error("Unknown message type");
+        }
     }
 
     @Override
@@ -77,6 +90,10 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             String messageText = messages.get(getItemCount() - 1).getText();
             text.setText(messageText);
         }
+
+        public void bind(String text) {
+            this.text.setText(text);
+        }
     }
 
     class IncomingMessageHolder extends RecyclerView.ViewHolder {
@@ -88,6 +105,10 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             text = itemView.findViewById(R.id.incoming_message_field);
             String messageText = messages.get(getItemCount() - 1).getText();
             text.setText(messageText);
+        }
+
+        public void bind(String text) {
+            this.text.setText(text);
         }
     }
 }
