@@ -2,6 +2,8 @@ package org.juicecode.hlam.ui.chat;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,8 @@ import org.juicecode.hlam.R;
 import org.juicecode.hlam.core.messaging.IncomingMessage;
 import org.juicecode.hlam.core.messaging.Message;
 import org.juicecode.hlam.core.messaging.OutgoingMessage;
+
+import java.util.Random;
 
 public class ChatFragment extends Fragment {
     RecyclerView chat;
@@ -44,7 +48,7 @@ public class ChatFragment extends Fragment {
         sendbutton = view.findViewById(R.id.send_message_button);
         sendbutton.setOnClickListener(new View.OnClickListener() {
             // TODO(all): replace this test code
-            private boolean isOutgoing = true;
+            private boolean isOutgoing = false;
 
             @Override
             public void onClick(View v) {
@@ -54,12 +58,12 @@ public class ChatFragment extends Fragment {
                 if (!messageText.isEmpty()) {
                     Message message;
 
-                    if (isOutgoing) {
+                    if (new Random().nextBoolean()) {
                         message = new OutgoingMessage(messageText, null);
                     } else {
                         message = new IncomingMessage(messageText, null);
                     }
-                    messageListAdapter.setItem(message);
+                    messageListAdapter.addItem(message);
                     messageField.setText("");
                 }
             }

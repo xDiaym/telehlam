@@ -3,6 +3,9 @@ package org.juicecode.hlam.core.messaging;
 import java.util.Date;
 
 public abstract class Message {
+    public static final int MESSAGE_INCOMING = 0;
+    public static final int MESSAGE_OUTGOING = 1;
+
     private final String text;
     private final Date timestamp;
 
