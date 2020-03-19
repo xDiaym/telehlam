@@ -10,21 +10,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.hlam.R;
 import org.juicecode.hlam.core.messaging.IncomingMessage;
+import org.juicecode.hlam.core.messaging.Message;
 import org.juicecode.hlam.core.messaging.OutgoingMessage;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.ChatViewHolder> {
-    List<IncomingMessage> incomingMessages = new ArrayList<>();
-    List<OutgoingMessage> outcomingMessages = new ArrayList<>();
+    private List<Message> messages;
+
+    public MessageChatAdapter() {
+        messages = new LinkedList<>();
+    }
 
     @NonNull
-
-    public void setItem(IncomingMessage incomingMessage, OutgoingMessage outcomingMessage) {
-
-        this.incomingMessages.add(incomingMessage);
-        this.outcomingMessages.add(outcomingMessage);
+    public void setItem(Message message) {
+        messages.add(message);
         notifyDataSetChanged();
     }
 
@@ -41,24 +42,18 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
 
     @Override
     public int getItemCount() {
-        return incomingMessages.size();
+        return messages.size();
     }
 
     public class ChatViewHolder extends RecyclerView.ViewHolder {
         private TextView outcomingMessage;
-        private TextView incomingMessage;
-
 
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
 
             outcomingMessage = itemView.findViewById(R.id.outcoming_message_field);
-            String OutcomingMessageValue = outcomingMessages.get(getItemCount() - 1).getMessage();
-            outcomingMessage.setText(OutcomingMessageValue);
-
-            if (OutcomingMessageValue.isEmpty()) {
-                outcomingMessage.setVisibility(View.INVISIBLE);
-            }
+            String messageText = messages.get(getItemCount() - 1).getText();
+            outcomingMessage.setText(messageText);
         }
     }
 }

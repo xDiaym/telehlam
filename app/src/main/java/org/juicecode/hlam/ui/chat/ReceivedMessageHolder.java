@@ -14,7 +14,7 @@ public class ReceivedMessageHolder extends MessageHolder {
         super(itemView);
 
         this.message = itemView.findViewById(R.id.incoming_message_field);
-        this.message.setText(message.getMessage());
+        this.message.setText(message.getText());
     }
 
 }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.hlam.R;
 import org.juicecode.hlam.core.messaging.IncomingMessage;
+import org.juicecode.hlam.core.messaging.Message;
 import org.juicecode.hlam.core.messaging.OutgoingMessage;
 
 public class ChatFragment extends Fragment {
@@ -43,7 +44,7 @@ public class ChatFragment extends Fragment {
         sendbutton = view.findViewById(R.id.send_message_button);
         sendbutton.setOnClickListener(new View.OnClickListener() {
             // TODO(all): replace this test code
-            private boolean isOutgoing;
+            private boolean isOutgoing = true;
 
             @Override
             public void onClick(View v) {
@@ -51,19 +52,14 @@ public class ChatFragment extends Fragment {
                         .toString()
                         .trim();
                 if (!messageText.isEmpty()) {
-                    IncomingMessage incomingMessage;
-                    OutgoingMessage outgoingMessage;
+                    Message message;
+
                     if (isOutgoing) {
-                        incomingMessage = new IncomingMessage("", null);
-                        outgoingMessage = new OutgoingMessage(messageText, null);
+                        message = new OutgoingMessage(messageText, null);
                     } else {
-                        incomingMessage = new IncomingMessage(messageText, null);
-                        outgoingMessage = new OutgoingMessage("", null);
+                        message = new IncomingMessage(messageText, null);
                     }
-                    messageListAdapter.setItem(incomingMessage, outgoingMessage);
-                    // TODO(all): replace this test code
-                    // Change message type to opposite
-                    isOutgoing = !isOutgoing;
+                    messageListAdapter.setItem(message);
                     messageField.setText("");
                 }
             }

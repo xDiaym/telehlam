@@ -7,17 +7,21 @@ public class OutgoingMessage extends Message {
         SENT, READ, ERROR
     }
 
-    private Status MessageStatus;
+    private Status messageStatus;
 
     public OutgoingMessage(String text, Date timestamp) {
         super(text, timestamp);
     }
 
     public Status getMessageStatus() {
-        return MessageStatus;
+        return messageStatus;
     }
 
-    public void setMessageStatus(Status messageStatus) {
-        MessageStatus = messageStatus;
+    public void setMessageStatus(Status status) {
+        if (messageStatus == Status.READ && status == Status.SENT) {
+            // TODO(all): create custom error class
+            throw new Error("Cannot change status");
+        }
+        messageStatus = status;
     }
 }
