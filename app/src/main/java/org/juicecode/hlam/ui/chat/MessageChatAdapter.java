@@ -9,17 +9,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.hlam.R;
+import org.juicecode.hlam.core.messaging.IncomingMessage;
+import org.juicecode.hlam.core.messaging.OutgoingMessage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.ChatViewHolder> {
     List<IncomingMessage> incomingMessages = new ArrayList<>();
-    List<OutcomingMessage> outcomingMessages = new ArrayList<>();
+    List<OutgoingMessage> outcomingMessages = new ArrayList<>();
 
     @NonNull
 
-    public void setItem(IncomingMessage incomingMessage, OutcomingMessage outcomingMessage) {
+    public void setItem(IncomingMessage incomingMessage, OutgoingMessage outcomingMessage) {
 
         this.incomingMessages.add(incomingMessage);
         this.outcomingMessages.add(outcomingMessage);
@@ -54,7 +56,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
             String OutcomingMessageValue = outcomingMessages.get(getItemCount() - 1).getMessage();
             outcomingMessage.setText(OutcomingMessageValue);
 
-            if(OutcomingMessageValue.isEmpty()) {
+            if (OutcomingMessageValue.isEmpty()) {
                 outcomingMessage.setVisibility(View.INVISIBLE);
             }
         }

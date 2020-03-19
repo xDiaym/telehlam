@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -15,7 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.hlam.R;
-import org.juicecode.hlam.ui.home.ChatListAdapter;
+import org.juicecode.hlam.core.messaging.IncomingMessage;
+import org.juicecode.hlam.core.messaging.OutgoingMessage;
 
 public class ChatFragment extends Fragment {
     RecyclerView chat;
@@ -45,18 +45,18 @@ public class ChatFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String messageValue = messageField.getText().toString();
-                if(!messageValue.isEmpty()) {
+                if (!messageValue.isEmpty()) {
                     StringBuffer stringBuffer = new StringBuffer(messageValue);
                     Character lastLetter = stringBuffer.charAt(stringBuffer.length() - 1);
                     String last = Character.toString(lastLetter);
                     if (last.equals(".")) {
-                        IncomingMessage incomingMessage = new IncomingMessage("");
-                        OutcomingMessage outcomingMessage = new OutcomingMessage(messageValue);
-                        messageListAdapter.setItem(incomingMessage, outcomingMessage);
+                        IncomingMessage incomingMessage = new IncomingMessage("", null);
+                        OutgoingMessage outgoingMessage = new OutgoingMessage(messageValue, null);
+                        messageListAdapter.setItem(incomingMessage, outgoingMessage);
                     } else {
-                        IncomingMessage incomingMessage = new IncomingMessage(messageValue);
-                        OutcomingMessage outcomingMessage = new OutcomingMessage("");
-                        messageListAdapter.setItem(incomingMessage, outcomingMessage);
+                        IncomingMessage incomingMessage = new IncomingMessage(messageValue, null);
+                        OutgoingMessage outgoingMessage = new OutgoingMessage("", null);
+                        messageListAdapter.setItem(incomingMessage, outgoingMessage);
                     }
                 }
 
