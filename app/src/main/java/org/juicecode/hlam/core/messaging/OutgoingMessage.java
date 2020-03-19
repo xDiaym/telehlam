@@ -1,7 +1,5 @@
 package org.juicecode.hlam.core.messaging;
 
-import org.juicecode.hlam.core.messaging.Message;
-
 import java.util.Date;
 
 public class OutgoingMessage extends Message {

@@ -38,29 +38,34 @@ public class ChatFragment extends Fragment {
 
         chat.setAdapter(messageListAdapter);
         chat.setHasFixedSize(false);
-        chat.setNestedScrollingEnabled(false); // TODO(all): delete
+        chat.setNestedScrollingEnabled(false); // What it mean?
 
         sendbutton = view.findViewById(R.id.send_message_button);
         sendbutton.setOnClickListener(new View.OnClickListener() {
+            // TODO(all): replace this test code
+            private boolean isOutgoing;
+
             @Override
             public void onClick(View v) {
-                String messageValue = messageField.getText().toString();
-                if (!messageValue.isEmpty()) {
-                    StringBuffer stringBuffer = new StringBuffer(messageValue);
-                    Character lastLetter = stringBuffer.charAt(stringBuffer.length() - 1);
-                    String last = Character.toString(lastLetter);
-                    if (last.equals(".")) {
-                        IncomingMessage incomingMessage = new IncomingMessage("", null);
-                        OutgoingMessage outgoingMessage = new OutgoingMessage(messageValue, null);
-                        messageListAdapter.setItem(incomingMessage, outgoingMessage);
+                String messageText = messageField.getText()
+                        .toString()
+                        .trim();
+                if (!messageText.isEmpty()) {
+                    IncomingMessage incomingMessage;
+                    OutgoingMessage outgoingMessage;
+                    if (isOutgoing) {
+                        incomingMessage = new IncomingMessage("", null);
+                        outgoingMessage = new OutgoingMessage(messageText, null);
                     } else {
-                        IncomingMessage incomingMessage = new IncomingMessage(messageValue, null);
-                        OutgoingMessage outgoingMessage = new OutgoingMessage("", null);
-                        messageListAdapter.setItem(incomingMessage, outgoingMessage);
+                        incomingMessage = new IncomingMessage(messageText, null);
+                        outgoingMessage = new OutgoingMessage("", null);
                     }
+                    messageListAdapter.setItem(incomingMessage, outgoingMessage);
+                    // TODO(all): replace this test code
+                    // Change message type to opposite
+                    isOutgoing = !isOutgoing;
+                    messageField.setText("");
                 }
-
-                messageField.setText("");
             }
         });
 
@@ -75,7 +80,6 @@ public class ChatFragment extends Fragment {
             public void onClick(View v) {
                 getActivity().onBackPressed();
                 messageField.clearFocus();
-
             }
         });
 
