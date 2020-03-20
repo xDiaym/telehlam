@@ -19,7 +19,7 @@ import java.text.Format;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> {
     private List<Message> messages;
 
     public MessageChatAdapter() {
@@ -32,7 +32,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BaseMessageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -52,14 +52,12 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BaseMessageHolder holder, int position) {
         switch (getItemViewType(position)) {
             case Message.MESSAGE_INCOMING:
-                ((IncomingMessageHolder) holder).bind(messages.get(position).getText());
-                break;
 
             case Message.MESSAGE_OUTGOING:
-                ((OutgoingMessageHolder) holder).bind(messages.get(position).getText());
+                holder.bind(messages.get(position));
                 break;
 
             default:
@@ -80,35 +78,31 @@ public class MessageChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return messages.size();
     }
 
-    class OutgoingMessageHolder extends RecyclerView.ViewHolder {
-        private TextView text;
+    static class OutgoingMessageHolder extends BaseMessageHolder {
 
         public OutgoingMessageHolder(@NonNull View itemView) {
             super(itemView);
 
             text = itemView.findViewById(R.id.outcoming_message_field);
-            String messageText = messages.get(getItemCount() - 1).getText();
-            text.setText(messageText);
         }
 
-        public void bind(String text) {
-            this.text.setText(text);
+        @Override
+        public void bind(Message message) {
+            text.setText(message.getText());
         }
     }
 
-    class IncomingMessageHolder extends RecyclerView.ViewHolder {
-        private TextView text;
+    static class IncomingMessageHolder extends BaseMessageHolder {
 
         public IncomingMessageHolder(@NonNull View itemView) {
             super(itemView);
 
             text = itemView.findViewById(R.id.incoming_message_field);
-            String messageText = messages.get(getItemCount() - 1).getText();
-            text.setText(messageText);
         }
 
-        public void bind(String text) {
-            this.text.setText(text);
+        @Override
+        public void bind(Message message) {
+            text.setText(message.getText());
         }
     }
 }
