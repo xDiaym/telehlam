@@ -1,12 +1,16 @@
 package org.juicecode.hlam.ui.contacts;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.hlam.R;
@@ -27,14 +31,13 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         return contactViewHolder;
     }
 
-    public void setItem(List<Contact> cont) {
-        this.contacts.addAll(cont);
-        notifyDataSetChanged();
+    public ContactsAdapter(ArrayList<Contact> contacts) {
+        this.contacts = contacts;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
-        holder.bind(contacts.get(getItemCount()-1).getName(),contacts.get(getItemCount()-1).getLastTimeOnline());
+        holder.bind(contacts.get(getItemCount() - 1).getName(), contacts.get(getItemCount() - 1).getLastTimeOnline());
     }
 
     @Override
@@ -58,5 +61,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
         }
     }
+
 
 }
