@@ -1,11 +1,9 @@
 package org.juicecode.hlam.ui.chat;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.juicecode.hlam.R;
 import org.juicecode.hlam.core.messaging.IncomingMessage;
 import org.juicecode.hlam.core.messaging.Message;
-import org.juicecode.hlam.core.messaging.OutgoingMessage;
 
-import java.text.Format;
 import java.util.LinkedList;
 import java.util.List;
 

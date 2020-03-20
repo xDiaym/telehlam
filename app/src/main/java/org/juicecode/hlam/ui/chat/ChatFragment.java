@@ -2,8 +2,6 @@ package org.juicecode.hlam.ui.chat;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,9 +54,9 @@ public class ChatFragment extends Fragment {
                     Message message;
                     // TODO(all): delete test code
                     if (new Random().nextBoolean()) {
-                        message = new OutgoingMessage(messageText, null);
+                        message = new OutgoingMessage(messageText);
                     } else {
-                        message = new IncomingMessage(messageText, null);
+                        message = new IncomingMessage(messageText);
                     }
                     messageListAdapter.addItem(message);
                     messageField.setText("");

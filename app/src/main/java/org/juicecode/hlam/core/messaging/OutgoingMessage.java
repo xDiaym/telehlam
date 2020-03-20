@@ -3,14 +3,14 @@ package org.juicecode.hlam.core.messaging;
 import java.util.Date;
 
 public class OutgoingMessage extends Message {
-    public enum Status {
-        SENT, READ, ERROR
-    }
-
     private Status messageStatus;
 
     public OutgoingMessage(String text, Date timestamp) {
         super(text, timestamp);
+    }
+
+    public OutgoingMessage(String messageText) {
+        super(messageText);
     }
 
     public Status getMessageStatus() {
@@ -23,5 +23,9 @@ public class OutgoingMessage extends Message {
             throw new Error("Cannot change status");
         }
         messageStatus = status;
+    }
+
+    public enum Status {
+        SENT, READ, ERROR
     }
 }

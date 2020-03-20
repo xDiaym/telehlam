@@ -14,6 +14,11 @@ public abstract class Message {
         this.timestamp = timestamp;
     }
 
+    public Message(String text) {
+        this.text = text;
+        this.timestamp = new Date();
+    }
+
     public String getText() {
         return text;
     }
