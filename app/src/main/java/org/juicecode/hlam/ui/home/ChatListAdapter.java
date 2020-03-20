@@ -1,7 +1,6 @@
 package org.juicecode.hlam.ui.home;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.juicecode.hlam.MainActivity;
 import org.juicecode.hlam.R;
 import org.juicecode.hlam.ui.chat.ChatFragment;
-
-import java.util.Locale;
-import java.util.Random;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatViewHolder> {
 
@@ -75,7 +71,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
 
                 @Override
                 public void onClick(View v) {
-
                     MainActivity mainActivity = (MainActivity) v.getContext();
                     FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -85,8 +80,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
                     sendingChatName.putString("chatName", chatNameValue);
                     chatFragment.setArguments(sendingChatName);
                     fragmentTransaction.replace(R.id.drawer_layout, chatFragment, "tag").addToBackStack(null).commit();
-
-                    Toast.makeText(parent, chatName.getText(), Toast.LENGTH_LONG).show();
                 }
             });
         }

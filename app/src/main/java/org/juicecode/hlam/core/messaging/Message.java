@@ -2,29 +2,24 @@ package org.juicecode.hlam.core.messaging;
 
 import java.util.Date;
 
-public class Message {
+public abstract class Message {
+    public static final int MESSAGE_INCOMING = 0;
+    public static final int MESSAGE_OUTGOING = 1;
 
-    private final MessageType type;
-    private final String message;
+    private final String text;
     private final Date timestamp;
 
-    public Message(String text, MessageType type, Date timestamp){
-        this.message = text;
-        this.type = type;
+    public Message(String text, Date timestamp) {
+        this.text = text;
         this.timestamp = timestamp;
     }
 
-
-    public String getMessage() {
-        return message;
+    public String getText() {
+        return text;
     }
 
     public Date getTimestamp() {
         return timestamp;
-    }
-
-    public MessageType getMessageType() {
-        return type;
     }
 
 }
