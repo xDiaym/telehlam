@@ -33,6 +33,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     public ContactsAdapter(ArrayList<Contact> contacts) {
         this.contacts = contacts;
+        
     }
 
     @Override
