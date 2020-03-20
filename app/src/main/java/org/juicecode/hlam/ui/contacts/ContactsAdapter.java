@@ -37,7 +37,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
-        holder.bind(contacts.get(getItemCount() - 1).getName(), contacts.get(getItemCount() - 1).getLastTimeOnline());
+        holder.bind(contacts.get(getItemCount() - 1).getName());
     }
 
     @Override
@@ -45,22 +45,17 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         return contacts.size();
     }
 
-    public class ContactViewHolder extends RecyclerView.ViewHolder {
-        TextView name;
-        TextView lastTimeOnline;
+    public static class ContactViewHolder extends RecyclerView.ViewHolder {
+        TextView contactName;
 
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.nameOfContact);
-            lastTimeOnline = itemView.findViewById(R.id.LastNimeUserOnline);
+            contactName = itemView.findViewById(R.id.contact_name);
         }
 
-        public void bind(String name, String LastTimeOnline) {
-            this.name.setText(name);
-            this.lastTimeOnline.setText(LastTimeOnline);
-
+        public void bind(String name) {
+            contactName.setText(name);
         }
     }
-
 
 }

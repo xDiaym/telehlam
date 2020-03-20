@@ -1,47 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:background="@color/textOrIcons">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:background="@color/textOrIcons"
+    android:orientation="horizontal">
+
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/contact_avatar"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:src="@drawable/default_user_photo"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="0dp" />
-    <LinearLayout android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:src="@drawable/default_user_photo" />
 
-        >
-
-        <TextView
-            android:id="@+id/nameOfContact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="NameOfContact"
-            android:textColor="@color/primaryText"
-            android:textFontWeight="5"
-            android:textSize="18dp"></TextView>
-
-        <TextView
-            android:id="@+id/LastNimeUserOnline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="15dp"
-            android:text="LastTimeUserWasOnline"
-            android:textColor="@color/primaryText"></TextView>
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/contact_name"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textSize="16sp"
+        android:textColor="@color/primaryText"/>
 
 </LinearLayout>
