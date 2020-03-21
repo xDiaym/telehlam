@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -15,7 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.hlam.R;
-import org.juicecode.hlam.ui.home.ChatListAdapter;
+import org.juicecode.hlam.core.messaging.IncomingMessage;
+import org.juicecode.hlam.core.messaging.Message;
+import org.juicecode.hlam.core.messaging.OutgoingMessage;
+
+import java.util.Random;
 
 public class ChatFragment extends Fragment {
     RecyclerView chat;
@@ -38,29 +41,26 @@ public class ChatFragment extends Fragment {
 
         chat.setAdapter(messageListAdapter);
         chat.setHasFixedSize(false);
-        chat.setNestedScrollingEnabled(false); // TODO(all): delete
+        chat.setNestedScrollingEnabled(false); // What it mean?
 
         sendbutton = view.findViewById(R.id.send_message_button);
         sendbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String messageValue = messageField.getText().toString();
-                if(!messageValue.isEmpty()) {
-                    StringBuffer stringBuffer = new StringBuffer(messageValue);
-                    Character lastLetter = stringBuffer.charAt(stringBuffer.length() - 1);
-                    String last = Character.toString(lastLetter);
-                    if (last.equals(".")) {
-                        IncomingMessage incomingMessage = new IncomingMessage("");
-                        OutcomingMessage outcomingMessage = new OutcomingMessage(messageValue);
-                        messageListAdapter.setItem(incomingMessage, outcomingMessage);
+                String messageText = messageField.getText()
+                        .toString()
+                        .trim();
+                if (!messageText.isEmpty()) {
+                    Message message;
+                    // TODO(all): delete test code
+                    if (new Random().nextBoolean()) {
+                        message = new OutgoingMessage(messageText);
                     } else {
-                        IncomingMessage incomingMessage = new IncomingMessage(messageValue);
-                        OutcomingMessage outcomingMessage = new OutcomingMessage("");
-                        messageListAdapter.setItem(incomingMessage, outcomingMessage);
+                        message = new IncomingMessage(messageText);
                     }
+                    messageListAdapter.addItem(message);
+                    messageField.setText("");
                 }
-
-                messageField.setText("");
             }
         });
 
@@ -75,7 +75,6 @@ public class ChatFragment extends Fragment {
             public void onClick(View v) {
                 getActivity().onBackPressed();
                 messageField.clearFocus();
-
             }
         });
 

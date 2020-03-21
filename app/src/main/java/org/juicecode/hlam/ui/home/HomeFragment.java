@@ -1,7 +1,6 @@
 package org.juicecode.hlam.ui.home;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.hlam.R;
-import org.juicecode.hlam.ui.chat.ChatFragment;
 
 public class HomeFragment extends Fragment {
 

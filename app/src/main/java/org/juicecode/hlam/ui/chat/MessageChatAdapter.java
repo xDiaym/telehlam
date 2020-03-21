@@ -1,62 +1,104 @@
 package org.juicecode.hlam.ui.chat;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.hlam.R;
+import org.juicecode.hlam.core.messaging.IncomingMessage;
+import org.juicecode.hlam.core.messaging.Message;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.ChatViewHolder> {
-    List<IncomingMessage> incomingMessages = new ArrayList<>();
-    List<OutcomingMessage> outcomingMessages = new ArrayList<>();
+public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> {
+    private List<Message> messages;
 
-    @NonNull
+    public MessageChatAdapter() {
+        messages = new LinkedList<>();
+    }
 
-    public void setItem(IncomingMessage incomingMessage, OutcomingMessage outcomingMessage) {
-
-        this.incomingMessages.add(incomingMessage);
-        this.outcomingMessages.add(outcomingMessage);
+    public void addItem(Message message) {
+        messages.add(message);
         notifyDataSetChanged();
     }
 
     @Override
-    public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.outcoming_message, parent, false);
-        return new ChatViewHolder(view);
+    public BaseMessageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+
+        View view;
+        switch (viewType) {
+            case Message.MESSAGE_INCOMING:
+                view = inflater.inflate(R.layout.incoming_message, parent, false);
+                return new IncomingMessageHolder(view);
+
+            case Message.MESSAGE_OUTGOING:
+                view = inflater.inflate(R.layout.outcoming_message, parent, false);
+                return new OutgoingMessageHolder(view);
+
+            default:
+                throw new Error("Unknown message type");
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BaseMessageHolder holder, int position) {
+        switch (getItemViewType(position)) {
+            case Message.MESSAGE_INCOMING:
 
+            case Message.MESSAGE_OUTGOING:
+                holder.bind(messages.get(position));
+                break;
+
+            default:
+                // TODO(all): create custom class for error
+                throw new Error("Unknown message type");
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return messages.get(position) instanceof IncomingMessage
+                ? Message.MESSAGE_INCOMING
+                : Message.MESSAGE_OUTGOING;
     }
 
     @Override
     public int getItemCount() {
-        return incomingMessages.size();
+        return messages.size();
     }
 
-    public class ChatViewHolder extends RecyclerView.ViewHolder {
-        private TextView outcomingMessage;
-        private TextView incomingMessage;
+    static class OutgoingMessageHolder extends BaseMessageHolder {
 
-
-        public ChatViewHolder(@NonNull View itemView) {
+        public OutgoingMessageHolder(@NonNull View itemView) {
             super(itemView);
 
-            outcomingMessage = itemView.findViewById(R.id.outcoming_message_field);
-            String OutcomingMessageValue = outcomingMessages.get(getItemCount() - 1).getMessage();
-            outcomingMessage.setText(OutcomingMessageValue);
+            text = itemView.findViewById(R.id.outcoming_message_field);
+        }
 
-            if(OutcomingMessageValue.isEmpty()) {
-                outcomingMessage.setVisibility(View.INVISIBLE);
-            }
+        @Override
+        public void bind(Message message) {
+            text.setText(message.getText());
+        }
+    }
+
+    static class IncomingMessageHolder extends BaseMessageHolder {
+
+        public IncomingMessageHolder(@NonNull View itemView) {
+            super(itemView);
+
+            text = itemView.findViewById(R.id.incoming_message_field);
+        }
+
+        @Override
+        public void bind(Message message) {
+            text.setText(message.getText());
         }
     }
 }
