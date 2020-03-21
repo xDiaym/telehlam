@@ -24,12 +24,15 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.juicecode.hlam.ui.contacts.ContactsFragment;
+import org.juicecode.hlam.ui.home.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private static final int READ_CONTACTS = 100;
+    private DrawerLayout drawer;
 
+    //NavigationView navigationView = findViewById(R.id.nav_view);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -77,8 +80,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showFragment(Fragment fragment) {
+
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.drawer_layout, fragment, "tag").addToBackStack(null).commit();
+
+
     }
 
     public void checkPermission(String permission, int requestCode) {

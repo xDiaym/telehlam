@@ -12,17 +12,16 @@
     android:background="@color/colorPrimaryDark"
     >
 
-    <ImageView
+    <ImageButton
         android:id="@+id/goBackButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="60dp"
+        android:layout_height="55dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-
-
-        app:srcCompat="@drawable/ic_arrow_back_white_24dp"></ImageView>
+        android:layout_marginBottom="0dp"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/ic_arrow_back_white_24dp"></ImageButton>
 
     <TextView
         android:id="@+id/NewMessageTextView"
