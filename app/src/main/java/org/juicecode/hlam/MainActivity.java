@@ -91,19 +91,12 @@ public class MainActivity extends AppCompatActivity {
     public void checkPermission(String permission, int requestCode) {
         if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
-        } else {
-            Toast.makeText(this, "Permission already granted", Toast.LENGTH_SHORT).show();
-        }
+        } // TODO исправить ошибочку
     }
+
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == READ_CONTACTS) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Read contacts Permission granted", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Read contacts Permission Denied", Toast.LENGTH_SHORT).show();
-            }
-        }
+
     }
 }
