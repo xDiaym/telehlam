@@ -1,11 +1,16 @@
 package org.juicecode.hlam;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,10 +23,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.juicecode.hlam.ui.contacts.ContactsFragment;
+import org.juicecode.hlam.ui.home.HomeFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private static final int READ_CONTACTS = 100;
+    private DrawerLayout drawer;
 
+    //NavigationView navigationView = findViewById(R.id.nav_view);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                checkPermission(Manifest.permission.READ_CONTACTS, READ_CONTACTS);
+                showFragment(new ContactsFragment());
             }
         });
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -69,6 +80,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showFragment(Fragment fragment) {
+
+
         FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.drawer_layout, fragment, "tag").addToBackStack(null).commit();
+
+
+    }
+
+    public void checkPermission(String permission, int requestCode) {
+        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
+        } else {
+            Toast.makeText(this, "Permission already granted", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == READ_CONTACTS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Read contacts Permission granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Read contacts Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

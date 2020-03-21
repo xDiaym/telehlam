@@ -61,7 +61,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            chatAvatar = itemView.findViewById(R.id.chat_avatar);
+            chatAvatar = itemView.findViewById(R.id.contact_avatar);
             chatName = itemView.findViewById(R.id.chat_name);
             chatLastMessage = itemView.findViewById(R.id.chat_last_message);
 

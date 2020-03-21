@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/textOrIcons"
     android:orientation="horizontal"
     android:padding="11dp">
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/chat_avatar"
+        android:id="@+id/contact_avatar"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:src="@drawable/default_user_photo"
@@ -27,7 +27,7 @@
             android:layout_marginStart="11dp"
             android:layout_marginLeft="11dp"
             android:layout_marginTop="3dp"
-            android:textColor="#FFFFFF" />
+            android:textColor="@color/primaryText" />
 
         <TextView
             android:id="@+id/chat_last_message"
@@ -38,7 +38,7 @@
             android:layout_marginLeft="11dp"
             android:layout_marginTop="3dp"
             android:layout_marginBottom="5dp"
-            android:textColor="#FFFFFF" />
+            android:textColor="@color/primaryText" />
 
     </FrameLayout>
 

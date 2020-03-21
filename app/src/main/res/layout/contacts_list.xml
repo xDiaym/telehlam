@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+<LinearLayout android:layout_height="55dp"
+    android:layout_width="match_parent"
+    android:id="@+id/header"
+    android:orientation="horizontal"
+    android:background="@color/colorPrimaryDark"
+    >
+
+    <ImageButton
+        android:id="@+id/goBackButton"
+        android:layout_width="60dp"
+        android:layout_height="55dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="0dp"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/ic_arrow_back_white_24dp"></ImageButton>
+
+    <TextView
+        android:id="@+id/NewMessageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:maxWidth="180dp"
+        android:text="@string/new_message"
+        android:textColor="@color/textOrIcons"
+        android:textSize="20dp"></TextView>
+
+    <ImageButton
+        android:id="@+id/SearchcontactButton"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="17dp"
+        android:background="@android:color/transparent"
+
+        app:srcCompat="@drawable/search_icon"></ImageButton>
+</LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listOfContacts"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="100"
+        android:background="@color/textOrIcons"
+         />
+</LinearLayout>
