@@ -1,6 +1,19 @@
 package org.juicecode.hlam.core.contacts;
 
+
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "contacts")
 public class Contact {
+    public Contact(int contact_id, String name, String phone) {
+        this.contact_id = contact_id;
+        this.name = name;
+        this.phone = phone;
+    }
+
+    @PrimaryKey(autoGenerate = true)
+    private int contact_id;
     private String name;
     // TODO(all): create class for telephone numbers
     private String phone;
