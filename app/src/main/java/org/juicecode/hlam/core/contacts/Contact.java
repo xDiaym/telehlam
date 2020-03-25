@@ -1,6 +1,7 @@
 package org.juicecode.hlam.core.contacts;
 
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -17,8 +18,10 @@ public class Contact {
 
     @PrimaryKey(autoGenerate = true)
     private int contact_id;
+    @ColumnInfo
     private String name;
     // TODO(all): create class for telephone numbers
+    @ColumnInfo
     private String phone;
 
     public Contact(String name, String phone) {

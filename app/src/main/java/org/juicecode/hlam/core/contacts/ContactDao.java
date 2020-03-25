@@ -14,7 +14,7 @@ import java.util.ArrayList;
 @Dao
 public interface ContactDao {
     @Query("SELECT * FROM contacts")
-    LiveData<ArrayList<Contact>> getAll();
+    ArrayList<Contact> getAll();
     @Query("SELECT * FROM contacts WHERE contact_id = :id")
     Contact getById(long id);
     @Query("SELECT * FROM contacts WHERE phone=:phone")
