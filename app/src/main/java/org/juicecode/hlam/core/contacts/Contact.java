@@ -6,10 +6,13 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "contacts")
 public class Contact {
-    public Contact(int contact_id, String name, String phone) {
+
+    public int getContact_id() {
+        return contact_id;
+    }
+
+    public void setContact_id(int contact_id) {
         this.contact_id = contact_id;
-        this.name = name;
-        this.phone = phone;
     }
 
     @PrimaryKey(autoGenerate = true)

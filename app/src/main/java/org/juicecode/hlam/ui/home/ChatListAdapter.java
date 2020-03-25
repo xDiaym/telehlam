@@ -15,16 +15,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.hlam.MainActivity;
 import org.juicecode.hlam.R;
+import org.juicecode.hlam.core.contacts.Contact;
 import org.juicecode.hlam.ui.chat.ChatFragment;
+
+import java.util.ArrayList;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatViewHolder> {
 
-    private static int chatItemCount = 0;
+    ArrayList<Contact> contacts;
     private Context parent;
 
-    ChatListAdapter(Context context, int chatCount) {
+    ChatListAdapter(Context context, ArrayList<Contact> contacts) {
         parent = context;
-        chatItemCount = chatCount;
+        this.contacts = contacts;
     }
 
     @NonNull
@@ -44,12 +47,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         // TODO(all): set real name
-        holder.bind("John Doe", "Hello world!");
+        holder.bind(contacts.get(position).getName(), "Hello world!");
     }
 
     @Override
     public int getItemCount() {
-        return chatItemCount;
+        return contacts.size();
     }
 
     class ChatViewHolder extends RecyclerView.ViewHolder {

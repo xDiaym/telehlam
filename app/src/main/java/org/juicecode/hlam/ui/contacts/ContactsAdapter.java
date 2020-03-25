@@ -1,5 +1,6 @@
 package org.juicecode.hlam.ui.contacts;
 
+import android.app.AppOpsManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -37,7 +38,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
-        holder.bind(contacts.get(position).getName());
+        holder.bind(contacts.get(position).getName(),contacts.get(position).getPhone());
     }
 
     @Override
@@ -47,7 +48,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     public static class ContactViewHolder extends RecyclerView.ViewHolder {
         TextView contactName;
-
+        String phoneNumber;
         public ContactViewHolder(@NonNull final View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +59,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                     Bundle sendingChatName = new Bundle();
                     String chatNameValue = (String) contactName.getText();
                     sendingChatName.putString("chatName", chatNameValue);
+                    sendingChatName.putString("phoneNumber",phoneNumber);
                     chatFragment.setArguments(sendingChatName);
                     mainActivity.showFragment(chatFragment);
                 }
@@ -65,8 +67,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             contactName = itemView.findViewById(R.id.contact_name);
         }
 
-        public void bind(String name) {
+        public void bind(String name,String phone) {
             contactName.setText(name);
+            this.phoneNumber = phone;
         }
     }
 

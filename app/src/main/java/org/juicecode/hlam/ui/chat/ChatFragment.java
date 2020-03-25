@@ -1,7 +1,9 @@
 package org.juicecode.hlam.ui.chat;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.hlam.R;
+import org.juicecode.hlam.core.DBClient;
+import org.juicecode.hlam.core.contacts.AppDataBase;
+import org.juicecode.hlam.core.contacts.Contact;
+import org.juicecode.hlam.core.contacts.ContactDao;
 import org.juicecode.hlam.core.messaging.IncomingMessage;
 import org.juicecode.hlam.core.messaging.Message;
 import org.juicecode.hlam.core.messaging.OutgoingMessage;
@@ -26,6 +32,8 @@ public class ChatFragment extends Fragment {
     EditText messageField;
     ImageButton sendbutton;
     ImageButton goBack;
+    String phoneNumber;
+    String nameOfContactValue;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,12 +68,14 @@ public class ChatFragment extends Fragment {
                     }
                     messageListAdapter.addItem(message);
                     messageField.setText("");
+                    AddMessageInsertContact(new Contact(phoneNumber,nameOfContactValue));
                 }
             }
         });
 
         Bundle arguments = getArguments();
-        String nameOfContactValue = arguments.getString("chatName");
+        nameOfContactValue = arguments.getString("chatName");
+        phoneNumber = arguments.getString("phoneNumber");
         nameOfContact = view.findViewById(R.id.chat_name);
         nameOfContact.setText(nameOfContactValue);
 
@@ -79,6 +89,31 @@ public class ChatFragment extends Fragment {
         });
 
         return view;
+    }
+    public void AddMessageInsertContact(final Contact contact){
+        class InsertContact extends AsyncTask<Void, Void, Void> {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                AppDataBase appDataBase = DBClient.getInstance(getContext()).getAppDatabase();
+                ContactDao contactDao = appDataBase.contactDao();
+                if(contactDao.getByPhone(phoneNumber)!=null){
+                    //code for adding message
+                }else{
+                    //adding message again
+                    contactDao.insert(contact);
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                //code of adding messages in RecyclerView
+            }
+        }
+        InsertContact insertContact = new InsertContact();
+        insertContact.execute();
     }
 
 }
