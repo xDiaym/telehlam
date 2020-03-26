@@ -26,7 +26,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
     List<Contact> contacts;
     private Context parent;
 
-    ChatListAdapter(Context context, List<Contact> contacts) {
+    public ChatListAdapter(Context context, List<Contact> contacts) {
         parent = context;
         this.contacts = contacts;
     }

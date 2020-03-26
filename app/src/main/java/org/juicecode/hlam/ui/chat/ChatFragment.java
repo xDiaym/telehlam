@@ -4,9 +4,11 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -21,6 +23,7 @@ import org.juicecode.hlam.core.DBClient;
 import org.juicecode.hlam.core.contacts.AppDataBase;
 import org.juicecode.hlam.core.contacts.Contact;
 import org.juicecode.hlam.core.contacts.ContactDao;
+import org.juicecode.hlam.core.contacts.InsertContact;
 import org.juicecode.hlam.core.messaging.IncomingMessage;
 import org.juicecode.hlam.core.messaging.Message;
 import org.juicecode.hlam.core.messaging.OutgoingMessage;
@@ -69,9 +72,8 @@ public class ChatFragment extends Fragment {
                     }
                     messageListAdapter.addItem(message);
                     messageField.setText("");
-                    InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-                    AddMessageInsertContact(new Contact(nameOfContactValue,phoneNumber));
+
+                    AddMessageInsertContact(new Contact(nameOfContactValue, phoneNumber));
                 }
             }
         });
@@ -88,35 +90,17 @@ public class ChatFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
+
                 messageField.clearFocus();
             }
         });
 
         return view;
     }
-    public void AddMessageInsertContact(final Contact contact){
-        class InsertContact extends AsyncTask<Void, Void, Void> {
 
-            @Override
-            protected Void doInBackground(Void... voids) {
-                AppDataBase appDataBase = DBClient.getInstance(getContext()).getAppDatabase();
-                ContactDao contactDao = appDataBase.contactDao();
-                    if(contactDao.getNumberOfContactsByPhone(contact.getPhone())>0){
+    public void AddMessageInsertContact(final Contact contact) {
 
-                    }else {
-                        //code for adding message
-                        contactDao.insert(contact);
-                    }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                //code of adding messages in RecyclerView
-            }
-        }
-        InsertContact insertContact = new InsertContact();
+        InsertContact insertContact = new InsertContact(getContext(), contact);
         insertContact.execute();
     }
 

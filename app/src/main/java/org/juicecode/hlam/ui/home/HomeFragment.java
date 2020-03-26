@@ -25,6 +25,7 @@ import org.juicecode.hlam.core.DBClient;
 import org.juicecode.hlam.core.contacts.AppDataBase;
 import org.juicecode.hlam.core.contacts.Contact;
 import org.juicecode.hlam.core.contacts.ContactDao;
+import org.juicecode.hlam.core.contacts.GetContacts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,8 @@ import java.util.Observable;
 
 public class HomeFragment extends Fragment {
 
-    private Context context = getContext();;
+    private Context context = getContext();
+    ;
     private List<Contact> contacts;
     private HomeViewModel homeViewModel;
     private RecyclerView chatList;
@@ -55,39 +57,9 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
-    private void getContacts(){
-        class GetContacts extends AsyncTask<Void,Void,List<Contact>>  {
-            List<Contact> contacts = new ArrayList<>();
-            AppDataBase appDataBase;
-            ContactDao contactDao;
-            @Override
-            protected List<Contact> doInBackground(Void... voids) {
-                appDataBase = DBClient.getInstance(getContext()).getAppDatabase();
-                contactDao = appDataBase.contactDao();
-                return null;
-            }
 
-            @Override
-            protected void onPostExecute(List<Contact> contacts) {
-                    super.onPostExecute(contacts);
-                    contactDao.getAll().observe( getViewLifecycleOwner(), new Observer<List<Contact>>() {
-                        @Override
-                        public void onChanged(List<Contact> contacts) {
-
-
-
-                            chatListAdapter = new ChatListAdapter(context, contacts);
-                            chatList.setAdapter(chatListAdapter);
-                        }
-                    });
-            }
-
-
-
-        }
-        GetContacts getContacts = new GetContacts();
-
-
+    private void getContacts() {
+        GetContacts getContacts = new GetContacts(getContext(), getViewLifecycleOwner(), chatListAdapter, chatList);
         getContacts.execute();
     }
 }
