@@ -64,7 +64,6 @@ public class HomeFragment extends Fragment {
             protected List<Contact> doInBackground(Void... voids) {
                 appDataBase = DBClient.getInstance(getContext()).getAppDatabase();
                 contactDao = appDataBase.contactDao();
-                contactDao.deleteAll();
                 return null;
             }
 
@@ -76,9 +75,7 @@ public class HomeFragment extends Fragment {
                         public void onChanged(List<Contact> contacts) {
 
 
-                            for(int i = 0; i < contacts.size();i++){
-                                Log.i("contact",contacts.get(i).toString());
-                            }
+                           
                             chatListAdapter = new ChatListAdapter(context, contacts);
                             chatList.setAdapter(chatListAdapter);
                         }
