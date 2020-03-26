@@ -7,22 +7,21 @@ import androidx.room.Room;
 import org.juicecode.hlam.core.contacts.AppDataBase;
 
 public class DBClient {
-    private Context mCtx;
-    private static DBClient mInstance;
+    private Context context;
+    private static DBClient instance;
 
     private AppDataBase appDatabase;
 
-    private DBClient(Context mCtx) {
-        this.mCtx = mCtx;
-        //Создание БД - MyToDos
-        appDatabase = Room.databaseBuilder(mCtx, AppDataBase.class, "DataBase").build();
+    private DBClient(Context context) {
+        this.context = context;
+        appDatabase = Room.databaseBuilder(context, AppDataBase.class, "DataBase").build();
     }
 
     public static DBClient getInstance(Context mCtx) {
-        if (mInstance == null) {
-            mInstance = new DBClient(mCtx);
+        if (instance == null) {
+            instance = new DBClient(mCtx);
         }
-        return mInstance;
+        return instance;
     }
 
     public AppDataBase getAppDatabase() {
