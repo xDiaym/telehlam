@@ -21,6 +21,8 @@ public interface ContactDao {
     Contact getById(long id);
     @Query("SELECT * FROM contacts WHERE phone=:phone")
     Contact getByPhone(String phone);
+    @Query("SELECT COUNT(*) FROM contacts WHERE phone=:phone")
+    int getNumberOfContactsByPhone(String phone);
     @Insert
     void insert (Contact contact);
     @Insert

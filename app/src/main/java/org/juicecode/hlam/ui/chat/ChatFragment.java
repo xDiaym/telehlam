@@ -98,9 +98,12 @@ public class ChatFragment extends Fragment {
             protected Void doInBackground(Void... voids) {
                 AppDataBase appDataBase = DBClient.getInstance(getContext()).getAppDatabase();
                 ContactDao contactDao = appDataBase.contactDao();
+                    if(contactDao.getNumberOfContactsByPhone(contact.getPhone())>0){
 
-                    //code for adding message
-                    contactDao.insert(contact);
+                    }else {
+                        //code for adding message
+                        contactDao.insert(contact);
+                    }
                 return null;
             }
 
