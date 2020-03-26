@@ -48,7 +48,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         // TODO(all): set real name
-        holder.bind(contacts.get(position).getName(), "Hello world!");
+        holder.bind(contacts.get(position).getName(), "Hello world!",contacts.get(position).getPhone());
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
     }
 
     class ChatViewHolder extends RecyclerView.ViewHolder {
-
+        private String phoneNumber;
         private ImageView chatAvatar;
         private TextView chatName;
         private TextView chatLastMessage;
@@ -80,14 +80,15 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
                     ChatFragment chatFragment = new ChatFragment();
                     Bundle sendingChatName = new Bundle();
                     String chatNameValue = (String) chatName.getText();
-                    sendingChatName.putString("chatName", chatNameValue);
+                    sendingChatName.putStringArray("information", new String[]{chatNameValue,phoneNumber});
                     chatFragment.setArguments(sendingChatName);
                     fragmentTransaction.replace(R.id.drawer_layout, chatFragment, "tag").addToBackStack(null).commit();
                 }
             });
         }
 
-        public void bind(String name, String lastMessage) {
+        public void bind(String name, String lastMessage,String phoneNumber) {
+            this.phoneNumber = phoneNumber;
             chatName.setText(name);
             chatLastMessage.setText(lastMessage);
         }

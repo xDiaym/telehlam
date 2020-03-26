@@ -7,6 +7,7 @@ import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -42,7 +43,7 @@ public class ChatFragment extends Fragment {
         chat = view.findViewById(R.id.chat);
         messageField = view.findViewById(R.id.message_field);
 
-        Context context = getContext();
+        final Context context = getContext();
         LinearLayoutManager linearLayout = new LinearLayoutManager(context);
         chat.setLayoutManager(linearLayout);
         final MessageChatAdapter messageListAdapter = new MessageChatAdapter();
@@ -68,6 +69,8 @@ public class ChatFragment extends Fragment {
                     }
                     messageListAdapter.addItem(message);
                     messageField.setText("");
+                    InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
                     AddMessageInsertContact(new Contact(nameOfContactValue,phoneNumber));
                 }
             }

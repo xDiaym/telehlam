@@ -26,7 +26,7 @@ public interface ContactDao {
     @Insert
     void insert (Contact contact);
     @Insert
-    void insertMany (Contact contact);
+    void insertMany (ArrayList<Contact> contacts);
     @Delete
     void delete(Contact contact);
     @Query("DELETE FROM contacts WHERE contact_id = :id")

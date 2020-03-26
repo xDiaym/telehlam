@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment {
                         public void onChanged(List<Contact> contacts) {
 
 
-                           
+
                             chatListAdapter = new ChatListAdapter(context, contacts);
                             chatList.setAdapter(chatListAdapter);
                         }
