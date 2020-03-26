@@ -68,7 +68,7 @@ public class ChatFragment extends Fragment {
                     }
                     messageListAdapter.addItem(message);
                     messageField.setText("");
-                    AddMessageInsertContact(new Contact(phoneNumber,nameOfContactValue));
+                    AddMessageInsertContact(new Contact(nameOfContactValue,phoneNumber));
                 }
             }
         });
