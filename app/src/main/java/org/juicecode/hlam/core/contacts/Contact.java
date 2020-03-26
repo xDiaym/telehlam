@@ -8,17 +8,8 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "contacts")
 public class Contact {
-
-    public int getContact_id() {
-        return contact_id;
-    }
-
-    public void setContact_id(int contact_id) {
-        this.contact_id = contact_id;
-    }
-
     @PrimaryKey(autoGenerate = true)
-    private int contact_id;
+    private int contactId;
     @ColumnInfo
     private String name;
     // TODO(all): create class for telephone numbers
@@ -46,9 +37,17 @@ public class Contact {
         this.phone = phone;
     }
 
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int id) {
+        this.contactId = id;
+    }
+
     @NonNull
     @Override
     public String toString() {
-        return  " "+phone;
+        return  " " + phone;
     }
 }

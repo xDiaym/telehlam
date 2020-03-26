@@ -17,7 +17,7 @@ import java.util.List;
 public interface ContactDao {
     @Query("SELECT * FROM contacts")
     LiveData<List<Contact>> getAll();
-    @Query("SELECT * FROM contacts WHERE contact_id = :id")
+    @Query("SELECT * FROM contacts WHERE contactId = :id")
     Contact getById(long id);
     @Query("SELECT * FROM contacts WHERE phone=:phone")
     Contact getByPhone(String phone);
@@ -29,7 +29,7 @@ public interface ContactDao {
     void insertMany (ArrayList<Contact> contacts);
     @Delete
     void delete(Contact contact);
-    @Query("DELETE FROM contacts WHERE contact_id = :id")
+    @Query("DELETE FROM contacts WHERE contactId = :id")
     void deleteById(long id);
     @Query("DELETE FROM contacts")
     void deleteAll();

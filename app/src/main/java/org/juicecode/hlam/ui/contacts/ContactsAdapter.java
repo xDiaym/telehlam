@@ -34,13 +34,11 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     public ContactsAdapter(ArrayList<Contact> contacts) {
         this.contacts = contacts;
-        
     }
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
-
-        holder.bind(contacts.get(position).getName(),contacts.get(position).getPhone());
+        holder.bind(contacts.get(position).getName(), contacts.get(position).getPhone());
     }
 
     @Override
@@ -51,6 +49,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     public static class ContactViewHolder extends RecyclerView.ViewHolder {
         TextView contactName;
         String phoneNumber;
+
         public ContactViewHolder(@NonNull final View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +59,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                     ChatFragment chatFragment = new ChatFragment();
                     Bundle sendingChatName = new Bundle();
                     String chatNameValue = (String) contactName.getText();
-                    sendingChatName.putStringArray("information",new String[]{chatNameValue,phoneNumber});
+                    sendingChatName.putStringArray("information", new String[]{chatNameValue, phoneNumber});
                     chatFragment.setArguments(sendingChatName);
                     mainActivity.showFragment(chatFragment);
                 }
