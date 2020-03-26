@@ -74,8 +74,9 @@ public class ChatFragment extends Fragment {
         });
 
         Bundle arguments = getArguments();
-        nameOfContactValue = arguments.getString("chatName");
-        phoneNumber = arguments.getString("phoneNumber");
+        String[] values = arguments.getStringArray("information");
+        nameOfContactValue = values[0];
+        phoneNumber = values[1];
         nameOfContact = view.findViewById(R.id.chat_name);
         nameOfContact.setText(nameOfContactValue);
 
@@ -97,12 +98,9 @@ public class ChatFragment extends Fragment {
             protected Void doInBackground(Void... voids) {
                 AppDataBase appDataBase = DBClient.getInstance(getContext()).getAppDatabase();
                 ContactDao contactDao = appDataBase.contactDao();
-                if(contactDao.getByPhone(phoneNumber)!=null){
+
                     //code for adding message
-                }else{
-                    //adding message again
                     contactDao.insert(contact);
-                }
                 return null;
             }
 

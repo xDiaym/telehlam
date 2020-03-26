@@ -1,6 +1,7 @@
 package org.juicecode.hlam.core.contacts;
 
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -43,5 +44,11 @@ public class Contact {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return  " "+phone;
     }
 }

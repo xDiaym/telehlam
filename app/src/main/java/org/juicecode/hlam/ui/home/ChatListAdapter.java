@@ -19,13 +19,14 @@ import org.juicecode.hlam.core.contacts.Contact;
 import org.juicecode.hlam.ui.chat.ChatFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatViewHolder> {
 
-    ArrayList<Contact> contacts;
+    List<Contact> contacts;
     private Context parent;
 
-    ChatListAdapter(Context context, ArrayList<Contact> contacts) {
+    ChatListAdapter(Context context, List<Contact> contacts) {
         parent = context;
         this.contacts = contacts;
     }

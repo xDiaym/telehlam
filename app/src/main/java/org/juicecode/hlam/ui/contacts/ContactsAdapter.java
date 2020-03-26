@@ -17,9 +17,10 @@ import org.juicecode.hlam.core.contacts.Contact;
 import org.juicecode.hlam.ui.chat.ChatFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactViewHolder> {
-    private ArrayList<Contact> contacts;
+    private List<Contact> contacts;
 
     @NonNull
     @Override
@@ -38,6 +39,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
+
         holder.bind(contacts.get(position).getName(),contacts.get(position).getPhone());
     }
 
@@ -58,8 +60,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                     ChatFragment chatFragment = new ChatFragment();
                     Bundle sendingChatName = new Bundle();
                     String chatNameValue = (String) contactName.getText();
-                    sendingChatName.putString("chatName", chatNameValue);
-                    sendingChatName.putString("phoneNumber",phoneNumber);
+                    sendingChatName.putStringArray("information",new String[]{chatNameValue,phoneNumber});
                     chatFragment.setArguments(sendingChatName);
                     mainActivity.showFragment(chatFragment);
                 }

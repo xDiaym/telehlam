@@ -4,13 +4,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,15 +27,17 @@ import org.juicecode.hlam.core.contacts.Contact;
 import org.juicecode.hlam.core.contacts.ContactDao;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
 
 public class HomeFragment extends Fragment {
 
-
-    private ArrayList<Contact> contacts;
+    private Context context = getContext();;
+    private List<Contact> contacts;
     private HomeViewModel homeViewModel;
     private RecyclerView chatList;
     private ChatListAdapter chatListAdapter;
-    Context context = getContext();
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -43,30 +50,47 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         chatList.setLayoutManager(layoutManager);
         chatList.setHasFixedSize(true);
-
+        getContacts();
 
 
         return root;
     }
     private void getContacts(){
-        class GetContacts extends AsyncTask<Void,Void,ArrayList<Contact>>{
+        class GetContacts extends AsyncTask<Void,Void,List<Contact>>  {
+            List<Contact> contacts = new ArrayList<>();
+            AppDataBase appDataBase;
+            ContactDao contactDao;
             @Override
-            protected ArrayList<Contact> doInBackground(Void... voids) {
-                AppDataBase appDataBase = DBClient.getInstance(getContext()).getAppDatabase();
-                ContactDao contactDao = appDataBase.contactDao();
-                ArrayList<Contact> contacts = new ArrayList<>();
-                contacts = contactDao.getAll();
-                return contacts;
+            protected List<Contact> doInBackground(Void... voids) {
+                appDataBase = DBClient.getInstance(getContext()).getAppDatabase();
+                contactDao = appDataBase.contactDao();
+                contactDao.deleteAll();
+                return null;
             }
 
             @Override
-            protected void onPostExecute(ArrayList<Contact> contacts) {
-                super.onPostExecute(contacts);
-                chatListAdapter = new ChatListAdapter(context, contacts);
-                chatList.setAdapter(chatListAdapter);
+            protected void onPostExecute(List<Contact> contacts) {
+                    super.onPostExecute(contacts);
+                    contactDao.getAll().observe( getViewLifecycleOwner(), new Observer<List<Contact>>() {
+                        @Override
+                        public void onChanged(List<Contact> contacts) {
+
+
+                            for(int i = 0; i < contacts.size();i++){
+                                Log.i("contact",contacts.get(i).toString());
+                            }
+                            chatListAdapter = new ChatListAdapter(context, contacts);
+                            chatList.setAdapter(chatListAdapter);
+                        }
+                    });
             }
+
+
+
         }
         GetContacts getContacts = new GetContacts();
+
+
         getContacts.execute();
     }
 }
