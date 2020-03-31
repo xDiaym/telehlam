@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 def MATERIAL_DESIGN_VERSION = '1.1.0'
+def ROOM_VERSION = "2.2.5"
 
 android {
     compileSdkVersion 29
@@ -33,6 +34,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation "com.google.android.material:material:$MATERIAL_DESIGN_VERSION"
+    implementation "androidx.room:room-runtime:$ROOM_VERSION"
+    annotationProcessor "androidx.room:room-compiler:$ROOM_VERSION"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
