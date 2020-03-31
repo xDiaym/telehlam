@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 checkPermission(Manifest.permission.READ_CONTACTS, READ_CONTACTS);
-                showFragment(new ContactsFragment());
+                addFragment(new ContactsFragment());
             }
         });
 
@@ -76,24 +76,22 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public void showFragment(Fragment fragment) {
-
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.drawer_layout, fragment, "tag").addToBackStack(null).commit();
-
-
+    public void addFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.drawer_layout, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     public void checkPermission(String permission, int requestCode) {
         if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
-        } // TODO исправить ошибочку
+        }
+        // TODO исправить ошибочку
     }
-
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
     }
 }
