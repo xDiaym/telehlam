@@ -48,6 +48,7 @@ public class ChatFragment extends Fragment {
     String nameOfContactValue;
     ViewGroup viewGroup;
     Context context;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
@@ -106,15 +107,16 @@ public class ChatFragment extends Fragment {
 
         return view;
     }
+
     public void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager)activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 
         View view = activity.getCurrentFocus();
 
-        if(view!=null){
+        if (view != null) {
 
-        // hide the keyboard
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            // hide the keyboard
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 

@@ -94,12 +94,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void lockDrawer() {
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    public void unLockDrawer() {
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+
     public void checkPermission(String permission, int requestCode) {
         if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
         } // TODO исправить ошибочку
     }
-
 
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
