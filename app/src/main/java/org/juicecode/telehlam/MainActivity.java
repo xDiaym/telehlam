@@ -24,8 +24,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import org.juicecode.telehlam.ui.contacts.ContactsFragment;
+import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier {
 
     private AppBarConfiguration mAppBarConfiguration;
     private static final int READ_CONTACTS = 100;
