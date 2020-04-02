@@ -1,10 +1,12 @@
 package org.juicecode.hlam;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -83,7 +85,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.drawer_layout, fragment, "tag").addToBackStack(null).commit();
+        fragmentManager.
+                beginTransaction()
+                .add(R.id.drawer_layout, fragment, "tag")
+                .addToBackStack(null)
+                .commit();
 
 
     }
@@ -93,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
         } // TODO исправить ошибочку
     }
+
 
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

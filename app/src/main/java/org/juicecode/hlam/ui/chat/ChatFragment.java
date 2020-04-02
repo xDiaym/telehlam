@@ -1,13 +1,18 @@
 package org.juicecode.hlam.ui.chat;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.INotificationSideChannel;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -18,6 +23,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
+
+import org.juicecode.hlam.MainActivity;
 import org.juicecode.hlam.R;
 import org.juicecode.hlam.core.DBClient;
 import org.juicecode.hlam.core.contacts.AppDataBase;
@@ -84,18 +92,24 @@ public class ChatFragment extends Fragment {
         phoneNumber = values[1];
         nameOfContact = view.findViewById(R.id.chat_name);
         nameOfContact.setText(nameOfContactValue);
-
         goBack = view.findViewById(R.id.go_back_button);
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
 
-                messageField.clearFocus();
+
             }
         });
 
         return view;
+    }
+    public void hideKeyboard(){
+        View v = getActivity().getCurrentFocus();
+        if(v!=null){
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(),0);
+        }
     }
 
     public void AddMessageInsertContact(final Contact contact) {

@@ -14,7 +14,7 @@ public class DBClient {
 
     private DBClient(Context context) {
         this.context = context;
-        appDatabase = Room.databaseBuilder(context, AppDataBase.class, "DataBase").build();
+        appDatabase = Room.databaseBuilder(context, AppDataBase.class, "DataBase").fallbackToDestructiveMigration().build();
     }
 
     public static DBClient getInstance(Context mCtx) {
