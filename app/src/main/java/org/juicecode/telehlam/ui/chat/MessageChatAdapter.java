@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.core.messaging.IncomingMessage;
 import org.juicecode.telehlam.core.messaging.Message;
 
 import java.util.LinkedList;
@@ -64,9 +63,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        return messages.get(position) instanceof IncomingMessage
-                ? Message.MESSAGE_INCOMING
-                : Message.MESSAGE_OUTGOING;
+        return messages.get(position).getType();
     }
 
     @Override

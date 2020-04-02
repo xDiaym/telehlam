@@ -1,13 +1,10 @@
 package org.juicecode.telehlam.ui.chat;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,9 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.core.messaging.IncomingMessage;
 import org.juicecode.telehlam.core.messaging.Message;
-import org.juicecode.telehlam.core.messaging.OutgoingMessage;
 import org.juicecode.telehlam.utils.KeyboardManager;
 
 import java.util.Random;
@@ -58,9 +53,9 @@ public class ChatFragment extends Fragment {
                     Message message;
                     // TODO(all): delete test code
                     if (new Random().nextBoolean()) {
-                        message = new OutgoingMessage(messageText);
+                        message = new Message(Message.MESSAGE_OUTGOING, messageText);
                     } else {
-                        message = new IncomingMessage(messageText);
+                        message = new Message(Message.MESSAGE_INCOMING, messageText);
                     }
                     messageListAdapter.addItem(message);
                     messageField.setText("");
