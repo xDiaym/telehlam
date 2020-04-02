@@ -46,14 +46,15 @@ public class ChatFragment extends Fragment {
     ImageButton goBack;
     String phoneNumber;
     String nameOfContactValue;
-
+    ViewGroup viewGroup;
+    Context context;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
-
+        viewGroup = container;
         chat = view.findViewById(R.id.chat);
         messageField = view.findViewById(R.id.message_field);
-
+        context = getContext();
         final Context context = getContext();
         LinearLayoutManager linearLayout = new LinearLayoutManager(context);
         chat.setLayoutManager(linearLayout);
@@ -96,19 +97,24 @@ public class ChatFragment extends Fragment {
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                hideKeyboard(getActivity());
                 getActivity().onBackPressed();
-
-
+                messageField.clearFocus();
             }
         });
 
         return view;
     }
-    public void hideKeyboard(){
-        View v = getActivity().getCurrentFocus();
-        if(v!=null){
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(v.getWindowToken(),0);
+    public void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager)activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+        View view = activity.getCurrentFocus();
+
+        if(view!=null){
+
+        // hide the keyboard
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
