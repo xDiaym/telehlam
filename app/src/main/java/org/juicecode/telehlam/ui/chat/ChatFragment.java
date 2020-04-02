@@ -1,10 +1,12 @@
 package org.juicecode.telehlam.ui.chat;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.messaging.IncomingMessage;
 import org.juicecode.telehlam.core.messaging.Message;
 import org.juicecode.telehlam.core.messaging.OutgoingMessage;
+import org.juicecode.telehlam.utils.KeyboardManager;
 
 import java.util.Random;
 
@@ -73,6 +76,7 @@ public class ChatFragment extends Fragment {
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                KeyboardManager.hideKeyboard(getActivity());
                 getActivity().onBackPressed();
                 messageField.clearFocus();
             }
