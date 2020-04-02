@@ -42,6 +42,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> 
                 return new OutgoingMessageHolder(view);
 
             default:
+                // TODO: create custom Error class
                 throw new Error("Unknown message type");
         }
     }

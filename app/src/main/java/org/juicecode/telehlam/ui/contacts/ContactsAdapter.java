@@ -59,7 +59,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                     String chatNameValue = (String) contactName.getText();
                     sendingChatName.putString("chatName", chatNameValue);
                     chatFragment.setArguments(sendingChatName);
-                    mainActivity.addFragment(chatFragment);
+
+                    mainActivity.replaceFragment(chatFragment);
                 }
             });
             contactName = itemView.findViewById(R.id.contact_name);
