@@ -3,6 +3,7 @@ package org.juicecode.telehlam.ui.chat;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +79,6 @@ public class ChatFragment extends Fragment {
             public void onClick(View v) {
                 KeyboardManager.hideKeyboard(getActivity());
                 getActivity().onBackPressed();
-                messageField.clearFocus();
             }
         });
 
