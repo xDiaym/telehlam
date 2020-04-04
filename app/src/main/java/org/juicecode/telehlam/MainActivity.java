@@ -25,11 +25,11 @@ import com.google.android.material.navigation.NavigationView;
 
 import org.juicecode.telehlam.ui.contacts.ContactsFragment;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
+import org.juicecode.telehlam.utils.PermissionCode;
 
 public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private static final int READ_CONTACTS = 100;
     private DrawerLayout drawer;
 
     //NavigationView navigationView = findViewById(R.id.nav_view);
@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPermission(Manifest.permission.READ_CONTACTS, READ_CONTACTS);
+                checkPermission(Manifest.permission.READ_CONTACTS,
+                        PermissionCode.PERMISSION_READ_CONTACTS);
                 addFragment(new ContactsFragment());
             }
         });

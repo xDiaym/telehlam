@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.core.messaging.Message;
+import org.juicecode.telehlam.database.messages.Message;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -71,6 +71,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> 
     public int getItemCount() {
         return messages.size();
     }
+
 
     static class OutgoingMessageHolder extends BaseMessageHolder {
 

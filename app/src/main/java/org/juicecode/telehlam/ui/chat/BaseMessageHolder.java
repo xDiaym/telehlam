@@ -6,7 +6,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.juicecode.telehlam.core.messaging.Message;
+import org.juicecode.telehlam.database.messages.Message;
 
 public abstract class BaseMessageHolder extends RecyclerView.ViewHolder {
     protected TextView text;

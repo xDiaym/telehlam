@@ -14,7 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.core.messaging.Message;
+import org.juicecode.telehlam.database.DBClient;
+import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.utils.KeyboardManager;
 
 import java.util.Random;
@@ -46,9 +47,8 @@ public class ChatFragment extends Fragment {
         sendbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String messageText = messageField.getText()
-                        .toString()
-                        .trim();
+                String messageText = messageField.getText().toString().trim();
+
                 if (!messageText.isEmpty()) {
                     Message message;
                     // TODO(all): delete test code
@@ -57,6 +57,12 @@ public class ChatFragment extends Fragment {
                     } else {
                         message = new Message(Message.MESSAGE_INCOMING, messageText);
                     }
+
+                    DBClient
+                            .getInstance(getActivity())
+                            .getAppDataBase()
+                            .messageDao()
+                            .insert(message);
                     messageListAdapter.addItem(message);
                     messageField.setText("");
                 }
