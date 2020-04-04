@@ -3,6 +3,7 @@ package org.juicecode.hlam;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -47,8 +48,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPermission(Manifest.permission.READ_CONTACTS, READ_CONTACTS);
-                showFragment(new ContactsFragment());
+            checkPermission();
             }
         });
 
@@ -101,16 +101,31 @@ public class MainActivity extends AppCompatActivity {
     public void unLockDrawer() {
         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
-
-    public void checkPermission(String permission, int requestCode) {
-        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
-        } // TODO исправить ошибочку
+    public void checkPermission(){
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, READ_CONTACTS);
     }
+    else {
+        showFragment(new ContactsFragment());
+    }
+}
 
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case READ_CONTACTS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    showFragment(new ContactsFragment());
+                } else {
 
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                }
+                return;
+            }
 
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
     }
 }
