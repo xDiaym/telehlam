@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
+import org.juicecode.telehlam.core.contacts.Contact;
+import org.juicecode.telehlam.core.contacts.InsertContact;
 import org.juicecode.telehlam.database.DBClient;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.utils.KeyboardManager;
@@ -26,7 +28,8 @@ public class ChatFragment extends Fragment {
     EditText messageField;
     ImageButton sendbutton;
     ImageButton goBack;
-
+    String nameOfContactValue;
+    String phoneNumber;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
@@ -53,24 +56,27 @@ public class ChatFragment extends Fragment {
                     Message message;
                     // TODO(all): delete test code
                     if (new Random().nextBoolean()) {
-                        message = new Message(Message.MESSAGE_OUTGOING, messageText);
+                        message = new Message(Message.MESSAGE_OUTGOING, messageText,"user",nameOfContactValue);
                     } else {
-                        message = new Message(Message.MESSAGE_INCOMING, messageText);
+                        message = new Message(Message.MESSAGE_INCOMING, messageText,nameOfContactValue,"user");
                     }
 
-                    DBClient
+                    /*DBClient
                             .getInstance(getActivity())
                             .getAppDataBase()
                             .messageDao()
-                            .insert(message);
+                            .insert(message);*/
                     messageListAdapter.addItem(message);
                     messageField.setText("");
+                    AddMessageInsertContact(new Contact(nameOfContactValue, phoneNumber));
+
                 }
             }
         });
-
         Bundle arguments = getArguments();
-        String nameOfContactValue = arguments.getString("chatName");
+        String[] values = arguments.getStringArray("information");
+        nameOfContactValue = values[0];
+        phoneNumber = values[1];
         nameOfContact = view.findViewById(R.id.chat_name);
         nameOfContact.setText(nameOfContactValue);
 
@@ -84,6 +90,11 @@ public class ChatFragment extends Fragment {
         });
 
         return view;
+    }
+    public void AddMessageInsertContact(final Contact contact) {
+
+        InsertContact insertContact = new InsertContact(getContext(), contact);
+        insertContact.execute();
     }
 
 }

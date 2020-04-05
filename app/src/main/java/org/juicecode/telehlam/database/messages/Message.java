@@ -50,6 +50,25 @@ public class Message {
     private int type;
     private String text;
     private long timestamp;
+
+    public String getAuthorPhone() {
+        return authorPhone;
+    }
+
+    public void setAuthorPhone(String authorPhone) {
+        this.authorPhone = authorPhone;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
+    }
+
+    private String authorPhone;
+    private String receiverPhone;
     @TypeConverters(Status.class)
     private Status status;
 
@@ -61,8 +80,10 @@ public class Message {
     }
 
     @Ignore
-    public Message(int type, String text) {
+    public Message(int type, String text,String authorPhone, String receiverPhone) {
         this.type = type;
+        this.authorPhone = authorPhone;
+        this.receiverPhone = receiverPhone;
         this.text = text;
         this.timestamp = (new Date()).getTime();
         this.status = Status.NONE;
