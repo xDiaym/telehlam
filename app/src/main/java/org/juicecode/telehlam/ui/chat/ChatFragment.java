@@ -13,13 +13,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
 import org.juicecode.telehlam.core.contacts.InsertContact;
 import org.juicecode.telehlam.database.DBClient;
+import org.juicecode.telehlam.database.messages.GetMessages;
+import org.juicecode.telehlam.database.messages.InsertMessage;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.utils.KeyboardManager;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class ChatFragment extends Fragment {
@@ -30,22 +35,21 @@ public class ChatFragment extends Fragment {
     ImageButton goBack;
     String nameOfContactValue;
     String phoneNumber;
+    MessageChatAdapter messageChatAdapter;
+    List<Message> messageList;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
-
+        messageList = new ArrayList<>();
         chat = view.findViewById(R.id.chat);
         messageField = view.findViewById(R.id.message_field);
 
         Context context = getContext();
         LinearLayoutManager linearLayout = new LinearLayoutManager(context);
         chat.setLayoutManager(linearLayout);
-        final MessageChatAdapter messageListAdapter = new MessageChatAdapter();
-
-        chat.setAdapter(messageListAdapter);
         chat.setHasFixedSize(false);
-        chat.setNestedScrollingEnabled(false); // What it mean?
-
+        chat.setNestedScrollingEnabled(false);
+        GetMessages();
         sendbutton = view.findViewById(R.id.send_message_button);
         sendbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,12 +65,9 @@ public class ChatFragment extends Fragment {
                         message = new Message(Message.MESSAGE_INCOMING, messageText,nameOfContactValue,"user");
                     }
 
-                    /*DBClient
-                            .getInstance(getActivity())
-                            .getAppDataBase()
-                            .messageDao()
-                            .insert(message);*/
-                    messageListAdapter.addItem(message);
+                    InsertMessage insertMessage = new InsertMessage((MainActivity) getActivity(),message);
+                    insertMessage.execute();
+                    messageChatAdapter.addItem(message);
                     messageField.setText("");
                     AddMessageInsertContact(new Contact(nameOfContactValue, phoneNumber));
 
@@ -92,9 +93,11 @@ public class ChatFragment extends Fragment {
         return view;
     }
     public void AddMessageInsertContact(final Contact contact) {
-
         InsertContact insertContact = new InsertContact(getContext(), contact);
         insertContact.execute();
     }
-
+    public void GetMessages(){
+        GetMessages getMessages = new GetMessages(getContext(),getViewLifecycleOwner(),messageChatAdapter,chat,phoneNumber);
+        getMessages.execute();
+    }
 }

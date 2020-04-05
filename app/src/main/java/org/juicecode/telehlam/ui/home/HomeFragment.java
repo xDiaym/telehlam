@@ -31,7 +31,6 @@ import java.util.Observable;
 public class HomeFragment extends Fragment {
 
     private Context context = getContext();
-    ;
     private List<Contact> contacts;
     private HomeViewModel homeViewModel;
     private RecyclerView chatList;

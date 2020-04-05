@@ -11,16 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.database.messages.Message;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> {
     private List<Message> messages;
 
-    public MessageChatAdapter() {
-        messages = new LinkedList<>();
+    public MessageChatAdapter(List<Message> messages) {
+        this.messages = messages;
     }
-
+    public MessageChatAdapter(){
+        this.messages = new ArrayList<>();
+    }
     public void addItem(Message message) {
         messages.add(message);
         notifyDataSetChanged();
