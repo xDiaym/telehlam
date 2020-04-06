@@ -50,11 +50,10 @@ public class ChatFragment extends Fragment {
         chat.setAdapter(messageChatAdapter);
         chat.setHasFixedSize(false);
         chat.setNestedScrollingEnabled(false);
-
         messageField = view.findViewById(R.id.message_field);
         messageList = new ArrayList<>();
-        GetMessages();
-
+        GetMessages getMessages = new GetMessages(getContext(), getViewLifecycleOwner(), messageChatAdapter, chat, phoneNumber);
+        getMessages.execute();
         sendbutton = view.findViewById(R.id.send_message_button);
         sendbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,15 +64,16 @@ public class ChatFragment extends Fragment {
                     Message message;
                     // TODO(all): delete test code
                     if (new Random().nextBoolean()) {
-                        message = new Message(Message.MESSAGE_OUTGOING, messageText,"user", nameOfContactValue);
+                        message = new Message(Message.MESSAGE_OUTGOING, messageText, "user", nameOfContactValue);
                     } else {
-                        message = new Message(Message.MESSAGE_INCOMING, messageText,nameOfContactValue,"user");
+                        message = new Message(Message.MESSAGE_INCOMING, messageText, nameOfContactValue, "user");
                     }
-
+                    InsertMessage insertMessage = new InsertMessage((MainActivity) getActivity(), message);
+                    insertMessage.execute();
                     messageChatAdapter.addItem(message);
                     messageField.setText("");
-                    AddMessageInsertContact(new Contact(nameOfContactValue, phoneNumber));
-
+                    InsertContact insertContact = new InsertContact(getContext(), new Contact(nameOfContactValue, phoneNumber));
+                    insertContact.execute();
                 }
             }
         });
@@ -95,14 +95,5 @@ public class ChatFragment extends Fragment {
         });
 
         return view;
-    }
-    public void AddMessageInsertContact(final Contact contact) {
-        InsertContact insertContact = new InsertContact(getContext(), contact);
-        insertContact.execute();
-    }
-
-    public void GetMessages(){
-        GetMessages getMessages = new GetMessages(getContext(),getViewLifecycleOwner(),messageChatAdapter,chat,phoneNumber);
-        getMessages.execute();
     }
 }

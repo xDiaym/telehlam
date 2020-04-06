@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.database.DBClient;
 
-public class InsertMessage extends AsyncTask<Void, Void, Void> {
+public class InsertMessage<T> extends AsyncTask<Void, Void, T> {
     private MainActivity activity;
     private Message message;
 
@@ -15,7 +15,7 @@ public class InsertMessage extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Void... voids) {
+    protected T doInBackground(Void... voids) {
         DBClient
                 .getInstance(activity)
                 .getAppDataBase()
