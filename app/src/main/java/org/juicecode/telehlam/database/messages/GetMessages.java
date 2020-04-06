@@ -28,6 +28,7 @@ public class GetMessages extends AsyncTask<Void, Void, List<Message>> {
     MessageDao messageDao;
     String author;
     String receiver;
+
     public GetMessages(Context context, LifecycleOwner lifecycleOwner, MessageChatAdapter messageChatAdapter, RecyclerView chat,String receiver) {
         this.context = context;
         this.lifecycleOwner = lifecycleOwner;
@@ -35,9 +36,7 @@ public class GetMessages extends AsyncTask<Void, Void, List<Message>> {
         this.chat = chat;
         this.receiver = receiver;
         this.author = author;
-
     }
-
 
     @Override
     protected List<Message> doInBackground(Void... voids) {

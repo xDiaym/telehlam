@@ -37,19 +37,24 @@ public class ChatFragment extends Fragment {
     String phoneNumber;
     MessageChatAdapter messageChatAdapter;
     List<Message> messageList;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
-        messageList = new ArrayList<>();
-        chat = view.findViewById(R.id.chat);
-        messageField = view.findViewById(R.id.message_field);
 
         Context context = getContext();
+        chat = view.findViewById(R.id.chat);
         LinearLayoutManager linearLayout = new LinearLayoutManager(context);
         chat.setLayoutManager(linearLayout);
+        messageChatAdapter = new MessageChatAdapter();
+        chat.setAdapter(messageChatAdapter);
         chat.setHasFixedSize(false);
         chat.setNestedScrollingEnabled(false);
+
+        messageField = view.findViewById(R.id.message_field);
+        messageList = new ArrayList<>();
         GetMessages();
+
         sendbutton = view.findViewById(R.id.send_message_button);
         sendbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,13 +65,11 @@ public class ChatFragment extends Fragment {
                     Message message;
                     // TODO(all): delete test code
                     if (new Random().nextBoolean()) {
-                        message = new Message(Message.MESSAGE_OUTGOING, messageText,"user",nameOfContactValue);
+                        message = new Message(Message.MESSAGE_OUTGOING, messageText,"user", nameOfContactValue);
                     } else {
                         message = new Message(Message.MESSAGE_INCOMING, messageText,nameOfContactValue,"user");
                     }
 
-                    InsertMessage insertMessage = new InsertMessage((MainActivity) getActivity(),message);
-                    insertMessage.execute();
                     messageChatAdapter.addItem(message);
                     messageField.setText("");
                     AddMessageInsertContact(new Contact(nameOfContactValue, phoneNumber));
@@ -74,6 +77,7 @@ public class ChatFragment extends Fragment {
                 }
             }
         });
+
         Bundle arguments = getArguments();
         String[] values = arguments.getStringArray("information");
         nameOfContactValue = values[0];
@@ -96,6 +100,7 @@ public class ChatFragment extends Fragment {
         InsertContact insertContact = new InsertContact(getContext(), contact);
         insertContact.execute();
     }
+
     public void GetMessages(){
         GetMessages getMessages = new GetMessages(getContext(),getViewLifecycleOwner(),messageChatAdapter,chat,phoneNumber);
         getMessages.execute();

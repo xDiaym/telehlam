@@ -80,7 +80,7 @@ public class Message {
     }
 
     @Ignore
-    public Message(int type, String text,String authorPhone, String receiverPhone) {
+    public Message(int type, String text, String authorPhone, String receiverPhone) {
         this.type = type;
         this.authorPhone = authorPhone;
         this.receiverPhone = receiverPhone;
