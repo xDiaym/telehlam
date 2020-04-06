@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,9 +18,10 @@ import java.util.List;
 
 public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> {
     private List<Message> messages;
-
-    public MessageChatAdapter(List<Message> messages) {
+    private Context context;
+    public MessageChatAdapter(List<Message> messages,Context context) {
         this.messages = messages;
+        this.context = context;
     }
 
     public MessageChatAdapter(){
@@ -28,6 +30,10 @@ public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> 
 
     public void addItem(Message message) {
         messages.add(message);
+        notifyDataSetChanged();
+    }
+    public void addItems(List<Message> messages){
+        this.messages = messages;
         notifyDataSetChanged();
     }
 

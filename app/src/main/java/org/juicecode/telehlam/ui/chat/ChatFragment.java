@@ -47,6 +47,10 @@ public class ChatFragment extends Fragment {
         LinearLayoutManager linearLayout = new LinearLayoutManager(context);
         chat.setLayoutManager(linearLayout);
         messageChatAdapter = new MessageChatAdapter();
+        Bundle arguments = getArguments();
+        String[] values = arguments.getStringArray("information");
+        nameOfContactValue = values[0];
+        phoneNumber = values[1];
         chat.setAdapter(messageChatAdapter);
         chat.setHasFixedSize(false);
         chat.setNestedScrollingEnabled(false);
@@ -64,11 +68,11 @@ public class ChatFragment extends Fragment {
                     Message message;
                     // TODO(all): delete test code
                     if (new Random().nextBoolean()) {
-                        message = new Message(Message.MESSAGE_OUTGOING, messageText, "user", nameOfContactValue);
+                        message = new Message(Message.MESSAGE_OUTGOING, messageText, "user", phoneNumber);
                     } else {
-                        message = new Message(Message.MESSAGE_INCOMING, messageText, nameOfContactValue, "user");
+                        message = new Message(Message.MESSAGE_INCOMING, messageText, phoneNumber, "user");
                     }
-                    InsertMessage insertMessage = new InsertMessage((MainActivity) getActivity(), message);
+                    InsertMessage insertMessage = new InsertMessage(getActivity(), message);
                     insertMessage.execute();
                     messageChatAdapter.addItem(message);
                     messageField.setText("");
@@ -78,10 +82,7 @@ public class ChatFragment extends Fragment {
             }
         });
 
-        Bundle arguments = getArguments();
-        String[] values = arguments.getStringArray("information");
-        nameOfContactValue = values[0];
-        phoneNumber = values[1];
+
         nameOfContact = view.findViewById(R.id.chat_name);
         nameOfContact.setText(nameOfContactValue);
 

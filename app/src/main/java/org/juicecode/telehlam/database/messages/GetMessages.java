@@ -51,8 +51,7 @@ public class GetMessages extends AsyncTask<Void, Void, List<Message>> {
         messageDao.getAllByPhones(receiver).observe(lifecycleOwner, new Observer<List<Message>>() {
             @Override
             public void onChanged(List<Message> messages) {
-                messageChatAdapter = new MessageChatAdapter(messages);
-                chat.setAdapter(messageChatAdapter);
+                messageChatAdapter.addItems(messages);
             }
         });
     }
