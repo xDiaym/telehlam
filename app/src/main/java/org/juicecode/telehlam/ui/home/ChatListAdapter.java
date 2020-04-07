@@ -11,11 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
+import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.ui.chat.ChatFragment;
 
 import java.util.List;
@@ -27,9 +29,18 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
 
     public ChatListAdapter(Context context, List<Contact> contacts) {
         parent = context;
-        this.contacts = contacts;
-    }
 
+        this.contacts = contacts;
+
+
+    }
+    public void deleteElement(String phone){
+        for(Contact c:contacts){
+            if(c.getPhone().equals(phone)){
+                contacts.remove(c);
+            }
+        }
+    }
     @NonNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -84,6 +95,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
                     fragmentTransaction.replace(R.id.drawer_layout, chatFragment, "tag").addToBackStack(null).commit();
                 }
             });
+
         }
 
         public void bind(String name, String lastMessage,String phoneNumber) {

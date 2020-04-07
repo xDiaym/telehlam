@@ -33,6 +33,8 @@ public interface ContactDao {
     void deleteById(long id);
     @Query("DELETE FROM contacts")
     void deleteAll();
+    @Query("DELETE FROM contacts WHERE phone=:userPhone")
+    void deleteByPhone(String userPhone);
     @Update
     void update (Contact contact);
 }

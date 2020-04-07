@@ -14,6 +14,8 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="new_message">Новое сообщение</string>
-
+    <string name="delete_message_history">Очистить историю?</string>
     <string name="message_field_hint">Just start typing</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
 </resources>

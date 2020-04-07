@@ -35,16 +35,16 @@ public class DataBaseTask<T> extends AsyncTask<Void,Void,T> {
     private String receiver;
     private RecyclerView chat;
     public enum Task {
-        GetAllContacts,InsertMessage,GetAllMessages
+        GetAllContacts,InsertMessage,GetAllMessages,DeleteAllMessageHistory
     }
-
+    //добавление сообщения
     public DataBaseTask(Context context, Contact contact,Message message, Task task) {
         this.task = task;
         this.context = context;
         this.contact = contact;
         this.message = message;
     }
-
+    //получение контактов
     public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, ChatListAdapter chatListAdapter, RecyclerView chatList, Task task) {
         this.context = context;
         this.lifecycleOwner = lifecycleOwner;
@@ -52,12 +52,22 @@ public class DataBaseTask<T> extends AsyncTask<Void,Void,T> {
         this.chatList = chatList;
         this.task = task;
     }
+    //получение сообщений
     public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, MessageChatAdapter messageChatAdapter, RecyclerView chat,String receiver,Task task){
         this.context = context;
         this.lifecycleOwner = lifecycleOwner;
         this.messageChatAdapter = messageChatAdapter;
         this.chat = chat;
         this.receiver = receiver;
+        this.task = task;
+    }
+    //удаление переписки
+    public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, ChatListAdapter chatListAdapter, RecyclerView chatList,String user,Task task){
+        this.chatList = chatList;
+        this.context = context;
+        this.lifecycleOwner =lifecycleOwner;
+        this.chatListAdapter = chatListAdapter;
+        this.receiver = user;
         this.task = task;
     }
     @Override
@@ -78,7 +88,10 @@ public class DataBaseTask<T> extends AsyncTask<Void,Void,T> {
             case GetAllContacts:
                 //  а ничего он не делает тут кстати, только получение базы и Dao  так что можно убрать
                 break;
-
+            case DeleteAllMessageHistory:
+                messageDao.DeleteAllMessagesWithUser(receiver);
+                chatListAdapter.deleteElement(receiver);
+                contactDao.deleteByPhone(receiver);
         }
         return null;
     }
