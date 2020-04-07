@@ -13,11 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
-import org.juicecode.telehlam.core.contacts.InsertContact;
-import org.juicecode.telehlam.database.DBClient;
+import org.juicecode.telehlam.core.contacts.ContactTask;
 import org.juicecode.telehlam.database.messages.GetMessages;
 import org.juicecode.telehlam.database.messages.InsertMessage;
 import org.juicecode.telehlam.database.messages.Message;
@@ -76,8 +74,9 @@ public class ChatFragment extends Fragment {
                     insertMessage.execute();
                     messageChatAdapter.addItem(message);
                     messageField.setText("");
-                    InsertContact insertContact = new InsertContact(getContext(), new Contact(nameOfContactValue, phoneNumber));
-                    insertContact.execute();
+                    ContactTask<Void> contactTask = new ContactTask<>(getContext(),new Contact(nameOfContactValue, phoneNumber), ContactTask.Task.Insert);
+                    contactTask.execute();
+
                 }
             }
         });

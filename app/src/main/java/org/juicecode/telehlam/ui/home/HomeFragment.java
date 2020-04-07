@@ -1,32 +1,22 @@
 package org.juicecode.telehlam.ui.home;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
-import org.juicecode.telehlam.core.contacts.GetContacts;
+import org.juicecode.telehlam.core.contacts.ContactTask;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 public class HomeFragment extends Fragment {
 
@@ -48,14 +38,10 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         chatList.setLayoutManager(layoutManager);
         chatList.setHasFixedSize(true);
-        getContacts();
-
-
+        ContactTask<List<Contact>> contactTask = new ContactTask<>(getContext(),getViewLifecycleOwner(),chatListAdapter,chatList, ContactTask.Task.GetAll);
+        contactTask.execute();
         return root;
     }
 
-    private void getContacts() {
-        GetContacts getContacts = new GetContacts(getContext(), getViewLifecycleOwner(), chatListAdapter, chatList);
-        getContacts.execute();
-    }
+
 }
