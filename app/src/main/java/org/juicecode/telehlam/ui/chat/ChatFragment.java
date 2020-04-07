@@ -15,9 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
-import org.juicecode.telehlam.core.contacts.ContactTask;
-import org.juicecode.telehlam.database.messages.GetMessages;
-import org.juicecode.telehlam.database.messages.InsertMessage;
+import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.utils.KeyboardManager;
 
@@ -54,7 +52,7 @@ public class ChatFragment extends Fragment {
         chat.setNestedScrollingEnabled(false);
         messageField = view.findViewById(R.id.message_field);
         messageList = new ArrayList<>();
-        GetMessages getMessages = new GetMessages(getContext(), getViewLifecycleOwner(), messageChatAdapter, chat, phoneNumber);
+        DataBaseTask<List<Message>> getMessages = new DataBaseTask<>(getContext(),getViewLifecycleOwner(),messageChatAdapter,chat,phoneNumber, DataBaseTask.Task.GetAllMessages);
         getMessages.execute();
         sendbutton = view.findViewById(R.id.send_message_button);
         sendbutton.setOnClickListener(new View.OnClickListener() {
@@ -70,13 +68,10 @@ public class ChatFragment extends Fragment {
                     } else {
                         message = new Message(Message.MESSAGE_INCOMING, messageText, phoneNumber, "user");
                     }
-                    InsertMessage insertMessage = new InsertMessage(getActivity(), message);
-                    insertMessage.execute();
+                    DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(getContext(),new Contact(nameOfContactValue, phoneNumber),message, DataBaseTask.Task.InsertMessage);
+                    dataBaseTask.execute();
                     messageChatAdapter.addItem(message);
                     messageField.setText("");
-                    ContactTask<Void> contactTask = new ContactTask<>(getContext(),new Contact(nameOfContactValue, phoneNumber), ContactTask.Task.Insert);
-                    contactTask.execute();
-
                 }
             }
         });
