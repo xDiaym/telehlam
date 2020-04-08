@@ -1,4 +1,4 @@
-package org.juicecode.hlam.ui.home;
+package org.juicecode.telehlam.ui.home;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,22 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
-
 import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
-import org.juicecode.telehlam.database.DataBaseTask;
-import org.juicecode.telehlam.ui.chat.ChatFragment;
-
+import  org.juicecode.telehlam.ui.chat.ChatFragment;
 import java.util.List;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatViewHolder> {
 

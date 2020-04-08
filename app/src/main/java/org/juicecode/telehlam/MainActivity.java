@@ -1,4 +1,4 @@
-package org.juicecode.hlam;
+package org.juicecode.telehlam;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    adFragment(new ContactsFragment());
+                    addFragment(new ContactsFragment());
                 } else {
 
                 }

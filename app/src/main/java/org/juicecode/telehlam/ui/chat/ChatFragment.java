@@ -1,4 +1,4 @@
-package org.juicecode.hlam.ui.chat;
+package org.juicecode.telehlam.ui.chat;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,18 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
-
-import org.juicecode.hlam.MainActivity;
-import org.juicecode.hlam.R;
-import org.juicecode.hlam.core.DBClient;
-import org.juicecode.hlam.core.contacts.AppDataBase;
-import org.juicecode.hlam.core.contacts.Contact;
-import org.juicecode.hlam.core.contacts.ContactDao;
-import org.juicecode.hlam.core.contacts.InsertContact;
-import org.juicecode.hlam.core.messaging.IncomingMessage;
-import org.juicecode.hlam.core.messaging.Message;
-import org.juicecode.hlam.core.messaging.OutgoingMessage;
+import org.juicecode.telehlam.R;
+import org.juicecode.telehlam.core.contacts.Contact;
+import org.juicecode.telehlam.database.DataBaseTask;
+import org.juicecode.telehlam.database.messages.Message;
+import org.juicecode.telehlam.utils.KeyboardManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +29,8 @@ public class ChatFragment extends Fragment {
     EditText messageField;
     ImageButton sendbutton;
     ImageButton goBack;
-    String phoneNumber;
     String nameOfContactValue;
-    Context context;
+    String phoneNumber;
     MessageChatAdapter messageChatAdapter;
     List<Message> messageList;
 
@@ -48,9 +40,6 @@ public class ChatFragment extends Fragment {
 
         Context context = getContext();
         chat = view.findViewById(R.id.chat);
-        messageField = view.findViewById(R.id.message_field);
-
-        Context context = getContext();
         LinearLayoutManager linearLayout = new LinearLayoutManager(context);
         chat.setLayoutManager(linearLayout);
         messageChatAdapter = new MessageChatAdapter();
@@ -87,10 +76,7 @@ public class ChatFragment extends Fragment {
             }
         });
 
-        Bundle arguments = getArguments();
-        String[] values = arguments.getStringArray("information");
-        nameOfContactValue = values[0];
-        phoneNumber = values[1];
+
         nameOfContact = view.findViewById(R.id.chat_name);
         nameOfContact.setText(nameOfContactValue);
 
@@ -98,27 +84,11 @@ public class ChatFragment extends Fragment {
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                hideKeyboard(getActivity());
+                KeyboardManager.hideKeyboard(getActivity());
                 getActivity().onBackPressed();
-                messageField.clearFocus();
             }
         });
 
         return view;
     }
-
-    public void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-
-        View view = activity.getCurrentFocus();
-
-        if (view != null) {
-
-            // hide the keyboard
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
-
 }

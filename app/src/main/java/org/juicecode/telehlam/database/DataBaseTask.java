@@ -31,9 +31,9 @@ public class DataBaseTask<T> extends AsyncTask<Void,Void,T> {
     private MessageChatAdapter messageChatAdapter;
     private Message message;
     private List<Message> messages = new ArrayList<>();
-    private String author;
     private String receiver;
     private RecyclerView chat;
+
     public enum Task {
         GetAllContacts,InsertMessage,GetAllMessages,DeleteAllMessageHistory
     }

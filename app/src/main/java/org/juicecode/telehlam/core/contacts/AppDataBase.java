@@ -1,4 +1,4 @@
-package org.juicecode.hlam.core.contacts;
+package org.juicecode.telehlam.core.contacts;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
