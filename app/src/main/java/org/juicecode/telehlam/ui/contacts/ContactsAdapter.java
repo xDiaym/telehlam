@@ -1,4 +1,4 @@
-package org.juicecode.telehlam.ui.contacts;
+package org.juicecode.hlam.ui.contacts;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import org.juicecode.telehlam.ui.chat.ChatFragment;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactViewHolder> {
     private ArrayList<Contact> contacts;

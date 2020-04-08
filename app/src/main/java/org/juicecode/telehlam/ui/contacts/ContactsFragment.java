@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class ContactsFragment extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback {
     private RecyclerView contactsRecycler;
     private ImageButton goBackButton;
+
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.contacts_list, container, false);
         contactsRecycler = view.findViewById(R.id.listOfContacts);

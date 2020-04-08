@@ -1,4 +1,4 @@
-package org.juicecode.telehlam.ui.home;
+package org.juicecode.hlam.ui.home;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.MainActivity;
@@ -22,6 +21,9 @@ import org.juicecode.telehlam.ui.chat.ChatFragment;
 
 import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatViewHolder> {
 
     List<Contact> contacts;
@@ -29,10 +31,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
 
     public ChatListAdapter(Context context, List<Contact> contacts) {
         parent = context;
-
         this.contacts = contacts;
-
-
     }
     public void deleteElement(String phone){
         for(Contact c:contacts){

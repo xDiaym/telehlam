@@ -1,11 +1,11 @@
-package org.juicecode.telehlam;
+package org.juicecode.hlam;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -22,6 +21,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.juicecode.telehlam.ui.contacts.ContactsFragment;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
@@ -30,6 +30,7 @@ import org.juicecode.telehlam.utils.PermissionCode;
 public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private static final int READ_CONTACTS = 100;
     private DrawerLayout drawer;
 
     //NavigationView navigationView = findViewById(R.id.nav_view);
@@ -45,9 +46,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPermission(Manifest.permission.READ_CONTACTS,
-                        PermissionCode.PERMISSION_READ_CONTACTS);
-                addFragment(new ContactsFragment());
+            checkPermission();
             }
         });
 
@@ -98,14 +97,38 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 .commit();
     }
 
-    public void checkPermission(String permission, int requestCode) {
-        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
-        }
-        // TODO исправить ошибочку
+    public void lockDrawer() {
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    public void unLockDrawer() {
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+    public void checkPermission(){
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, READ_CONTACTS);
+    }
+    else {
+        addFragment(new ContactsFragment());
+    }
+}
+
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case READ_CONTACTS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    adFragment(new ContactsFragment());
+                } else {
+
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
     }
 }
