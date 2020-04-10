@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/textOrIcons"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimaryDark">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center_horizontal"
+            android:text="@string/authorisation"
+            android:textAlignment="center"
+            android:textColor="@color/textOrIcons"
+            android:textSize="24sp">
+
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="60dp"
+            android:background="@drawable/bottom_border"
+            android:hint="@string/login"
+            android:textColor="@color/primaryText"
+            android:textColorHint="@color/secondaryText"></EditText>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="60dp"
+            android:background="@drawable/bottom_border"
+            android:hint="@string/password"
+            android:textColor="@color/primaryText"
+
+            android:textColorHint="@color/secondaryText"></EditText>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:gravity="center_horizontal"
+            android:text="@string/entry"
+            android:textAlignment="center" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/textOrIcons"
+            android:gravity="center_horizontal"
+            android:text="@string/forget_password"
+            android:textColor="@color/primaryText"
+
+            android:textSize="10sp"
+            android:padding="10dp"
+            ></Button>
+
+        <Button
+            android:id="@+id/registration_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:backgroundTint="@color/textOrIcons"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/registration"
+            android:textColor="@color/primaryText"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+
+
+</LinearLayout>
