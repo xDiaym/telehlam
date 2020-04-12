@@ -15,6 +15,8 @@ import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
 import  org.juicecode.telehlam.ui.chat.ChatFragment;
+import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
+
 import java.util.List;
 
 
@@ -77,15 +79,13 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
 
                 @Override
                 public void onClick(View v) {
-                    MainActivity mainActivity = (MainActivity) v.getContext();
-                    FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    FragmentManagerSimplifier simplifier = (FragmentManagerSimplifier)v.getContext();
                     ChatFragment chatFragment = new ChatFragment();
                     Bundle sendingChatName = new Bundle();
                     String chatNameValue = (String) chatName.getText();
                     sendingChatName.putStringArray("information", new String[]{chatNameValue,phoneNumber});
                     chatFragment.setArguments(sendingChatName);
-                    fragmentTransaction.replace(R.id.drawer_layout, chatFragment, "tag").addToBackStack(null).commit();
+                    simplifier.replaceFragment(chatFragment);
                 }
             });
 

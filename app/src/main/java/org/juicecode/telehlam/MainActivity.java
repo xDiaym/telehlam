@@ -3,6 +3,7 @@ package org.juicecode.telehlam;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -24,6 +26,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.juicecode.telehlam.ui.contacts.ContactsFragment;
+import org.juicecode.telehlam.ui.home.HomeFragment;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.PermissionCode;
 
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         });
 
         drawer = findViewById(R.id.drawer_layout);
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -80,6 +84,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     }
 
     public void addFragment(Fragment fragment) {
+        if(fragment instanceof HomeFragment){
+            drawer.openDrawer(GravityCompat.START);
+        }else{
+            drawer.closeDrawer(GravityCompat.START);
+        }
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.drawer_layout, fragment)
@@ -88,11 +97,17 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     }
 
     public void replaceFragment(Fragment fragment) {
+        if(fragment instanceof HomeFragment){
+            drawer.openDrawer(GravityCompat.START);
+        }else{
+            drawer.closeDrawer(GravityCompat.START);
+        }
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack();
         fragmentManager
                 .beginTransaction()
-                .add(R.id.drawer_layout, fragment)
+                .replace(R.id.drawer_layout, fragment)
                 .addToBackStack(fragment.getClass().getName())
                 .commit();
     }

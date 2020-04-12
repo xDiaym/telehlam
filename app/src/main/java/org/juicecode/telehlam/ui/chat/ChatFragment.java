@@ -17,6 +17,8 @@ import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
 import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.database.messages.Message;
+import org.juicecode.telehlam.ui.home.HomeFragment;
+import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
 
 import java.util.ArrayList;
@@ -85,7 +87,7 @@ public class ChatFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 KeyboardManager.hideKeyboard(getActivity());
-                getActivity().onBackPressed();
+               getActivity().onBackPressed();
             }
         });
 
