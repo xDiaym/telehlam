@@ -20,6 +20,7 @@ import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.ui.home.HomeFragment;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
+import org.juicecode.telehlam.utils.NavigationViewLocker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,8 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
-
+        final NavigationViewLocker navigationViewLocker = (NavigationViewLocker)view.getContext();
+        navigationViewLocker.lockDrawer();
         Context context = getContext();
         chat = view.findViewById(R.id.chat);
         LinearLayoutManager linearLayout = new LinearLayoutManager(context);
@@ -88,6 +90,8 @@ public class ChatFragment extends Fragment {
             public void onClick(View v) {
                 KeyboardManager.hideKeyboard(getActivity());
                getActivity().onBackPressed();
+               navigationViewLocker.unlockDrawer();
+
             }
         });
 

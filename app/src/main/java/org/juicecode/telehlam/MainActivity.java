@@ -1,11 +1,13 @@
 package org.juicecode.telehlam;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,32 +18,37 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.juicecode.telehlam.ui.contacts.ContactsFragment;
 import org.juicecode.telehlam.ui.home.HomeFragment;
+import org.juicecode.telehlam.ui.registration.AuthorisationFragment;
+import org.juicecode.telehlam.utils.Constant;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
+import org.juicecode.telehlam.utils.NavigationViewLocker;
 import org.juicecode.telehlam.utils.PermissionCode;
 
-public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier {
-
+public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier, NavigationViewLocker {
     private AppBarConfiguration mAppBarConfiguration;
     private static final int READ_CONTACTS = 100;
     private DrawerLayout drawer;
-
-    //NavigationView navigationView = findViewById(R.id.nav_view);
+    private NavController navController;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(!Constant.isRegistered){
+            addFragment(new AuthorisationFragment(),"authorisation");
 
+        }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -64,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 .build();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
@@ -83,48 +90,41 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 || super.onSupportNavigateUp();
     }
 
-    public void addFragment(Fragment fragment) {
-        if(fragment instanceof HomeFragment){
-            drawer.openDrawer(GravityCompat.START);
-        }else{
-            drawer.closeDrawer(GravityCompat.START);
-        }
+    public void addFragment(Fragment fragment,String tag) {
         getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.drawer_layout, fragment,tag)
+                .addToBackStack(fragment.getClass().getName())
+                .commit();
+    }
+
+    @Override
+    public void remove(String tag) {
+       FragmentManager fragmentManager = getSupportFragmentManager();
+       FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+       if(fragmentManager.findFragmentByTag(tag)!=null){
+           fragmentTransaction.remove(fragmentManager.findFragmentByTag(tag)).commit();
+       }
+    }
+
+
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack();
+        fragmentManager
                 .beginTransaction()
                 .add(R.id.drawer_layout, fragment)
                 .addToBackStack(fragment.getClass().getName())
                 .commit();
     }
 
-    public void replaceFragment(Fragment fragment) {
-        if(fragment instanceof HomeFragment){
-            drawer.openDrawer(GravityCompat.START);
-        }else{
-            drawer.closeDrawer(GravityCompat.START);
-        }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.popBackStack();
-        fragmentManager
-                .beginTransaction()
-                .replace(R.id.drawer_layout, fragment)
-                .addToBackStack(fragment.getClass().getName())
-                .commit();
-    }
-
-    public void lockDrawer() {
-        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-    }
-
-    public void unLockDrawer() {
-        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-    }
     public void checkPermission(){
     if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, READ_CONTACTS);
     }
     else {
-        addFragment(new ContactsFragment());
+        addFragment(new ContactsFragment(),"contacts");
     }
 }
 
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    addFragment(new ContactsFragment());
+                    addFragment(new ContactsFragment(),"contacts");
                 } else {
 
                 }
@@ -145,5 +145,15 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             // other 'case' lines to check for other
             // permissions this app might request.
         }
+    }
+
+    @Override
+    public void lockDrawer() {
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    @Override
+    public void unlockDrawer() {
+    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 }

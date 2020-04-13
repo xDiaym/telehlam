@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:id="@+id/header"
     android:orientation="horizontal"
-    android:background="@color/colorPrimaryDark"
+    android:background="@drawable/side_nav_bar"
     >
 
     <ImageButton
