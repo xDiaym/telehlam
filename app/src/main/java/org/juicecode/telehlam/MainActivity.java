@@ -32,15 +32,15 @@ import org.juicecode.telehlam.ui.home.HomeFragment;
 import org.juicecode.telehlam.ui.registration.AuthorisationFragment;
 import org.juicecode.telehlam.utils.Constant;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
-import org.juicecode.telehlam.utils.NavigationViewLocker;
+
 import org.juicecode.telehlam.utils.PermissionCode;
 
-public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier, NavigationViewLocker {
+public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier {
     private AppBarConfiguration mAppBarConfiguration;
     private static final int READ_CONTACTS = 100;
     private DrawerLayout drawer;
     private NavController navController;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
     }
 
     @Override
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         fragmentManager.popBackStack();
         fragmentManager
                 .beginTransaction()
-                .add(R.id.drawer_layout, fragment)
+                .replace(R.id.drawer_layout, fragment)
                 .addToBackStack(fragment.getClass().getName())
                 .commit();
     }

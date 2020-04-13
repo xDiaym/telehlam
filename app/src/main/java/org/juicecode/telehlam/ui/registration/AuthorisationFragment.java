@@ -15,7 +15,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
-import org.juicecode.telehlam.utils.NavigationViewLocker;
+
 
 public class AuthorisationFragment extends Fragment {
     Button goToRegistrationFragment;
@@ -29,15 +29,16 @@ public class AuthorisationFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier)v.getContext();
                 fragmentManagerSimplifier.remove("authorisation");
+                fragmentManagerSimplifier.unlockDrawer();
             }
         });
         goToRegistrationFragment = view.findViewById(R.id.registration_button);
-        NavigationViewLocker navigationViewLocker = (NavigationViewLocker)view.getContext();
-        navigationViewLocker.lockDrawer();
+       final FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier)view.getContext();
+        fragmentManagerSimplifier.lockDrawer();
         goToRegistrationFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier)v.getContext();
+                fragmentManagerSimplifier.unlockDrawer();
                 fragmentManagerSimplifier.addFragment(new RegistrationFragment(),"registration");
             }
         });

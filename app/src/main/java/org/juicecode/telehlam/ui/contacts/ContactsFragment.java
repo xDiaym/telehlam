@@ -17,7 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
-import org.juicecode.telehlam.utils.NavigationViewLocker;
+import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
+
 
 import java.util.ArrayList;
 
@@ -28,8 +29,8 @@ public class ContactsFragment extends Fragment implements ActivityCompat.OnReque
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = layoutInflater.inflate(R.layout.contacts_list, container, false);
-        final NavigationViewLocker navigationViewLocker = (NavigationViewLocker)view.getContext();
-        navigationViewLocker.lockDrawer();
+        final FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier) view.getContext();
+        fragmentManagerSimplifier.lockDrawer();
         contactsRecycler = view.findViewById(R.id.listOfContacts);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         contactsRecycler.setLayoutManager(layoutManager);
@@ -40,7 +41,7 @@ public class ContactsFragment extends Fragment implements ActivityCompat.OnReque
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
-                navigationViewLocker.unlockDrawer();
+                fragmentManagerSimplifier.unlockDrawer();
             }
         });
         return view;

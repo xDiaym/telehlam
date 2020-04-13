@@ -16,7 +16,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
-import org.juicecode.telehlam.utils.NavigationViewLocker;
 
 public class RegistrationFragment  extends Fragment {
     ImageButton goBackButton;
@@ -29,13 +28,15 @@ public class RegistrationFragment  extends Fragment {
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.registration_fragment, container, false);
         floatingActionButton = view.findViewById(R.id.login_registration);
-        NavigationViewLocker navigationViewLocker = (NavigationViewLocker)view.getContext();
-        navigationViewLocker.lockDrawer();
+        final FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier)view.getContext();
+        fragmentManagerSimplifier.lockDrawer();
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier)v.getContext();
+
                 fragmentManagerSimplifier.remove("registration");
+                fragmentManagerSimplifier.remove("authorisation");
+                fragmentManagerSimplifier.unlockDrawer();
             }
         });
         goBackButton = view.findViewById(R.id.goBackButton);
