@@ -26,5 +26,6 @@
     <string name="repeat_password">Repeat password</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
-    <string name="email">email (optionally)</string>
+    <string name="email">Email (optionally)</string>
+    <string name="phoneNumber">Phone number</string>
 </resources>

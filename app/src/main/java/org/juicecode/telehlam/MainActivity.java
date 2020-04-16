@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,11 +41,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private static final int READ_CONTACTS = 100;
     private DrawerLayout drawer;
     private NavController navController;
-
+    private TextView userLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         if(!Constant.isRegistered){
             addFragment(new AuthorisationFragment(),"authorisation");
 
@@ -74,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
+        //userLogin = findViewById(R.id.userLogin);
     }
 
     @Override
@@ -156,5 +159,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     @Override
     public void unlockDrawer() {
     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+    /*if(userLogin.getText().toString().isEmpty()){
+        userLogin.setText(Constant.getUserLogin());
+    }*/
     }
 }

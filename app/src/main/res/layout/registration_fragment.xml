@@ -48,10 +48,11 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:id="@+id/nameField"
+            android:layout_height="45dp"
             android:layout_gravity="left"
             android:layout_marginLeft="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:layout_marginRight="60dp"
             android:background="@drawable/bottom_border"
             android:hint="@string/name"
@@ -59,23 +60,37 @@
             android:textColorHint="@color/secondaryText"></EditText>
 
         <EditText
+            android:id="@+id/surnameField"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_gravity="left"
             android:layout_marginLeft="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:layout_marginRight="60dp"
             android:background="@drawable/bottom_border"
             android:hint="@string/surname"
             android:textColor="@color/primaryText"
             android:textColorHint="@color/secondaryText"></EditText>
-
         <EditText
+            android:id="@+id/phoneField"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_gravity="left"
             android:layout_marginLeft="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="60dp"
+            android:background="@drawable/bottom_border"
+            android:hint="@string/phoneNumber"
+            android:textColor="@color/primaryText"
+            android:textColorHint="@color/secondaryText"></EditText>
+
+        <EditText
+            android:id="@+id/loginField"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="15dp"
             android:layout_marginRight="60dp"
             android:background="@drawable/bottom_border"
             android:hint="@string/login"
@@ -83,11 +98,12 @@
             android:textColorHint="@color/secondaryText"></EditText>
 
         <EditText
+            android:id="@+id/passwordField"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_gravity="left"
             android:layout_marginLeft="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:layout_marginRight="60dp"
             android:background="@drawable/bottom_border"
             android:hint="@string/password"
@@ -96,11 +112,12 @@
             android:textColorHint="@color/secondaryText"></EditText>
 
         <EditText
+            android:id="@+id/repeatPasswordField"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_gravity="left"
             android:layout_marginLeft="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:layout_marginRight="60dp"
             android:background="@drawable/bottom_border"
             android:hint="@string/repeat_password"
@@ -109,11 +126,12 @@
             android:textColorHint="@color/secondaryText"></EditText>
 
         <EditText
+            android:id="@+id/emailField"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_gravity="left"
             android:layout_marginLeft="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:layout_marginRight="60dp"
             android:background="@drawable/bottom_border"
             android:hint="@string/email"
