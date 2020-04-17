@@ -7,6 +7,6 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface AuthorisationAPI {
-    @POST("/signup")
+    @POST("/user/signup")
     Call<User> registerUser(@Body User user);
 }

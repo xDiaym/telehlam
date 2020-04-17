@@ -125,29 +125,17 @@
 
             android:textColorHint="@color/secondaryText"></EditText>
 
-        <EditText
-            android:id="@+id/emailField"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_gravity="left"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="60dp"
-            android:background="@drawable/bottom_border"
-            android:hint="@string/email"
-            android:textColor="@color/primaryText"
-            android:textColorHint="@color/secondaryText"></EditText>
 
-
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/login_registration"
+        <Button
             android:layout_width="wrap_content"
+            android:id="@+id/login_registration"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
-            android:gravity="center_horizontal"
-            android:text="@string/entry"
-            android:textAlignment="center" />
+            android:background="@drawable/login_background"
+            android:padding="10dp"
+            android:text="@string/login"
+            android:textColor="@color/textOrIcons"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"></Button>
     </LinearLayout>
 
 </LinearLayout>
