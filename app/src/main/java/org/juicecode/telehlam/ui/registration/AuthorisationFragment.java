@@ -1,6 +1,7 @@
 package org.juicecode.telehlam.ui.registration;
 
 
+import android.content.Context;
 import android.graphics.ImageDecoder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,32 +15,36 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 
 import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
+import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
 
 public class AuthorisationFragment extends Fragment {
     Button goToRegistrationFragment;
     ExtendedFloatingActionButton floatingActionButton;
+
     @Override
-    public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater layoutInflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.authorisation_fragment, container, false);
         floatingActionButton = view.findViewById(R.id.login_authorisation);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier)v.getContext();
-                fragmentManagerSimplifier.remove("authorisation");
-                fragmentManagerSimplifier.unlockDrawer();
+                Context context = v.getContext();
+                ((FragmentManagerSimplifier) context).remove("authorisation");
+                ((DrawerLocker) context).setDrawerLock(true);
             }
         });
+
         goToRegistrationFragment = view.findViewById(R.id.registration_button);
-       final FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier)view.getContext();
-        fragmentManagerSimplifier.lockDrawer();
+        final DrawerLocker drawerLocker = (DrawerLocker)view.getContext();
+        drawerLocker.setDrawerLock(true);
+
         goToRegistrationFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentManagerSimplifier.unlockDrawer();
-                fragmentManagerSimplifier.addFragment(new RegistrationFragment(),"registration");
+                drawerLocker.setDrawerLock(false);
+                ((FragmentManagerSimplifier) getContext()).addFragment(new RegistrationFragment(),"registration");
             }
         });
         return view;

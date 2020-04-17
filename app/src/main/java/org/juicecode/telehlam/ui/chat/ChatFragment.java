@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,7 @@ import org.juicecode.telehlam.core.contacts.Contact;
 import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.ui.home.HomeFragment;
+import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
 
@@ -40,8 +42,10 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
-        final FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier) view.getContext();
-        fragmentManagerSimplifier.lockDrawer();
+
+        final DrawerLocker drawerLocker = (DrawerLocker) view.getContext();
+        drawerLocker.setDrawerLock(true);
+
         Context context = getContext();
         chat = view.findViewById(R.id.chat);
         LinearLayoutManager linearLayout = new LinearLayoutManager(context);
@@ -90,8 +94,7 @@ public class ChatFragment extends Fragment {
             public void onClick(View v) {
                 KeyboardManager.hideKeyboard(getActivity());
                getActivity().onBackPressed();
-               fragmentManagerSimplifier.unlockDrawer();
-
+               drawerLocker.setDrawerLock(false);
             }
         });
 

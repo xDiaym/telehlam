@@ -8,7 +8,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,18 +35,18 @@ import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
 import org.juicecode.telehlam.utils.PermissionCode;
 
-public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier {
+
+public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier,
+        DrawerLocker {
     private AppBarConfiguration mAppBarConfiguration;
     private static final int READ_CONTACTS = 100;
     private DrawerLayout drawer;
     private NavController navController;
-    private TextView userLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         if(!Constant.isRegistered){
             addFragment(new AuthorisationFragment(),"authorisation");
 
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        //userLogin = findViewById(R.id.userLogin);
+
     }
 
     @Override
@@ -124,18 +123,20 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
 
     public void checkPermission(){
-    if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, READ_CONTACTS);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_CONTACTS}, PermissionCode.PERMISSION_READ_CONTACTS);
+        }
+        else {
+            addFragment(new ContactsFragment(),"contacts");
+        }
     }
-    else {
-        addFragment(new ContactsFragment(),"contacts");
-    }
-}
 
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case READ_CONTACTS: {
+            case PermissionCode.PERMISSION_READ_CONTACTS: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -152,15 +153,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     }
 
     @Override
-    public void lockDrawer() {
-        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    public void setDrawerLock(boolean lock) {
+        drawer.setDrawerLockMode(lock
+                ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+                : DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
-    @Override
-    public void unlockDrawer() {
-    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-    /*if(userLogin.getText().toString().isEmpty()){
-        userLogin.setText(Constant.getUserLogin());
-    }*/
-    }
 }

@@ -9,18 +9,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
 
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
-import org.juicecode.telehlam.rest.User;
 import org.juicecode.telehlam.utils.Constant;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
@@ -28,7 +25,6 @@ import org.juicecode.telehlam.utils.KeyboardManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class RegistrationFragment  extends Fragment {
     private ImageButton goBackButton;
@@ -38,12 +34,13 @@ public class RegistrationFragment  extends Fragment {
     private EditText nameField;
     private EditText surnameField;
     private EditText phoneField;
-
     private EditText repeatPassword;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.registration_fragment, container, false);
+
+        floatingActionButton = view.findViewById(R.id.login_registration);
         final FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier)view.getContext();
         fragmentManagerSimplifier.lockDrawer();
 
@@ -54,6 +51,8 @@ public class RegistrationFragment  extends Fragment {
         nameField = view.findViewById(R.id.nameField);
         surnameField = view.findViewById(R.id.surnameField);
         phoneField = view.findViewById(R.id.phoneField);
+        final DrawerLocker drawerLocker = (DrawerLocker) view.getContext();
+        drawerLocker.setDrawerLock(true);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
 
             private String name;
@@ -109,8 +108,12 @@ public class RegistrationFragment  extends Fragment {
 
 
 
+                fragmentManagerSimplifier.remove("registration");
+                fragmentManagerSimplifier.remove("authorisation");
+                drawerLocker.setDrawerLock(false);
             }
         });
+
         goBackButton = view.findViewById(R.id.goBackButton);
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override

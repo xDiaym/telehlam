@@ -10,7 +10,10 @@ public class DBClient {
     private static DBClient instance;
 
     private DBClient(Context context) {
-        appDataBase = databaseBuilder(context, AppDataBase.class, "DataBase").fallbackToDestructiveMigration().build();
+        appDataBase = databaseBuilder(context, AppDataBase.class, "DataBase")
+                .fallbackToDestructiveMigrationOnDowngrade()
+                //.fallbackToDestructiveMigration()
+                .build();
     }
 
     public static DBClient getInstance(Context context) {
