@@ -18,7 +18,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
+import org.juicecode.telehlam.rest.User;
 import org.juicecode.telehlam.utils.Constant;
+import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
 
@@ -42,7 +44,7 @@ public class RegistrationFragment  extends Fragment {
 
         floatingActionButton = view.findViewById(R.id.login_registration);
         final FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier)view.getContext();
-        fragmentManagerSimplifier.lockDrawer();
+
 
         floatingActionButton = view.findViewById(R.id.login_registration);
         loginField = view.findViewById(R.id.loginField);
@@ -92,7 +94,7 @@ public class RegistrationFragment  extends Fragment {
                                 Constant.setUserLogin(login);
                                 fragmentManagerSimplifier.remove("registration");
                                 fragmentManagerSimplifier.remove("authorisation");
-                                fragmentManagerSimplifier.unlockDrawer();
+                                drawerLocker.setDrawerLock(false);
                                 Constant.isRegistered = true;
                                 Log.i("responseMessage",response.body().toString());
                             }

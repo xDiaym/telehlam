@@ -31,6 +31,7 @@ import org.juicecode.telehlam.ui.contacts.ContactsFragment;
 import org.juicecode.telehlam.ui.home.HomeFragment;
 import org.juicecode.telehlam.ui.registration.AuthorisationFragment;
 import org.juicecode.telehlam.utils.Constant;
+import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
 import org.juicecode.telehlam.utils.PermissionCode;
