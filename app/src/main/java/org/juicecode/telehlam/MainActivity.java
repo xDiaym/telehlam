@@ -26,12 +26,12 @@ import org.juicecode.telehlam.ui.registration.AuthorisationFragment;
 import org.juicecode.telehlam.utils.Constant;
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
+import org.juicecode.telehlam.utils.PermissionCode;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier,
         DrawerLocker {
     private AppBarConfiguration mAppBarConfiguration;
-    private static final int READ_CONTACTS = 100;
     private DrawerLayout drawer;
     private NavController navController;
 
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_CONTACTS}, READ_CONTACTS);
+                        new String[]{Manifest.permission.READ_CONTACTS}, PermissionCode.PERMISSION_READ_CONTACTS);
         }
         else {
             addFragment(new ContactsFragment(),"contacts");
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case READ_CONTACTS: {
+            case PermissionCode.PERMISSION_READ_CONTACTS: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
