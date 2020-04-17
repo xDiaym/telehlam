@@ -1,20 +1,15 @@
 package org.juicecode.telehlam;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -25,17 +20,16 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.juicecode.telehlam.ui.contacts.ContactsFragment;
-import org.juicecode.telehlam.ui.home.HomeFragment;
 import org.juicecode.telehlam.ui.registration.AuthorisationFragment;
 import org.juicecode.telehlam.utils.Constant;
+import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
-import org.juicecode.telehlam.utils.PermissionCode;
 
-public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier {
+public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier,
+        DrawerLocker {
     private AppBarConfiguration mAppBarConfiguration;
     private static final int READ_CONTACTS = 100;
     private DrawerLayout drawer;
@@ -121,13 +115,15 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
 
     public void checkPermission(){
-    if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, READ_CONTACTS);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_CONTACTS}, READ_CONTACTS);
+        }
+        else {
+            addFragment(new ContactsFragment(),"contacts");
+        }
     }
-    else {
-        addFragment(new ContactsFragment(),"contacts");
-    }
-}
 
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
@@ -149,12 +145,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     }
 
     @Override
-    public void lockDrawer() {
-        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    public void setDrawerLock(boolean lock) {
+        drawer.setDrawerLockMode(lock
+                ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+                : DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
-    @Override
-    public void unlockDrawer() {
-    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-    }
 }

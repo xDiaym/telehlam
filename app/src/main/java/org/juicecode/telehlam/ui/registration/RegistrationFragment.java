@@ -14,6 +14,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.juicecode.telehlam.R;
+import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
 
@@ -22,23 +23,23 @@ public class RegistrationFragment  extends Fragment {
     ExtendedFloatingActionButton floatingActionButton;
     RegistrationFragment registrationFragment = this;
 
-
-
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.registration_fragment, container, false);
+
         floatingActionButton = view.findViewById(R.id.login_registration);
         final FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier)view.getContext();
-        fragmentManagerSimplifier.lockDrawer();
+        final DrawerLocker drawerLocker = (DrawerLocker) view.getContext();
+        drawerLocker.setDrawerLock(true);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 fragmentManagerSimplifier.remove("registration");
                 fragmentManagerSimplifier.remove("authorisation");
-                fragmentManagerSimplifier.unlockDrawer();
+                drawerLocker.setDrawerLock(false);
             }
         });
+
         goBackButton = view.findViewById(R.id.goBackButton);
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
