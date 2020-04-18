@@ -18,11 +18,6 @@ import java.util.List;
 
 public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> {
     private List<Message> messages;
-    private Context context;
-    public MessageChatAdapter(List<Message> messages,Context context) {
-        this.messages = messages;
-        this.context = context;
-    }
 
     public MessageChatAdapter(){
         this.messages = new ArrayList<>();

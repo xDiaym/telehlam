@@ -2,7 +2,6 @@ package org.juicecode.telehlam.ui.registration;
 
 
 import android.content.Context;
-import android.graphics.ImageDecoder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
-import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
@@ -21,7 +19,7 @@ import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
 public class AuthorisationFragment extends Fragment {
     Button goToRegistrationFragment;
-    ExtendedFloatingActionButton floatingActionButton;
+    Button floatingActionButton;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -32,7 +30,7 @@ public class AuthorisationFragment extends Fragment {
             public void onClick(View v) {
                 Context context = v.getContext();
                 ((FragmentManagerSimplifier) context).remove("authorisation");
-                ((DrawerLocker) context).setDrawerLock(true);
+                ((DrawerLocker) context).setDrawerLock(false);
             }
         });
 
@@ -43,8 +41,8 @@ public class AuthorisationFragment extends Fragment {
         goToRegistrationFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLocker.setDrawerLock(false);
-                ((FragmentManagerSimplifier) getContext()).addFragment(new RegistrationFragment(),"registration");
+
+                ((FragmentManagerSimplifier) getContext()).addFragment(new FirstRegistrationFragment(),"firstRegistrationFragment");
             }
         });
         return view;

@@ -55,6 +55,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                 public void onClick(View v) {
                     FragmentManagerSimplifier simplifier = (FragmentManagerSimplifier) v.getContext();
                     ChatFragment chatFragment = new ChatFragment();
+                    //sending contact info to ChatFragment
                     Bundle sendingChatName = new Bundle();
                     String chatNameValue = (String) contactName.getText();
                     sendingChatName.putStringArray("information", new String[]{chatNameValue, phoneNumber});

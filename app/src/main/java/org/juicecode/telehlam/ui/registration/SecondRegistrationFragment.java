@@ -1,5 +1,7 @@
 package org.juicecode.telehlam.ui.registration;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,13 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
@@ -28,75 +25,79 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegistrationFragment  extends Fragment {
+public class SecondRegistrationFragment extends Fragment {
+    //UI elements
     private ImageButton goBackButton;
     private Button floatingActionButton;
     private EditText loginField;
     private EditText passwordField;
-    private EditText nameField;
-    private EditText surnameField;
-    private EditText phoneField;
     private EditText repeatPassword;
-
+    private Bundle gettingArguments;
+    private SharedPreferences sharedPreferences;
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = layoutInflater.inflate(R.layout.registration_fragment, container, false);
+        View view = layoutInflater.inflate(R.layout.second_registration_fragment, container, false);
 
         floatingActionButton = view.findViewById(R.id.login_registration);
-        final FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier)view.getContext();
+        final FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier) view.getContext();
 
-
+        //set UI elements
+        sharedPreferences = getActivity().getSharedPreferences("org.juicecode.telehlam", Context.MODE_PRIVATE);
         floatingActionButton = view.findViewById(R.id.login_registration);
         loginField = view.findViewById(R.id.loginField);
-        repeatPassword =view.findViewById(R.id.repeatPasswordField);
+        repeatPassword = view.findViewById(R.id.repeatPasswordField);
         passwordField = view.findViewById(R.id.passwordField);
-        nameField = view.findViewById(R.id.nameField);
-        surnameField = view.findViewById(R.id.surnameField);
-        phoneField = view.findViewById(R.id.phoneField);
+        //arguments from first fragment
+        gettingArguments = getArguments();
+        final String[] values = gettingArguments.getStringArray("argumentsFromFirstRegistration");
         final DrawerLocker drawerLocker = (DrawerLocker) view.getContext();
         drawerLocker.setDrawerLock(true);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
-
-            private String name;
-            private String surname;
+            //String value of fields
+            private String name = values[0];
+            private String surname = values[1];
             private String login;
-            private String phone ;
+            private String phone = values[2];
             private String password;
             private String repeatedPassword;
 
 
             @Override
             public void onClick(View v) {
-                name = nameField.getText().toString();
-                surname = surnameField.getText().toString();
+                //getting values
+
                 login = loginField.getText().toString();
-                phone = phoneField.getText().toString();
                 password = passwordField.getText().toString();
                 repeatedPassword = repeatPassword.getText().toString();
+                //check if user wrote all information
+                /*if (login.isEmpty()
+                        && password.isEmpty()
+                        && password.equals(repeatedPassword))
+                {*/
+                    if(login.isEmpty()){
 
-                if(!(name.isEmpty()
-                        &&surname.isEmpty()
-                        &&login.isEmpty()
-                        &&password.isEmpty())
-                        &&password.equals(repeatedPassword)
-                       ){
+                    }else{
 
                     RetrofitBuilder retrofit = new RetrofitBuilder();
 
-
-                    Call registerUser = retrofit.getAuthorisationAPI().registerUser(new User(login,password,name,surname));
+                    //register user with all info
+                    Call registerUser = retrofit.getAuthorisationAPI().registerUser(new User(login, password, name, surname));
                     registerUser.enqueue(new Callback() {
                         @Override
                         public void onResponse(Call call, Response response) {
-                            Log.i("responseBody", Integer.toString(response.code()));
-                            if(response.body()!=null){
-
+                            Log.i("responseCode", Integer.toString(response.code()));
+                            if (response.body() != null) {
+                                //TODO switch on SharedPreferences
                                 Constant.setUserLogin(login);
-                                fragmentManagerSimplifier.remove("registration");
+                                //removing fragments
+                                fragmentManagerSimplifier.remove("firstRegistrationFragment");
                                 fragmentManagerSimplifier.remove("authorisation");
+                                fragmentManagerSimplifier.remove("secondRegistrationFragment");
+                                sharedPreferences.edit().putBoolean("isNotRegistered",false).putString("userLogin",login).commit();
                                 drawerLocker.setDrawerLock(false);
+                                //TODO switch on SharedPreferences
                                 Constant.isRegistered = true;
-                                Log.i("responseMessage",response.body().toString());
+                                Log.i("responseMessage", response.body().toString());
                             }
                         }
 
@@ -108,11 +109,6 @@ public class RegistrationFragment  extends Fragment {
 
                 }
 
-
-
-                fragmentManagerSimplifier.remove("registration");
-                fragmentManagerSimplifier.remove("authorisation");
-                drawerLocker.setDrawerLock(false);
             }
         });
 

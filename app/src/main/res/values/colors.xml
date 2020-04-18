@@ -8,5 +8,5 @@
     <color name="secondaryText">#757575</color>
     <color name="textOrIcons">#FFFFFF</color>
     <color name="deviderColor">#BDBDBD</color>
-
+    <color name="errorColor">#E91E63</color>
 </resources>

@@ -18,6 +18,7 @@ public class RetrofitBuilder {
     }
 
     public static AuthorisationAPI getAuthorisationAPI() {
+        //getting API method
         authorisationAPI = retrofit.create(AuthorisationAPI.class);
         return authorisationAPI;
     }

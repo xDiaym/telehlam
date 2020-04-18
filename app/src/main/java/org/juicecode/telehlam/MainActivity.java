@@ -2,6 +2,7 @@ package org.juicecode.telehlam;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -43,18 +44,20 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private static final int READ_CONTACTS = 100;
     private DrawerLayout drawer;
     private NavController navController;
-
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(!Constant.isRegistered){
+
+        //check if user has registered and after add RegistrationFragment
+        if(getSharedPreferences("org.juicecode.telehlam",Context.MODE_PRIVATE).getBoolean("isNotRegistered",true)){
             addFragment(new AuthorisationFragment(),"authorisation");
 
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        //Checking permission if user tapped
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             checkPermission();
             }
         });
-
+        //all drawer stuff
         drawer = findViewById(R.id.drawer_layout);
 
         // Passing each menu ID as a set of Ids because each
@@ -148,8 +151,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 return;
             }
 
-            // other 'case' lines to check for other
-            // permissions this app might request.
+
         }
     }
 

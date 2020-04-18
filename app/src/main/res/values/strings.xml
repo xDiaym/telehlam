@@ -28,4 +28,13 @@
     <string name="surname">Surname</string>
     <string name="email">Email (optionally)</string>
     <string name="phoneNumber">Phone number</string>
+    <string name="next">next</string>
+    <string name="nameError">Enter name</string>
+    <string name="surnameError">Enter surname</string>
+    <string name="phoneError">Wrong phone number</string>
+    <string name="loginExist">This login is already exist</string>
+    <string name="loginError">Enter login</string>
+    <string name="passwordError">Enter password</string>
+    <string name="weakPassword">Password should have uppercase and lowercase and numbers</string>
+    <string name="wrongRepeatedPassword">Passwords do not match</string>
 </resources>

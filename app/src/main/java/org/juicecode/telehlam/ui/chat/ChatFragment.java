@@ -45,7 +45,7 @@ public class ChatFragment extends Fragment {
 
         final DrawerLocker drawerLocker = (DrawerLocker) view.getContext();
         drawerLocker.setDrawerLock(true);
-
+        //all variables get their values
         Context context = getContext();
         chat = view.findViewById(R.id.chat);
         LinearLayoutManager linearLayout = new LinearLayoutManager(context);
@@ -60,9 +60,15 @@ public class ChatFragment extends Fragment {
         chat.setNestedScrollingEnabled(false);
         messageField = view.findViewById(R.id.message_field);
         messageList = new ArrayList<>();
+        sendbutton = view.findViewById(R.id.send_message_button);
+        nameOfContact = view.findViewById(R.id.chat_name);
+        nameOfContact.setText(nameOfContactValue);
+        goBack = view.findViewById(R.id.go_back_button);
+        //getting all messages for chat
         DataBaseTask<List<Message>> getMessages = new DataBaseTask<>(getContext(),getViewLifecycleOwner(),messageChatAdapter,chat,phoneNumber, DataBaseTask.Task.GetAllMessages);
         getMessages.execute();
-        sendbutton = view.findViewById(R.id.send_message_button);
+
+
         sendbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,11 +90,6 @@ public class ChatFragment extends Fragment {
             }
         });
 
-
-        nameOfContact = view.findViewById(R.id.chat_name);
-        nameOfContact.setText(nameOfContactValue);
-
-        goBack = view.findViewById(R.id.go_back_button);
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
