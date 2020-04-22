@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -20,6 +22,9 @@ import org.juicecode.telehlam.utils.Constant;
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +39,9 @@ public class SecondRegistrationFragment extends Fragment {
     private EditText repeatPassword;
     private Bundle gettingArguments;
     private SharedPreferences sharedPreferences;
+    private TextView loginError;
+    private TextView passwordError;
+    private TextView repeatPasswordError;
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.second_registration_fragment, container, false);
@@ -47,6 +55,10 @@ public class SecondRegistrationFragment extends Fragment {
         loginField = view.findViewById(R.id.loginField);
         repeatPassword = view.findViewById(R.id.repeatPasswordField);
         passwordField = view.findViewById(R.id.passwordField);
+        loginError = view.findViewById(R.id.loginError);
+        passwordError = view.findViewById(R.id.passwordError);
+        repeatPasswordError = view.findViewById(R.id.repeatPasswordError);
+
         //arguments from first fragment
         gettingArguments = getArguments();
         final String[] values = gettingArguments.getStringArray("argumentsFromFirstRegistration");
@@ -74,9 +86,25 @@ public class SecondRegistrationFragment extends Fragment {
                         && password.isEmpty()
                         && password.equals(repeatedPassword))
                 {*/
-                    if(login.isEmpty()){
-
-                    }else{
+                if (login.isEmpty()) {
+                    loginError.setText(R.string.loginError);
+                    passwordError.setText("");
+                    repeatPassword.setText("");
+                } else if (!checkLogin(login)) {
+                    loginError.setText(R.string.wrongLogin);
+                } else if (password.isEmpty()) {
+                    passwordError.setText(R.string.passwordError);
+                    repeatPasswordError.setText("");
+                    loginError.setText("");
+                } else if (!checkPassword(password)) {
+                    passwordError.setText(R.string.weakPassword);
+                    repeatPasswordError.setText("");
+                    loginError.setText("");
+                } else if (!repeatedPassword.equals(password)) {
+                    repeatPasswordError.setText(R.string.wrongRepeatedPassword);
+                    loginError.setText("");
+                    passwordError.setText("");
+                } else {
 
                     RetrofitBuilder retrofit = new RetrofitBuilder();
 
@@ -87,16 +115,13 @@ public class SecondRegistrationFragment extends Fragment {
                         public void onResponse(Call call, Response response) {
                             Log.i("responseCode", Integer.toString(response.code()));
                             if (response.body() != null) {
-                                //TODO switch on SharedPreferences
-                                Constant.setUserLogin(login);
                                 //removing fragments
                                 fragmentManagerSimplifier.remove("firstRegistrationFragment");
                                 fragmentManagerSimplifier.remove("authorisation");
                                 fragmentManagerSimplifier.remove("secondRegistrationFragment");
-                                sharedPreferences.edit().putBoolean("isNotRegistered",false).putString("userLogin",login).commit();
+                                //saving info
+                                sharedPreferences.edit().putBoolean("isNotRegistered", false).putString("userLogin", login).commit();
                                 drawerLocker.setDrawerLock(false);
-                                //TODO switch on SharedPreferences
-                                Constant.isRegistered = true;
                                 Log.i("responseMessage", response.body().toString());
                             }
                         }
@@ -122,5 +147,37 @@ public class SecondRegistrationFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public boolean checkPassword(String password) {
+        Pattern pattern = Pattern.compile("^" +             // Begin of string
+                "(?=.*[a-z])" +                             // Lowercase letters
+                "(?=.*[A-Z])" +                             // Uppercase letters
+                "(?=.*[0-9])" +                             // Digits
+                "(?=.*[!@#\\$%\\^&\\*\\(\\)\\-_=\\+])" +    // Symbols
+                "(?=.{7,})"                                 // Minimal length
+        );
+        password.trim();
+        Matcher matcher = pattern.matcher(password);
+        if (matcher.find()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public boolean checkLogin(String login) {
+        Pattern pattern = Pattern.compile("^" + // Beginning of string
+                "([a-z0-9_]{4,32})" + // Lowercase symbols, digits and underscore. Length: [4-32]
+                "$" // End of string
+        );
+        login.trim();
+        Matcher m = pattern.matcher(login);
+        if (m.find()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

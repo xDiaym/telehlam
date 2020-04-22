@@ -49,10 +49,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        sharedPreferences = getSharedPreferences("org.juicecode.telehlam", Context.MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean("isNotRegistered", true).commit();
         //check if user has registered and after add RegistrationFragment
         if(getSharedPreferences("org.juicecode.telehlam",Context.MODE_PRIVATE).getBoolean("isNotRegistered",true)){
-            addFragment(new AuthorisationFragment(),"authorisation");
+            replaceFragment(new AuthorisationFragment(),"authorisation");
 
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -115,12 +116,12 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     }
 
 
-    public void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment,String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack();
         fragmentManager
                 .beginTransaction()
-                .replace(R.id.drawer_layout, fragment)
+                .replace(R.id.drawer_layout, fragment,tag)
                 .addToBackStack(fragment.getClass().getName())
                 .commit();
     }

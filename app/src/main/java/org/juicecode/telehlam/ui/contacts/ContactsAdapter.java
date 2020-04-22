@@ -61,7 +61,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                     sendingChatName.putStringArray("information", new String[]{chatNameValue, phoneNumber});
                     chatFragment.setArguments(sendingChatName);
 
-                    simplifier.replaceFragment(chatFragment);
+                    simplifier.replaceFragment(chatFragment,"chatFragment");
                 }
             });
             contactName = itemView.findViewById(R.id.contact_name);

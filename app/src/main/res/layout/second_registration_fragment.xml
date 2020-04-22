@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/side_nav_bar"
@@ -57,7 +57,7 @@
             android:layout_marginRight="40dp"
             android:background="@drawable/bottom_border"
             android:hint="@string/login"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/textOrIcons"
             android:textColorHint="@color/secondaryText"></EditText>
         <TextView
             android:id="@+id/loginError"
@@ -79,7 +79,7 @@
             android:layout_marginRight="40dp"
             android:background="@drawable/bottom_border"
             android:hint="@string/password"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/textOrIcons"
             android:textColorHint="@color/secondaryText"></EditText>
         <TextView
             android:id="@+id/passwordError"
@@ -100,7 +100,7 @@
             android:layout_marginRight="40dp"
             android:background="@drawable/bottom_border"
             android:hint="@string/repeat_password"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/textOrIcons"
             android:textColorHint="@color/secondaryText"></EditText>
 
         <TextView

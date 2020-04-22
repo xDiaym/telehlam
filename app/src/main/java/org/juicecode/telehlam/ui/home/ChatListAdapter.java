@@ -85,7 +85,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
                     String chatNameValue = (String) chatName.getText();
                     sendingChatName.putStringArray("information", new String[]{chatNameValue,phoneNumber});
                     chatFragment.setArguments(sendingChatName);
-                    simplifier.replaceFragment(chatFragment);
+                    simplifier.replaceFragment(chatFragment,"chatFragment");
                 }
             });
 
