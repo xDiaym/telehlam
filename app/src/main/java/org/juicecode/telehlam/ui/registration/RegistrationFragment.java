@@ -12,6 +12,8 @@ import android.widget.ImageButton;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
@@ -27,28 +29,25 @@ import retrofit2.Response;
 public class RegistrationFragment extends Fragment {
     private ImageButton goBackButton;
     private Button floatingActionButton;
-    private EditText loginField;
-    private EditText passwordField;
-    private EditText nameField;
-    private EditText surnameField;
-    private EditText phoneField;
-    private EditText repeatPassword;
+    private TextInputEditText loginField;
+    private TextInputEditText passwordField;
+    private TextInputEditText nameField;
+    private TextInputEditText surnameField;
+    private TextInputEditText repeatPassword;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.registration_fragment, container, false);
 
-        floatingActionButton = view.findViewById(R.id.login_registration);
+        floatingActionButton = view.findViewById(R.id.sign_up_button);
         final FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier) view.getContext();
 
-
-        floatingActionButton = view.findViewById(R.id.login_registration);
         loginField = view.findViewById(R.id.loginField);
         repeatPassword = view.findViewById(R.id.repeatPasswordField);
         passwordField = view.findViewById(R.id.passwordField);
         nameField = view.findViewById(R.id.nameField);
         surnameField = view.findViewById(R.id.surnameField);
-        phoneField = view.findViewById(R.id.phoneField);
+
         final DrawerLocker drawerLocker = (DrawerLocker) view.getContext();
         drawerLocker.setDrawerLock(true);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +65,6 @@ public class RegistrationFragment extends Fragment {
                 name = nameField.getText().toString().trim();
                 surname = surnameField.getText().toString().trim();
                 login = loginField.getText().toString().trim();
-                phone = phoneField.getText().toString().trim();
                 password = passwordField.getText().toString().trim();
                 repeatedPassword = repeatPassword.getText().toString().trim();
 
@@ -114,6 +112,7 @@ public class RegistrationFragment extends Fragment {
             }
         });
 
+        /*
         goBackButton = view.findViewById(R.id.goBackButton);
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +122,8 @@ public class RegistrationFragment extends Fragment {
 
             }
         });
+         */
         return view;
     }
+
 }
