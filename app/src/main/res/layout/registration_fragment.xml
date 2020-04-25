@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/textOrIcons"
@@ -11,8 +10,8 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/colorPrimaryDark"
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/goBackButton"
@@ -23,20 +22,20 @@
             android:layout_marginTop="0dp"
             android:layout_marginRight="0dp"
             android:layout_marginBottom="0dp"
-            android:gravity="left"
             android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_arrow_back_white_24dp"
-            ></ImageButton>
+            android:gravity="left"
+            app:srcCompat="@drawable/ic_arrow_back_white_24dp"></ImageButton>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginRight="80dp"
+            android:gravity="center_horizontal"
             android:text="@string/registration"
             android:textAlignment="center"
             android:textColor="@color/textOrIcons"
-            android:textSize="24sp"
-            android:gravity="center_horizontal">
+            android:textSize="24sp">
 
         </TextView>
     </LinearLayout>
@@ -47,8 +46,8 @@
         android:orientation="vertical">
 
         <EditText
-            android:layout_width="match_parent"
             android:id="@+id/nameField"
+            android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_gravity="left"
             android:layout_marginLeft="60dp"
@@ -71,6 +70,7 @@
             android:hint="@string/surname"
             android:textColor="@color/primaryText"
             android:textColorHint="@color/secondaryText"></EditText>
+
         <EditText
             android:id="@+id/phoneField"
             android:layout_width="match_parent"
@@ -127,15 +127,15 @@
 
 
         <Button
-            android:layout_width="wrap_content"
             android:id="@+id/login_registration"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
             android:background="@drawable/login_background"
             android:padding="10dp"
             android:text="@string/login"
-            android:textColor="@color/textOrIcons"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"></Button>
+            android:textColor="@color/textOrIcons"></Button>
     </LinearLayout>
 
 </LinearLayout>

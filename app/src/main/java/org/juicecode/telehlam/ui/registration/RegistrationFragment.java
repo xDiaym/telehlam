@@ -8,18 +8,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.User;
-import org.juicecode.telehlam.utils.Constant;
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
@@ -28,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegistrationFragment  extends Fragment {
+public class RegistrationFragment extends Fragment {
     private ImageButton goBackButton;
     private Button floatingActionButton;
     private EditText loginField;
@@ -43,12 +39,12 @@ public class RegistrationFragment  extends Fragment {
         View view = layoutInflater.inflate(R.layout.registration_fragment, container, false);
 
         floatingActionButton = view.findViewById(R.id.login_registration);
-        final FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier)view.getContext();
+        final FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier) view.getContext();
 
 
         floatingActionButton = view.findViewById(R.id.login_registration);
         loginField = view.findViewById(R.id.loginField);
-        repeatPassword =view.findViewById(R.id.repeatPasswordField);
+        repeatPassword = view.findViewById(R.id.repeatPasswordField);
         passwordField = view.findViewById(R.id.passwordField);
         nameField = view.findViewById(R.id.nameField);
         surnameField = view.findViewById(R.id.surnameField);
@@ -60,43 +56,43 @@ public class RegistrationFragment  extends Fragment {
             private String name;
             private String surname;
             private String login;
-            private String phone ;
+            private String phone;
             private String password;
             private String repeatedPassword;
 
 
             @Override
             public void onClick(View v) {
-                name = nameField.getText().toString();
-                surname = surnameField.getText().toString();
-                login = loginField.getText().toString();
-                phone = phoneField.getText().toString();
-                password = passwordField.getText().toString();
-                repeatedPassword = repeatPassword.getText().toString();
+                name = nameField.getText().toString().trim();
+                surname = surnameField.getText().toString().trim();
+                login = loginField.getText().toString().trim();
+                phone = phoneField.getText().toString().trim();
+                password = passwordField.getText().toString().trim();
+                repeatedPassword = repeatPassword.getText().toString().trim();
 
-                if(!(name.isEmpty()
-                        &&surname.isEmpty()
-                        &&login.isEmpty()
-                        &&password.isEmpty())
-                        &&password.equals(repeatedPassword)
-                       ){
+                if (!(name.isEmpty()
+                        && surname.isEmpty()
+                        && login.isEmpty()
+                        && password.isEmpty())
+                        && password.equals(repeatedPassword)
+                ) {
 
                     RetrofitBuilder retrofit = new RetrofitBuilder();
 
 
-                    Call registerUser = retrofit.getAuthorisationAPI().registerUser(new User(login,password,name,surname));
+                    Call registerUser = retrofit.getAuthorisationAPI().registerUser(new User(login, password, name, surname));
                     registerUser.enqueue(new Callback() {
                         @Override
                         public void onResponse(Call call, Response response) {
                             Log.i("responseBody", Integer.toString(response.code()));
-                            if(response.body()!=null){
+                            if (response.body() != null) {
 
                                 // Constant.setUserLogin(login);
                                 fragmentManagerSimplifier.remove("registration");
                                 fragmentManagerSimplifier.remove("authorisation");
                                 drawerLocker.setDrawerLock(false);
                                 // Constant.isRegistered = true;
-                                Log.i("responseMessage",response.body().toString());
+                                Log.i("responseMessage", response.body().toString());
                             }
                         }
 
@@ -106,13 +102,15 @@ public class RegistrationFragment  extends Fragment {
                         }
                     });
 
+                    fragmentManagerSimplifier.remove("registration");
+                    fragmentManagerSimplifier.remove("authorisation");
+                    drawerLocker.setDrawerLock(false);
+                } else {
+                    // TODO(matthew.nekirov@gmail.com): get string from R.strings
+                    Snackbar
+                            .make(getView(), "Please, fill all fields!", Snackbar.LENGTH_SHORT)
+                            .show();
                 }
-
-
-
-                fragmentManagerSimplifier.remove("registration");
-                fragmentManagerSimplifier.remove("authorisation");
-                drawerLocker.setDrawerLock(false);
             }
         });
 

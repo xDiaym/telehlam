@@ -10,19 +10,19 @@ public class RetrofitBuilder {
     private static Retrofit retrofit;
 
 
-    public  Retrofit getRetrofit() {
-        return retrofit;
-    }
-
-    public static UserApi getAuthorisationAPI() {
-        userApi = retrofit.create(UserApi.class);
-        return userApi  ;
-    }
-
     public RetrofitBuilder() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+    }
+
+    public static UserApi getAuthorisationAPI() {
+        userApi = retrofit.create(UserApi.class);
+        return userApi;
+    }
+
+    public Retrofit getRetrofit() {
+        return retrofit;
     }
 }

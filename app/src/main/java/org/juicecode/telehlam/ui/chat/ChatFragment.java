@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,11 +17,8 @@ import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
 import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.database.messages.Message;
-import org.juicecode.telehlam.ui.home.HomeFragment;
 import org.juicecode.telehlam.utils.DrawerLocker;
-import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +56,7 @@ public class ChatFragment extends Fragment {
         chat.setNestedScrollingEnabled(false);
         messageField = view.findViewById(R.id.message_field);
         messageList = new ArrayList<>();
-        DataBaseTask<List<Message>> getMessages = new DataBaseTask<>(getContext(),getViewLifecycleOwner(),messageChatAdapter,chat,phoneNumber, DataBaseTask.Task.GetAllMessages);
+        DataBaseTask<List<Message>> getMessages = new DataBaseTask<>(getContext(), getViewLifecycleOwner(), messageChatAdapter, chat, phoneNumber, DataBaseTask.Task.GetAllMessages);
         getMessages.execute();
         sendbutton = view.findViewById(R.id.send_message_button);
         sendbutton.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +72,7 @@ public class ChatFragment extends Fragment {
                     } else {
                         message = new Message(Message.MESSAGE_INCOMING, messageText, phoneNumber, "user");
                     }
-                    DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(getContext(),new Contact(nameOfContactValue, phoneNumber),message, DataBaseTask.Task.InsertMessage);
+                    DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(getContext(), new Contact(nameOfContactValue, phoneNumber), message, DataBaseTask.Task.InsertMessage);
                     dataBaseTask.execute();
                     messageChatAdapter.addItem(message);
                     messageField.setText("");
@@ -93,8 +89,8 @@ public class ChatFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 KeyboardManager.hideKeyboard(getActivity());
-               getActivity().onBackPressed();
-               drawerLocker.setDrawerLock(false);
+                getActivity().onBackPressed();
+                drawerLocker.setDrawerLock(false);
             }
         });
 

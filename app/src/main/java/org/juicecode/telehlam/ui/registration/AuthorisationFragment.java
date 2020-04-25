@@ -2,7 +2,6 @@ package org.juicecode.telehlam.ui.registration;
 
 
 import android.content.Context;
-import android.graphics.ImageDecoder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,21 +29,21 @@ public class AuthorisationFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = v.getContext();
-                ((FragmentManagerSimplifier) context).remove("authorisation");
-                ((DrawerLocker) context).setDrawerLock(true);
+                MainActivity activity = (MainActivity) v.getContext();
+                activity.remove("authorisation");
+                activity.setDrawerLock(true);
             }
         });
 
         goToRegistrationFragment = view.findViewById(R.id.registration_button);
-        final DrawerLocker drawerLocker = (DrawerLocker)view.getContext();
-        drawerLocker.setDrawerLock(true);
+        final MainActivity activity = (MainActivity) view.getContext();
+        activity.setDrawerLock(true);
 
         goToRegistrationFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLocker.setDrawerLock(false);
-                ((FragmentManagerSimplifier) getContext()).addFragment(new RegistrationFragment(),"registration");
+                activity.setDrawerLock(false);
+                activity.addFragment(new RegistrationFragment(), "registration");
             }
         });
         return view;

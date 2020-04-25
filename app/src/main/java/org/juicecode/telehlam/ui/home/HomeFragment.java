@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         chatList.setLayoutManager(layoutManager);
         chatList.setHasFixedSize(true);
-        DataBaseTask<List<Contact>> dataBaseTask = new DataBaseTask<>(getContext(),getViewLifecycleOwner(),chatListAdapter,chatList, DataBaseTask.Task.GetAllContacts);
+        DataBaseTask<List<Contact>> dataBaseTask = new DataBaseTask<>(getContext(), getViewLifecycleOwner(), chatListAdapter, chatList, DataBaseTask.Task.GetAllContacts);
         dataBaseTask.execute();
         return root;
     }
