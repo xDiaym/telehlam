@@ -48,9 +48,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(!Constant.isRegistered){
-            addFragment(new AuthorisationFragment(),"authorisation");
 
+        // TODO: added shared preferences
+        if(false){
+            addFragment(new AuthorisationFragment(),"authorisation");
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

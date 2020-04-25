@@ -91,11 +91,11 @@ public class RegistrationFragment  extends Fragment {
                             Log.i("responseBody", Integer.toString(response.code()));
                             if(response.body()!=null){
 
-                                Constant.setUserLogin(login);
+                                // Constant.setUserLogin(login);
                                 fragmentManagerSimplifier.remove("registration");
                                 fragmentManagerSimplifier.remove("authorisation");
                                 drawerLocker.setDrawerLock(false);
-                                Constant.isRegistered = true;
+                                // Constant.isRegistered = true;
                                 Log.i("responseMessage",response.body().toString());
                             }
                         }
