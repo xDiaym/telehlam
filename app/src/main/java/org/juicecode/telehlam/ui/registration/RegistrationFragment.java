@@ -3,18 +3,22 @@ package org.juicecode.telehlam.ui.registration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
+import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.User;
@@ -22,12 +26,14 @@ import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
 
+import java.security.cert.LDAPCertStoreParameters;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegistrationFragment extends Fragment {
-    private ImageButton goBackButton;
+    private MaterialToolbar toolbar;
     private Button floatingActionButton;
     private TextInputEditText loginField;
     private TextInputEditText passwordField;
@@ -48,8 +54,18 @@ public class RegistrationFragment extends Fragment {
         nameField = view.findViewById(R.id.nameField);
         surnameField = view.findViewById(R.id.surnameField);
 
-        final DrawerLocker drawerLocker = (DrawerLocker) view.getContext();
-        drawerLocker.setDrawerLock(true);
+        final MainActivity activity = (MainActivity) view.getContext();
+        activity.setDrawerLock(true);
+
+        toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                activity.onBackPressed();
+            }
+        });
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
 
             private String name;
@@ -88,7 +104,7 @@ public class RegistrationFragment extends Fragment {
                                 // Constant.setUserLogin(login);
                                 fragmentManagerSimplifier.remove("registration");
                                 fragmentManagerSimplifier.remove("authorisation");
-                                drawerLocker.setDrawerLock(false);
+                                activity.setDrawerLock(false);
                                 // Constant.isRegistered = true;
                                 Log.i("responseMessage", response.body().toString());
                             }
@@ -106,7 +122,7 @@ public class RegistrationFragment extends Fragment {
 
                     fragmentManagerSimplifier.remove("registration");
                     fragmentManagerSimplifier.remove("authorisation");
-                    drawerLocker.setDrawerLock(false);
+                    activity.setDrawerLock(false);
                 } else {
                     // TODO(matthew.nekirov@gmail.com): get string from R.strings
                     Snackbar
@@ -116,17 +132,6 @@ public class RegistrationFragment extends Fragment {
             }
         });
 
-        /*
-        goBackButton = view.findViewById(R.id.goBackButton);
-        goBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                KeyboardManager.hideKeyboard(getActivity());
-                getActivity().onBackPressed();
-
-            }
-        });
-         */
         return view;
     }
 

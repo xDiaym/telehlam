@@ -8,11 +8,10 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="@string/app_name"
@@ -102,7 +101,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/login_background"
             android:padding="10dp"
-            android:text="@string/login"
+            android:text="@string/sign_up"
             android:textColor="@color/textOrIcons" />
     </LinearLayout>
 

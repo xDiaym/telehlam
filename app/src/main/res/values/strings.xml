@@ -24,6 +24,7 @@
 
     <string name="authorisation">Authorisation</string>
     <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
     <string name="password">Password</string>
     <string name="entry">Log in</string>
     <string name="forget_password">Forget password</string>
