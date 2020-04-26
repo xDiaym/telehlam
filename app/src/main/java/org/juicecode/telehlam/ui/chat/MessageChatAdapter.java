@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,13 +12,12 @@ import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.database.messages.Message;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> {
     private List<Message> messages;
 
-    public MessageChatAdapter(){
+    public MessageChatAdapter() {
         this.messages = new ArrayList<>();
     }
 
@@ -27,7 +25,8 @@ public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> 
         messages.add(message);
         notifyDataSetChanged();
     }
-    public void addItems(List<Message> messages){
+
+    public void addItems(List<Message> messages) {
         this.messages = messages;
         notifyDataSetChanged();
     }

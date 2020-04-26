@@ -8,7 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitBuilder {
     private static UserApi userApi;
     private static Retrofit retrofit;
-    public RetrofitBuilder(){
+
+    public RetrofitBuilder() {
         this.retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -20,7 +21,7 @@ public class RetrofitBuilder {
         return retrofit;
     }
 
-    public UserApi getUserApi(){
+    public UserApi getUserApi() {
         return userApi;
     }
 }

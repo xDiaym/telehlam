@@ -22,7 +22,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     public ContactsAdapter(ArrayList<Contact> contacts) {
         this.contacts = contacts;
-
     }
 
     @NonNull
@@ -62,7 +61,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                     sendingChatName.putStringArray("information", new String[]{chatNameValue, phoneNumber});
                     chatFragment.setArguments(sendingChatName);
 
-                    simplifier.replaceFragment(chatFragment,"chatFragment");
+                    simplifier.replaceFragment(chatFragment, "chatFragment");
                 }
             });
             contactName = itemView.findViewById(R.id.contact_name);

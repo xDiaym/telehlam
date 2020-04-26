@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.RestUserClass;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
@@ -52,7 +50,7 @@ public class AuthorisationFragment extends Fragment {
                 String password = passwordField.getText().toString();
                 if (checkFields(login, password)) {
                     RetrofitBuilder retrofitBuilder = new RetrofitBuilder();
-                    RestUserClass signIn = new RestUserClass(fragmentManagerSimplifier, new User(login, password), drawerLocker, sharedPreferences,retrofitBuilder);
+                    RestUserClass signIn = new RestUserClass(fragmentManagerSimplifier, new User(login, password), drawerLocker, sharedPreferences, retrofitBuilder);
                     signIn.signIn();
                     fragmentManagerSimplifier.remove("authorisation");
                     drawerLocker.setDrawerLock(false);

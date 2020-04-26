@@ -4,10 +4,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import com.google.gson.stream.JsonReader;
 
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
@@ -24,7 +21,15 @@ public class RestUserClass {
     private SharedPreferences sharedPreferences;
     private DrawerLocker drawerLocker;
 
-    public void registerUser(){
+    public RestUserClass(FragmentManagerSimplifier fragmentManagerSimplifier, User user, DrawerLocker drawerLocker, SharedPreferences sharedPreferences, RetrofitBuilder retrofitBuilder) {
+        this.fragmentManagerSimplifier = fragmentManagerSimplifier;
+        this.drawerLocker = drawerLocker;
+        this.sharedPreferences = sharedPreferences;
+        this.user = user;
+        this.userApi = retrofitBuilder.getUserApi();
+    }
+
+    public void registerUser() {
         //register user with all info
         final Call registerUser = userApi.registerUser(user);
         registerUser.enqueue(new Callback() {
@@ -46,6 +51,7 @@ public class RestUserClass {
 
                 }
             }
+
             @Override
             public void onFailure(Call call, Throwable t) {
                 Log.i("error", t.toString());
@@ -53,44 +59,36 @@ public class RestUserClass {
         });
     }
 
-    public void signIn(){
-    Call signIn = userApi.signIn(user);
-    signIn.enqueue(new Callback() {
-        @Override
-        public void onResponse(Call call, Response response) {
-            Log.i("responseBody",response.toString());
-            if(response.isSuccessful()){
-                if(response.body()!=null){
-                    try {
-                        String res = new Gson().toJson(response.body());
-                        String token = new Gson().fromJson(res,Token.class).getToken();
-                        sharedPreferences.edit().putString("token", token).commit();
-                        fragmentManagerSimplifier.remove("authorisation");
-                        fragmentManagerSimplifier.remove("firstRegistrationFragment");
-                        fragmentManagerSimplifier.remove("secondRegistrationFragment");
-                    } catch (JsonIOException exception){
-                        exception.printStackTrace();
+    public void signIn() {
+        Call signIn = userApi.signIn(user);
+        signIn.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                Log.i("responseBody", response.toString());
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        try {
+                            String res = new Gson().toJson(response.body());
+                            String token = new Gson().fromJson(res, Token.class).getToken();
+                            sharedPreferences.edit().putString("token", token).commit();
+                            fragmentManagerSimplifier.remove("authorisation");
+                            fragmentManagerSimplifier.remove("firstRegistrationFragment");
+                            fragmentManagerSimplifier.remove("secondRegistrationFragment");
+                        } catch (JsonIOException exception) {
+                            exception.printStackTrace();
+                        }
                     }
+                } else {
+                    //TODO error handling
                 }
-            } else {
-                //TODO error handling
             }
-        }
 
-        @Override
-        public void onFailure(Call call, Throwable t) {
+            @Override
+            public void onFailure(Call call, Throwable t) {
 
-        }
-    });
-
+            }
+        });
 
 
-    }
-    public RestUserClass(FragmentManagerSimplifier fragmentManagerSimplifier,User user,DrawerLocker drawerLocker,SharedPreferences sharedPreferences,RetrofitBuilder retrofitBuilder) {
-        this.fragmentManagerSimplifier = fragmentManagerSimplifier;
-        this.drawerLocker = drawerLocker;
-        this.sharedPreferences = sharedPreferences;
-        this.user = user;
-        this.userApi = retrofitBuilder.getUserApi();
     }
 }

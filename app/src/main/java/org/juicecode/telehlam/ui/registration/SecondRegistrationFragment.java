@@ -3,14 +3,12 @@ package org.juicecode.telehlam.ui.registration;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -19,18 +17,12 @@ import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.RestUserClass;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.User;
-import org.juicecode.telehlam.utils.Constant;
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SecondRegistrationFragment extends Fragment {
     //UI elements
@@ -44,6 +36,7 @@ public class SecondRegistrationFragment extends Fragment {
     private TextView loginError;
     private TextView passwordError;
     private TextView repeatPasswordError;
+
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.second_registration_fragment, container, false);
@@ -107,7 +100,7 @@ public class SecondRegistrationFragment extends Fragment {
 
                     User user = new User(login, password, name, surname);
                     RetrofitBuilder retrofit = new RetrofitBuilder();
-                    RestUserClass registerUser = new RestUserClass(fragmentManagerSimplifier,user,drawerLocker,sharedPreferences,retrofit);
+                    RestUserClass registerUser = new RestUserClass(fragmentManagerSimplifier, user, drawerLocker, sharedPreferences, retrofit);
                     registerUser.registerUser();
 
 

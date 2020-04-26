@@ -11,5 +11,6 @@ public interface UserApi {
 
     @POST("/user/signIn")
     Call<Token> signIn(@Body User user);
+
     // TODO(matthew.nekirov@gmail.com): add methods
 }
