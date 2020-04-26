@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
@@ -57,10 +58,12 @@ public class RestUserClass {
     signIn.enqueue(new Callback() {
         @Override
         public void onResponse(Call call, Response response) {
+            Log.i("responseBody",response.toString());
             if(response.isSuccessful()){
                 if(response.body()!=null){
                     try {
-                        String token = new Gson().fromJson( response.body().toString(), Token.class).getToken();
+                        String res = new Gson().toJson(response.body());
+                        String token = new Gson().fromJson(res,Token.class).getToken();
                         sharedPreferences.edit().putString("token", token).commit();
                         fragmentManagerSimplifier.remove("authorisation");
                         fragmentManagerSimplifier.remove("firstRegistrationFragment");
