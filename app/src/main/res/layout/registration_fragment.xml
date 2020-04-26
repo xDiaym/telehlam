@@ -11,15 +11,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
-            android:layout_width="32dp"
-            android:layout_height="match_parent" />
-
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="@string/app_name"
+            app:menu="@menu/common_navigation_bar"
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
             app:titleTextColor="@color/textOrIcons"
             style="@style/Widget.MaterialComponents.Toolbar.Primary" />
     </com.google.android.material.appbar.AppBarLayout>
