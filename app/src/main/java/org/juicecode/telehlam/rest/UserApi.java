@@ -10,6 +10,6 @@ public interface UserApi {
     Call<User> registerUser(@Body User user);
 
     @POST("/user/signIn")
-    Call<User> signIn(@Body User user);
+    Call<Token> signIn(@Body User user);
     // TODO(matthew.nekirov@gmail.com): add methods
 }

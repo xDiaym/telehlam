@@ -50,11 +50,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sharedPreferences = getSharedPreferences("org.juicecode.telehlam", Context.MODE_PRIVATE);
-        sharedPreferences.edit().putBoolean("isNotRegistered", true).commit();
-        //check if user has registered and after add RegistrationFragment
-        if(getSharedPreferences("org.juicecode.telehlam",Context.MODE_PRIVATE).getBoolean("isNotRegistered",true)){
+        //check if user has registered
+        if(sharedPreferences.getString("token","").isEmpty()){
             replaceFragment(new AuthorisationFragment(),"authorisation");
-
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
