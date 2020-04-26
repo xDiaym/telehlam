@@ -20,7 +20,7 @@ public class AppSocket {
     public AppSocket() {
         {
             try {
-                mSocket = IO.socket(Constant.getBaseURL());
+                mSocket = IO.socket(Constant.baseUrl);
             } catch (URISyntaxException e) {
 
             }
