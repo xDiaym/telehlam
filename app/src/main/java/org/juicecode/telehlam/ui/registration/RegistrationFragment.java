@@ -84,15 +84,8 @@ public class RegistrationFragment extends Fragment {
                 password = passwordField.getText().toString().trim();
                 repeatedPassword = repeatPassword.getText().toString().trim();
 
-                if (!(name.isEmpty()
-                        && surname.isEmpty()
-                        && login.isEmpty()
-                        && password.isEmpty())
-                        && password.equals(repeatedPassword)
-                ) {
-
+                if (!(name.isEmpty() || surname.isEmpty() || login.isEmpty() || password.isEmpty()) && password.equals(repeatedPassword)) {
                     RetrofitBuilder retrofit = new RetrofitBuilder();
-
 
                     Call registerUser = retrofit.getAuthorisationAPI().registerUser(new User(login, password, name, surname));
                     registerUser.enqueue(new Callback() {
