@@ -1,6 +1,5 @@
 package org.juicecode.telehlam.database.messages;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -11,62 +10,13 @@ import java.util.Date;
 
 @Entity(tableName = "messages")
 public class Message {
-    public enum Status {
-        NONE(0), SENT(1), READ(2), ERROR(-1);
-
-        private int status;
-
-        Status(int status) {
-            this.status = status;
-        }
-
-        @TypeConverter
-        public static int toInteger(Status status) {
-            return status.status;
-        }
-
-        @TypeConverter
-        public static Status toStatus(int code) {
-            switch (code) {
-                case 0:
-                    return NONE;
-                case 1:
-                    return SENT;
-                case 2:
-                    return READ;
-                case -1:
-                    return ERROR;
-                default:
-                    throw new RuntimeException("Unknown Message Type code");
-            }
-        }
-    }
-
     public static final int MESSAGE_INCOMING = 0;
     public static final int MESSAGE_OUTGOING = 1;
-
     @PrimaryKey(autoGenerate = true)
     private int id;
     private int type;
     private String text;
     private long timestamp;
-
-    public String getAuthorPhone() {
-        return authorPhone;
-    }
-
-    public void setAuthorPhone(String authorPhone) {
-        this.authorPhone = authorPhone;
-    }
-
-    public String getReceiverPhone() {
-        return receiverPhone;
-    }
-
-    public void setReceiverPhone(String receiverPhone) {
-        this.receiverPhone = receiverPhone;
-    }
-
     private String authorPhone;
     private String receiverPhone;
     @TypeConverters(Status.class)
@@ -87,6 +37,22 @@ public class Message {
         this.text = text;
         this.timestamp = (new Date()).getTime();
         this.status = Status.NONE;
+    }
+
+    public String getAuthorPhone() {
+        return authorPhone;
+    }
+
+    public void setAuthorPhone(String authorPhone) {
+        this.authorPhone = authorPhone;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
     }
 
     public Status getStatus() {
@@ -131,6 +97,37 @@ public class Message {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public enum Status {
+        NONE(0), SENT(1), READ(2), ERROR(-1);
+
+        private int status;
+
+        Status(int status) {
+            this.status = status;
+        }
+
+        @TypeConverter
+        public static int toInteger(Status status) {
+            return status.status;
+        }
+
+        @TypeConverter
+        public static Status toStatus(int code) {
+            switch (code) {
+                case 0:
+                    return NONE;
+                case 1:
+                    return SENT;
+                case 2:
+                    return READ;
+                case -1:
+                    return ERROR;
+                default:
+                    throw new RuntimeException("Unknown Message Type code");
+            }
+        }
     }
 
 }

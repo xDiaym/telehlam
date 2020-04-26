@@ -8,6 +8,13 @@ public class User {
     private String name;
     private String surname;
 
+    public User(String loginString, String password, String name, String surname) {
+        this.login = loginString;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+    }
+
     public String getLogin() {
         return login;
     }
@@ -53,13 +60,6 @@ public class User {
     }
 
     public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public User(String loginString , String password, String name, String surname) {
-        this.login = loginString;
-        this.password = password;
-        this.name = name;
         this.surname = surname;
     }
 }

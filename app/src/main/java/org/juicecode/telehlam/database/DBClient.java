@@ -5,9 +5,8 @@ import android.content.Context;
 import static androidx.room.Room.databaseBuilder;
 
 public class DBClient {
-    private AppDataBase appDataBase;
-
     private static DBClient instance;
+    private AppDataBase appDataBase;
 
     private DBClient(Context context) {
         appDataBase = databaseBuilder(context, AppDataBase.class, "DataBase")

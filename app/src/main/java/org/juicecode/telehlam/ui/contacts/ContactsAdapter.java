@@ -20,6 +20,11 @@ import java.util.ArrayList;
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactViewHolder> {
     private ArrayList<Contact> contacts;
 
+    public ContactsAdapter(ArrayList<Contact> contacts) {
+        this.contacts = contacts;
+
+    }
+
     @NonNull
     @Override
     public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -28,11 +33,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         View view = inflater.inflate(R.layout.contact_list_item, parent, false);
         ContactViewHolder contactViewHolder = new ContactViewHolder(view);
         return contactViewHolder;
-    }
-
-    public ContactsAdapter(ArrayList<Contact> contacts) {
-        this.contacts = contacts;
-        
     }
 
     @Override
@@ -48,6 +48,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     public static class ContactViewHolder extends RecyclerView.ViewHolder {
         TextView contactName;
         String phoneNumber;
+
         public ContactViewHolder(@NonNull final View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +68,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             contactName = itemView.findViewById(R.id.contact_name);
         }
 
-        public void bind(String name,String phone) {
+        public void bind(String name, String phone) {
             contactName.setText(name);
             this.phoneNumber = phone;
         }

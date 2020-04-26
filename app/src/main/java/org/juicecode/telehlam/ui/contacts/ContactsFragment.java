@@ -18,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
 import org.juicecode.telehlam.utils.DrawerLocker;
-import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
-
 
 import java.util.ArrayList;
 

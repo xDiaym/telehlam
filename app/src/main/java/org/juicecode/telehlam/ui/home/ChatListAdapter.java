@@ -7,14 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
-import org.juicecode.telehlam.MainActivity;
+
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
-import  org.juicecode.telehlam.ui.chat.ChatFragment;
+import org.juicecode.telehlam.ui.chat.ChatFragment;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
 import java.util.List;
@@ -29,13 +28,15 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         parent = context;
         this.contacts = contacts;
     }
-    public void deleteElement(String phone){
-        for(Contact c:contacts){
-            if(c.getPhone().equals(phone)){
+
+    public void deleteElement(String phone) {
+        for (Contact c : contacts) {
+            if (c.getPhone().equals(phone)) {
                 contacts.remove(c);
             }
         }
     }
+
     @NonNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -53,7 +54,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         // TODO(all): set real name
-        holder.bind(contacts.get(position).getName(), "Hello world!",contacts.get(position).getPhone());
+        holder.bind(contacts.get(position).getName(), "Hello world!", contacts.get(position).getPhone());
     }
 
     @Override
@@ -79,11 +80,11 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
 
                 @Override
                 public void onClick(View v) {
-                    FragmentManagerSimplifier simplifier = (FragmentManagerSimplifier)v.getContext();
+                    FragmentManagerSimplifier simplifier = (FragmentManagerSimplifier) v.getContext();
                     ChatFragment chatFragment = new ChatFragment();
                     Bundle sendingChatName = new Bundle();
                     String chatNameValue = (String) chatName.getText();
-                    sendingChatName.putStringArray("information", new String[]{chatNameValue,phoneNumber});
+                    sendingChatName.putStringArray("information", new String[]{chatNameValue, phoneNumber});
                     chatFragment.setArguments(sendingChatName);
                     simplifier.replaceFragment(chatFragment,"chatFragment");
                 }
@@ -91,7 +92,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
 
         }
 
-        public void bind(String name, String lastMessage,String phoneNumber) {
+        public void bind(String name, String lastMessage, String phoneNumber) {
             this.phoneNumber = phoneNumber;
             chatName.setText(name);
             chatLastMessage.setText(lastMessage);

@@ -17,7 +17,7 @@ import org.juicecode.telehlam.ui.home.ChatListAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataBaseTask<T> extends AsyncTask<Void,Void,T> {
+public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
     private Context context;
     private Task task;
     private Contact contact;
@@ -34,16 +34,14 @@ public class DataBaseTask<T> extends AsyncTask<Void,Void,T> {
     private String receiver;
     private RecyclerView chat;
 
-    public enum Task {
-        GetAllContacts,InsertMessage,GetAllMessages,DeleteAllMessageHistory
-    }
     //добавление сообщения
-    public DataBaseTask(Context context, Contact contact,Message message, Task task) {
+    public DataBaseTask(Context context, Contact contact, Message message, Task task) {
         this.task = task;
         this.context = context;
         this.contact = contact;
         this.message = message;
     }
+
     //получение контактов
     public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, ChatListAdapter chatListAdapter, RecyclerView chatList, Task task) {
         this.context = context;
@@ -52,8 +50,9 @@ public class DataBaseTask<T> extends AsyncTask<Void,Void,T> {
         this.chatList = chatList;
         this.task = task;
     }
+
     //получение сообщений
-    public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, MessageChatAdapter messageChatAdapter, RecyclerView chat,String receiver,Task task){
+    public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, MessageChatAdapter messageChatAdapter, RecyclerView chat, String receiver, Task task) {
         this.context = context;
         this.lifecycleOwner = lifecycleOwner;
         this.messageChatAdapter = messageChatAdapter;
@@ -61,15 +60,17 @@ public class DataBaseTask<T> extends AsyncTask<Void,Void,T> {
         this.receiver = receiver;
         this.task = task;
     }
+
     //удаление переписки
-    public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, ChatListAdapter chatListAdapter, RecyclerView chatList,String user,Task task){
+    public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, ChatListAdapter chatListAdapter, RecyclerView chatList, String user, Task task) {
         this.chatList = chatList;
         this.context = context;
-        this.lifecycleOwner =lifecycleOwner;
+        this.lifecycleOwner = lifecycleOwner;
         this.chatListAdapter = chatListAdapter;
         this.receiver = user;
         this.task = task;
     }
+
     @Override
     protected T doInBackground(Void... voids) {
         appDataBase = DBClient.getInstance(context).getAppDataBase();
@@ -99,7 +100,7 @@ public class DataBaseTask<T> extends AsyncTask<Void,Void,T> {
     @Override
     protected void onPostExecute(T t) {
         super.onPostExecute(t);
-        switch (task){
+        switch (task) {
             case GetAllContacts:
                 contactDao.getAll().observe(lifecycleOwner, new Observer<List<Contact>>() {
                     @Override
@@ -120,5 +121,9 @@ public class DataBaseTask<T> extends AsyncTask<Void,Void,T> {
                     }
                 });
         }
+    }
+
+    public enum Task {
+        GetAllContacts, InsertMessage, GetAllMessages, DeleteAllMessageHistory
     }
 }
