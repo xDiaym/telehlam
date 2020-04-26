@@ -6,8 +6,10 @@ import retrofit2.http.POST;
 
 
 public interface UserApi {
-    @POST("/user/signup")
+    @POST("/user/signUp")
     Call<User> registerUser(@Body User user);
 
+    @POST("/user/signIn")
+    Call<User> signIn(@Body User user);
     // TODO(matthew.nekirov@gmail.com): add methods
 }

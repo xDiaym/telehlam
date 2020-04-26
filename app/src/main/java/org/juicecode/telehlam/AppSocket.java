@@ -31,7 +31,7 @@ public class AppSocket {
                 try {
                     String token = jsonObject.getString("token");
                 } catch (JSONException exception) {
-                    
+
                 }
             }
         };

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import org.juicecode.telehlam.R;
+import org.juicecode.telehlam.rest.RestUserClass;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.User;
 import org.juicecode.telehlam.utils.Constant;
@@ -23,6 +24,7 @@ import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -82,10 +84,7 @@ public class SecondRegistrationFragment extends Fragment {
                 password = passwordField.getText().toString();
                 repeatedPassword = repeatPassword.getText().toString();
                 //check if user wrote all information
-                /*if (login.isEmpty()
-                        && password.isEmpty()
-                        && password.equals(repeatedPassword))
-                {*/
+
                 if (login.isEmpty()) {
                     loginError.setText(R.string.loginError);
                     passwordError.setText("");
@@ -106,31 +105,11 @@ public class SecondRegistrationFragment extends Fragment {
                     passwordError.setText("");
                 } else {
 
+                    User user = new User(login, password, name, surname);
                     RetrofitBuilder retrofit = new RetrofitBuilder();
+                    RestUserClass registerUser = new RestUserClass(fragmentManagerSimplifier,user,drawerLocker,sharedPreferences,retrofit);
+                    registerUser.registerUser();
 
-                    //register user with all info
-                    Call registerUser = retrofit.getAuthorisationAPI().registerUser(new User(login, password, name, surname));
-                    registerUser.enqueue(new Callback() {
-                        @Override
-                        public void onResponse(Call call, Response response) {
-                            Log.i("responseCode", Integer.toString(response.code()));
-                            if (response.body() != null) {
-                                //removing fragments
-                                fragmentManagerSimplifier.remove("firstRegistrationFragment");
-                                fragmentManagerSimplifier.remove("authorisation");
-                                fragmentManagerSimplifier.remove("secondRegistrationFragment");
-                                //saving info
-                                sharedPreferences.edit().putBoolean("isNotRegistered", false).putString("userLogin", login).commit();
-                                drawerLocker.setDrawerLock(false);
-                                Log.i("responseMessage", response.body().toString());
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call call, Throwable t) {
-                            Log.i("error", t.toString());
-                        }
-                    });
 
                 }
 
@@ -180,4 +159,5 @@ public class SecondRegistrationFragment extends Fragment {
             return false;
         }
     }
+
 }

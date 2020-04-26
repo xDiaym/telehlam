@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -19,13 +21,18 @@ import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
 public class AuthorisationFragment extends Fragment {
     Button goToRegistrationFragment;
-    Button floatingActionButton;
+    Button loginButton;
+    EditText loginField;
+    EditText passwordField;
+    TextView loginError;
+    TextView passwordError;
+
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.authorisation_fragment, container, false);
-        floatingActionButton = view.findViewById(R.id.login_authorisation);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        loginButton = view.findViewById(R.id.login_authorisation);
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
@@ -46,5 +53,9 @@ public class AuthorisationFragment extends Fragment {
             }
         });
         return view;
+    }
+    public boolean checkFields(){
+
+        return true;
     }
 }
