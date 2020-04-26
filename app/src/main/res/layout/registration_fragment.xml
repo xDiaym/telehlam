@@ -4,24 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/textOrIcons"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="32dp"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/app_name"
+            app:titleTextColor="@color/textOrIcons"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary" />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="16dp"
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nameField"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="42dp"
             android:layout_gravity="left"
             android:layout_marginHorizontal="32dp"
-            android:layout_marginTop="15dp"
             android:background="@drawable/bottom_border"
             android:hint="@string/name"
             android:inputType="textCapWords"
@@ -31,7 +45,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/surnameField"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="42dp"
             android:layout_gravity="left"
             android:layout_marginHorizontal="32dp"
             android:layout_marginTop="15dp"
@@ -45,7 +59,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/loginField"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="42dp"
             android:layout_gravity="left"
             android:layout_marginHorizontal="32dp"
             android:layout_marginTop="15dp"
@@ -57,7 +71,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordField"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="42dp"
             android:layout_gravity="left"
             android:layout_marginHorizontal="32dp"
             android:layout_marginTop="15dp"
@@ -71,7 +85,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/repeatPasswordField"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="42dp"
             android:layout_gravity="left"
             android:layout_marginHorizontal="32dp"
             android:layout_marginTop="15dp"

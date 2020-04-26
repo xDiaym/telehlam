@@ -96,7 +96,11 @@ public class RegistrationFragment extends Fragment {
 
                         @Override
                         public void onFailure(Call call, Throwable t) {
-                            Log.i("error", t.toString());
+                            Log.i("Connection error!", t.toString());
+                            Snackbar
+                                    .make(getView(), "Some error with network!",
+                                            Snackbar.LENGTH_LONG)
+                                    .show();
                         }
                     });
 
@@ -106,7 +110,7 @@ public class RegistrationFragment extends Fragment {
                 } else {
                     // TODO(matthew.nekirov@gmail.com): get string from R.strings
                     Snackbar
-                            .make(getView(), "Please, fill all fields!", Snackbar.LENGTH_SHORT)
+                            .make(getView(), "Please, fill all fields!", Snackbar.LENGTH_LONG)
                             .show();
                 }
             }
