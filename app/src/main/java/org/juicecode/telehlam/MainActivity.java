@@ -31,7 +31,6 @@ import org.juicecode.telehlam.utils.PermissionCode;
 
 public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier,
         DrawerLocker {
-    private static final int READ_CONTACTS = 100;
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
     private NavController navController;
@@ -140,8 +139,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 return;
             }
 
-            // other 'case' lines to check for other
-            // permissions this app might request.
+            // other 'case' lines to check for other permissions this app might request.
         }
     }
 

@@ -32,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegistrationFragment extends Fragment {
+public class SignUpFragment extends Fragment {
     private MaterialToolbar toolbar;
     private Button floatingActionButton;
     private TextInputEditText loginField;
@@ -84,6 +84,8 @@ public class RegistrationFragment extends Fragment {
                 password = passwordField.getText().toString().trim();
                 repeatedPassword = repeatPassword.getText().toString().trim();
 
+                // TODO(matthew.nekirov@gmail.com): Саша, ПРОШУ, ПОДТЯНИ ЛОГИЧЕСКИЕ ОПЕРАТОРЫ.
+                //  Я чуть с ума не сошел, пока ошибку искал.
                 if (!(name.isEmpty() || surname.isEmpty() || login.isEmpty() || password.isEmpty()) && password.equals(repeatedPassword)) {
                     RetrofitBuilder retrofit = new RetrofitBuilder();
 

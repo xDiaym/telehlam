@@ -2,98 +2,95 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/textOrIcons"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/light_background"
     android:orientation="vertical">
 
-    <LinearLayout
+    <!-- Navigation Bar -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/colorPrimaryDark">
+        android:layout_height="wrap_content">
 
-        <TextView
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center_horizontal"
-            android:text="@string/app_name"
-            android:textAlignment="center"
-            android:textColor="@color/textOrIcons"
-            android:textSize="24sp">
-        </TextView>
-    </LinearLayout>
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/app_name"
+            app:menu="@menu/common_navigation_bar"
+            app:titleTextColor="@color/textOrIcons"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary" />
+    </com.google.android.material.appbar.AppBarLayout>
 
+    <!-- Sign in form -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp" >
 
-
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/filledLoginField"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="left"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="60dp"
-            android:background="@drawable/bottom_border"
+            android:layout_height="wrap_content"
+            android:paddingVertical="16dp"
             android:hint="@string/login"
-            android:textColor="@color/primaryText"
-            android:textColorHint="@color/secondaryText" />
+            android:textColorHint="@color/secondaryText"
+            app:helperTextTextColor="@color/secondaryText"
+            app:boxBackgroundColor="@color/dividerColor">
 
-        <EditText
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryText" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/filledPasswordField"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="left"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="60dp"
-            android:background="@drawable/bottom_border"
-            android:hint="@string/password"
-            android:textColor="@color/primaryText"
-
-            android:textColorHint="@color/secondaryText" />
-
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/login_authorisation"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
-            android:gravity="center_horizontal"
-            android:text="@string/entry"
-            android:textAlignment="center" />
+            android:paddingVertical="16dp"
+            android:hint="@string/password"
+            android:textColorHint="@color/secondaryText"
+            app:boxBackgroundColor="@color/dividerColor">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:textColor="@color/primaryText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
+            android:id="@+id/forget_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/lightPrimaryColor"
+            android:text="@string/forget_password"/>
+
+        <Button
+            android:id="@+id/log_in_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:backgroundTint="@color/textOrIcons"
-            android:gravity="center_horizontal"
-            android:padding="10dp"
-            android:text="@string/forget_password"
-            android:textColor="@color/primaryText"
-            android:textSize="10sp" />
+            android:text="@string/entry" />
 
         <Button
-            android:id="@+id/registration_button"
+            android:id="@+id/sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="20dp"
-            android:backgroundTint="@color/textOrIcons"
-            android:gravity="center_horizontal"
-            android:padding="10dp"
             android:text="@string/registration"
-            android:textColor="@color/primaryText"
-            android:textSize="10sp" />
+            android:textColor="@color/primaryText" />
+
     </LinearLayout>
 </LinearLayout>

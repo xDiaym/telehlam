@@ -24,13 +24,14 @@
 
     <string name="authorisation">Authorisation</string>
     <string name="login">Login</string>
-    <string name="sign_up">Sign Up</string>
     <string name="password">Password</string>
+    <string name="sign_up">Sign Up</string>
     <string name="entry">Log in</string>
-    <string name="forget_password">Forget password</string>
+    <string name="forget_password">Forget password?</string>
     <string name="registration">Registration</string>
     <string name="repeat_password">Repeat password</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
-    <string name="email">Email (optionally)</string>
+
+    <string name="required">*Required</string>
 </resources>
