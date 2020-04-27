@@ -26,6 +26,7 @@ import com.google.android.material.navigation.NavigationView;
 import org.juicecode.telehlam.ui.contacts.ContactsFragment;
 import org.juicecode.telehlam.ui.home.HomeFragment;
 import org.juicecode.telehlam.ui.registration.AuthorisationFragment;
+import org.juicecode.telehlam.ui.registration.FirstRegistrationFragment;
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.PermissionCode;
@@ -40,26 +41,14 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private SharedPreferences sharedPreferences;
 
     @Override
-    public void onBackPressed() {
-        int index = getSupportFragmentManager().getBackStackEntryCount()-1;
-        if(getSupportFragmentManager().getBackStackEntryAt(index) instanceof HomeFragment){
-            super.onBackPressed();
-        }else{
-            super.onBackPressed();
-            setDrawerLock(false);
-        }
-
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sharedPreferences = getSharedPreferences("org.juicecode.telehlam", Context.MODE_PRIVATE);
         //check if user has registered
-        if (sharedPreferences.getString("token", "").isEmpty()) {
-            replaceFragment(new AuthorisationFragment(), "authorisation");
-        }
+        //if (sharedPreferences.getString("token", "").isEmpty()) {
+            addFragment(new AuthorisationFragment(), "authorisation");
+        //}
         Toolbar toolbar = findViewById(R.id.toolbar);
         // really bad code but no way
         if (checkFragment("authorisation")) {
@@ -124,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (fragmentManager.findFragmentByTag(tag) != null) {
+            fragmentManager.popBackStack();
             fragmentTransaction.remove(fragmentManager.findFragmentByTag(tag)).commit();
         }
     }
