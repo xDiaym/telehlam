@@ -5,17 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
 import org.juicecode.telehlam.database.DataBaseTask;
-
 import java.util.List;
 
 public class HomeFragment extends Fragment {

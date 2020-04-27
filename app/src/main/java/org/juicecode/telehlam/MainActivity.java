@@ -5,17 +5,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -26,15 +23,11 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
-
 import org.juicecode.telehlam.ui.contacts.ContactsFragment;
 import org.juicecode.telehlam.ui.home.HomeFragment;
 import org.juicecode.telehlam.ui.registration.AuthorisationFragment;
-import org.juicecode.telehlam.utils.Constant;
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
-
 import org.juicecode.telehlam.utils.PermissionCode;
 
 
@@ -45,31 +38,44 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private DrawerLayout drawer;
     private NavController navController;
     private SharedPreferences sharedPreferences;
+
+    @Override
+    public void onBackPressed() {
+        int index = getSupportFragmentManager().getBackStackEntryCount()-1;
+        if(getSupportFragmentManager().getBackStackEntryAt(index) instanceof HomeFragment){
+            super.onBackPressed();
+        }else{
+            super.onBackPressed();
+            setDrawerLock(false);
+        }
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sharedPreferences = getSharedPreferences("org.juicecode.telehlam", Context.MODE_PRIVATE);
         //check if user has registered
-        if(sharedPreferences.getString("token","").isEmpty()){
-            replaceFragment(new AuthorisationFragment(),"authorisation");
+        if (sharedPreferences.getString("token", "").isEmpty()) {
+            replaceFragment(new AuthorisationFragment(), "authorisation");
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
         // really bad code but no way
-        if(checkFragment("authorisation")){
+        if (checkFragment("authorisation")) {
 
-        } else{
-        setSupportActionBar(toolbar);
+        } else {
+            setSupportActionBar(toolbar);
         }
         //Checking permission if user tapped
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkFragment("authorisation")){
+                if (checkFragment("authorisation")) {
 
                 } else {
-            checkPermission();
+                    checkPermission();
                 }
             }
         });
@@ -105,52 +111,52 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 || super.onSupportNavigateUp();
     }
 
-    public void addFragment(Fragment fragment,String tag) {
+    public void addFragment(Fragment fragment, String tag) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.drawer_layout, fragment,tag)
+                .add(R.id.drawer_layout, fragment, tag)
                 .addToBackStack(fragment.getClass().getName())
                 .commit();
     }
 
     @Override
     public void remove(String tag) {
-       FragmentManager fragmentManager = getSupportFragmentManager();
-       FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-       if(fragmentManager.findFragmentByTag(tag)!=null){
-           fragmentTransaction.remove(fragmentManager.findFragmentByTag(tag)).commit();
-       }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (fragmentManager.findFragmentByTag(tag) != null) {
+            fragmentTransaction.remove(fragmentManager.findFragmentByTag(tag)).commit();
+        }
     }
 
     @Override
     public boolean checkFragment(String tag) {
-        if(getSupportFragmentManager().findFragmentByTag(tag)!=null){
-         return true;
-        }else{
-        return false;
+        if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
+            return true;
+        } else {
+            return false;
         }
     }
 
 
-    public void replaceFragment(Fragment fragment,String tag) {
+    public void replaceFragment(Fragment fragment, String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack();
         fragmentManager
                 .beginTransaction()
-                .replace(R.id.drawer_layout, fragment,tag)
+                .replace(R.id.drawer_layout, fragment, tag)
                 .addToBackStack(fragment.getClass().getName())
                 .commit();
     }
 
 
-    public void checkPermission(){
+    public void checkPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_CONTACTS}, PermissionCode.PERMISSION_READ_CONTACTS);
-        }
-        else {
-            addFragment(new ContactsFragment(),"contacts");
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_CONTACTS}, PermissionCode.PERMISSION_READ_CONTACTS);
+        } else {
+            addFragment(new ContactsFragment(), "contacts");
         }
     }
 
@@ -161,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    addFragment(new ContactsFragment(),"contacts");
+                    addFragment(new ContactsFragment(), "contacts");
                 } else {
 
                 }
