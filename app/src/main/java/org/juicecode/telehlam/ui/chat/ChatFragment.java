@@ -86,6 +86,7 @@ public class ChatFragment extends Fragment {
                     dataBaseTask.execute();
                     messageChatAdapter.addItem(message);
                     messageField.setText("");
+                    chat.scrollToPosition(chat.getAdapter().getItemCount()-1);
                 }
             }
         });

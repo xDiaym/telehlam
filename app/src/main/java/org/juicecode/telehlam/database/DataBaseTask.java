@@ -118,6 +118,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                     @Override
                     public void onChanged(List<Message> messages) {
                         messageChatAdapter.addItems(messages);
+                        chat.scrollToPosition(messageChatAdapter.getItemCount()-1);
                     }
                 });
         }

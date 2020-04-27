@@ -55,13 +55,22 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             replaceFragment(new AuthorisationFragment(),"authorisation");
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
+        // really bad code but no way
+        if(checkFragment("authorisation")){
+
+        } else{
         setSupportActionBar(toolbar);
+        }
         //Checking permission if user tapped
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(checkFragment("authorisation")){
+
+                } else {
             checkPermission();
+                }
             }
         });
         //all drawer stuff
@@ -111,6 +120,15 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
        if(fragmentManager.findFragmentByTag(tag)!=null){
            fragmentTransaction.remove(fragmentManager.findFragmentByTag(tag)).commit();
        }
+    }
+
+    @Override
+    public boolean checkFragment(String tag) {
+        if(getSupportFragmentManager().findFragmentByTag(tag)!=null){
+         return true;
+        }else{
+        return false;
+        }
     }
 
 
