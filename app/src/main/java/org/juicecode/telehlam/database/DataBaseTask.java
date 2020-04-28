@@ -84,6 +84,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                 break;
 
             case GetAllContacts:
+
                 //  а ничего он не делает тут кстати, только получение базы и Dao  так что можно убрать
                 break;
             case DeleteAllMessageHistory:

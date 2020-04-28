@@ -4,7 +4,9 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -21,8 +23,14 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import com.github.nkzawa.socketio.client.Socket;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+
+import org.juicecode.telehlam.rest.Token;
+import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.ui.contacts.ContactsFragment;
 import org.juicecode.telehlam.ui.home.HomeFragment;
 import org.juicecode.telehlam.ui.registration.AuthorisationFragment;
@@ -39,16 +47,35 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private DrawerLayout drawer;
     private NavController navController;
     private SharedPreferences sharedPreferences;
+    private static Socket socket;
+
+
+    public static Socket getSocket() {
+        return socket;
+    }
+
+    public static void setSocket(Socket socket) {
+        MainActivity.socket = socket;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         sharedPreferences = getSharedPreferences("org.juicecode.telehlam", Context.MODE_PRIVATE);
         //check if user has registered
-        //if (sharedPreferences.getString("token", "").isEmpty()) {
+        if (sharedPreferences.getString("token", "").isEmpty()) {
             addFragment(new AuthorisationFragment(), "authorisation");
-        //}
+        } else {
+            AppSocket appSocket = new AppSocket(this);
+            socket = appSocket.getSocket();
+            socket.connect();
+            Token token = new Token(sharedPreferences.getString("token",""));
+            String gson = toGson(token);
+            Log.i("tokenJson",gson);
+            socket.emit("login",gson);
+        }
         Toolbar toolbar = findViewById(R.id.toolbar);
         // really bad code but no way
         if (checkFragment("authorisation")) {
@@ -117,7 +144,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             fragmentTransaction.remove(fragmentManager.findFragmentByTag(tag)).commit();
         }
     }
-
+    public String toGson(Object obj){
+        String gsonString = new Gson().toJson(obj);
+        return  gsonString;
+    }
     @Override
     public boolean checkFragment(String tag) {
         if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
