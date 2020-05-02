@@ -14,9 +14,11 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.rest.RestUserClass;
+import org.juicecode.telehlam.rest.AsyncUserApi;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
+import org.juicecode.telehlam.rest.Token;
 import org.juicecode.telehlam.rest.User;
+import org.juicecode.telehlam.utils.ApiCallback;
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
@@ -35,23 +37,35 @@ public class AuthorisationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater layoutInflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.authorisation_fragment, container, false);
+
         loginButton = view.findViewById(R.id.login_authorisation);
         loginField = view.findViewById(R.id.loginField);
         loginError = view.findViewById(R.id.loginError);
         passwordField = view.findViewById(R.id.passwordField);
         passwordError = view.findViewById(R.id.passwordError);
+
         fragmentManagerSimplifier = (FragmentManagerSimplifier) view.getContext();
         drawerLocker = (DrawerLocker) view.getContext();
+
         sharedPreferences = view.getContext().getSharedPreferences("org.juicecode.telehlam", Context.MODE_PRIVATE);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String login = loginField.getText().toString();
-                String password = passwordField.getText().toString();
+                String login = loginField.getText().toString().trim();
+                String password = passwordField.getText().toString().trim();
+
                 if (checkFields(login, password)) {
-                    RetrofitBuilder retrofitBuilder = new RetrofitBuilder();
-                    RestUserClass signIn = new RestUserClass(fragmentManagerSimplifier, new User(login, password), drawerLocker, sharedPreferences, retrofitBuilder);
-                    signIn.signIn();
+                    AsyncUserApi api = new AsyncUserApi(new RetrofitBuilder());
+                    api.signIn(new User(login, password), new ApiCallback<Token>() {
+                        @Override
+                        public void execute(Token response) {
+                            sharedPreferences.edit().putString("token", response.getToken()).apply();
+                            fragmentManagerSimplifier.remove("authorisation");
+                            fragmentManagerSimplifier.remove("firstRegistrationFragment");
+                            fragmentManagerSimplifier.remove("secondRegistrationFragment");
+                        }
+                    });
+
                     fragmentManagerSimplifier.remove("authorisation");
                     drawerLocker.setDrawerLock(false);
                 }
@@ -67,14 +81,13 @@ public class AuthorisationFragment extends Fragment {
         goToRegistrationFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 ((FragmentManagerSimplifier) getContext()).addFragment(new FirstRegistrationFragment(), "firstRegistrationFragment");
             }
         });
         return view;
     }
 
-    public boolean checkFields(String login, String password) {
+    private boolean checkFields(String login, String password) {
         if (login.isEmpty()) {
             loginError.setText(R.string.loginError);
             passwordError.setText("");
@@ -87,4 +100,5 @@ public class AuthorisationFragment extends Fragment {
             return true;
         }
     }
+
 }

@@ -7,7 +7,7 @@ import retrofit2.http.POST;
 
 public interface UserApi {
     @POST("/user/signUp")
-    Call<User> registerUser(@Body User user);
+    Call<SignUpInfo> registerUser(@Body User user);
 
     @POST("/user/signIn")
     Call<Token> signIn(@Body User user);

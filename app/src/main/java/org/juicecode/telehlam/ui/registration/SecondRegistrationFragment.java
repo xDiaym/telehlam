@@ -14,9 +14,11 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.rest.RestUserClass;
+import org.juicecode.telehlam.rest.AsyncUserApi;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
+import org.juicecode.telehlam.rest.SignUpInfo;
 import org.juicecode.telehlam.rest.User;
+import org.juicecode.telehlam.utils.ApiCallback;
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
@@ -68,7 +70,6 @@ public class SecondRegistrationFragment extends Fragment {
             private String password;
             private String repeatedPassword;
 
-
             @Override
             public void onClick(View v) {
                 //getting values
@@ -97,13 +98,20 @@ public class SecondRegistrationFragment extends Fragment {
                     loginError.setText("");
                     passwordError.setText("");
                 } else {
-
                     User user = new User(login, password, name, surname);
-                    RetrofitBuilder retrofit = new RetrofitBuilder();
-                    RestUserClass registerUser = new RestUserClass(fragmentManagerSimplifier, user, drawerLocker, sharedPreferences, retrofit);
-                    registerUser.registerUser();
-
-
+                    AsyncUserApi registerUser = new AsyncUserApi(new RetrofitBuilder());
+                    registerUser.registerUser(user, new ApiCallback<SignUpInfo>() {
+                        @Override
+                        public void execute(SignUpInfo response) {
+                            //removing fragments
+                            fragmentManagerSimplifier.remove("firstRegistrationFragment");
+                            fragmentManagerSimplifier.remove("secondRegistrationFragment");
+                            fragmentManagerSimplifier.remove("authorisation");
+                            //saving info
+                            sharedPreferences.edit().putString("token", response.getToken()).apply();
+                            drawerLocker.setDrawerLock(false);
+                        }
+                    });
                 }
 
             }
