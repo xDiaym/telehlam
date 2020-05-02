@@ -1,10 +1,10 @@
 package org.juicecode.telehlam.rest;
 
-public class SignUpInfo {
+public class AuthInfo {
     private final long id;
     private final String token;
 
-    public SignUpInfo(long id, String token) {
+    public AuthInfo(long id, String token) {
         this.id = id;
         this.token = token;
     }

@@ -10,15 +10,11 @@ public class RetrofitBuilder {
     private static Retrofit retrofit;
 
     public RetrofitBuilder() {
-        this.retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        this.userApi = retrofit.create(UserApi.class);
-    }
-
-    public Retrofit getRetrofit() {
-        return retrofit;
+        userApi = retrofit.create(UserApi.class);
     }
 
     public UserApi getUserApi() {

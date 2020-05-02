@@ -1,6 +1,5 @@
 package org.juicecode.telehlam.rest;
 
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -9,8 +8,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 
 import org.juicecode.telehlam.utils.ApiCallback;
-import org.juicecode.telehlam.utils.DrawerLocker;
-import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,9 +24,9 @@ public class AsyncUserApi {
     }
 
     public void registerUser(@NonNull final User user,
-                             @NonNull final ApiCallback<SignUpInfo> callback) {
-        final Call<SignUpInfo> call = userApi.registerUser(user);
-        call.enqueue(new Callback<SignUpInfo>() {
+                             @NonNull final ApiCallback<AuthInfo> callback) {
+        final Call<AuthInfo> call = userApi.registerUser(user);
+        call.enqueue(new Callback<AuthInfo>() {
             @Override
             public void onResponse(Call call, Response response) {
                 if (response.isSuccessful()) {
@@ -37,7 +34,7 @@ public class AsyncUserApi {
                         Log.i(TAG, "Incorrect server answer!");
                         return;
                     }
-                    SignUpInfo info = (SignUpInfo) response.body();
+                    AuthInfo info = (AuthInfo) response.body();
                     callback.execute(info);
                     Log.i(TAG, "User successfully registered");
                 } else {
@@ -48,7 +45,9 @@ public class AsyncUserApi {
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Log.e(TAG, "Failure while sending response");
+                Log.e(TAG, String.format("Failure while sending response\n" +
+                                         "Error: %s",
+                                          t.getMessage()));
             }
         });
     }
@@ -63,6 +62,7 @@ public class AsyncUserApi {
                     if (response.body() != null) {
                         try {
                             String res = new Gson().toJson(response.body());
+                            Log.e(TAG, res);
                             Token token = new Gson().fromJson(res, Token.class);
                             callback.execute(token);
                         } catch (JsonIOException exception) {
