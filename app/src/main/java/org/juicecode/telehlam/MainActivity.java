@@ -29,6 +29,7 @@ import org.juicecode.telehlam.ui.registration.AuthorisationFragment;
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.PermissionCode;
+import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier,
@@ -42,9 +43,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sharedPreferences = getSharedPreferences("org.juicecode.telehlam", Context.MODE_PRIVATE);
+
         //check if user has registered
-        if (sharedPreferences.getString("token", "").isEmpty()) {
+        SharedPreferencesRepository repository = new SharedPreferencesRepository(this);
+        if (repository.getToken() == null) {
             replaceFragment(new AuthorisationFragment(), "authorisation");
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -63,8 +65,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools, R.id.nav_share, R.id.nav_send)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                 .setDrawerLayout(drawer)
                 .build();
 
@@ -136,13 +137,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     addFragment(new ContactsFragment(), "contacts");
-                } else {
-
                 }
-                return;
             }
-
-
         }
     }
 

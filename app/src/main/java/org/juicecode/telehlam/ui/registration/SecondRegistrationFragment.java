@@ -20,8 +20,10 @@ import org.juicecode.telehlam.rest.AuthInfo;
 import org.juicecode.telehlam.rest.User;
 import org.juicecode.telehlam.utils.ApiCallback;
 import org.juicecode.telehlam.utils.DrawerLocker;
+import org.juicecode.telehlam.utils.FieldValidator;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
+import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,7 +36,6 @@ public class SecondRegistrationFragment extends Fragment {
     private EditText passwordField;
     private EditText repeatPassword;
     private Bundle gettingArguments;
-    private SharedPreferences sharedPreferences;
     private TextView loginError;
     private TextView passwordError;
     private TextView repeatPasswordError;
@@ -47,7 +48,6 @@ public class SecondRegistrationFragment extends Fragment {
         final FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier) view.getContext();
 
         //set UI elements
-        sharedPreferences = getActivity().getSharedPreferences("org.juicecode.telehlam", Context.MODE_PRIVATE);
         floatingActionButton = view.findViewById(R.id.login_registration);
         loginField = view.findViewById(R.id.loginField);
         repeatPassword = view.findViewById(R.id.repeatPasswordField);
@@ -61,6 +61,7 @@ public class SecondRegistrationFragment extends Fragment {
         final String[] values = gettingArguments.getStringArray("argumentsFromFirstRegistration");
         final DrawerLocker drawerLocker = (DrawerLocker) view.getContext();
         drawerLocker.setDrawerLock(true);
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             //String value of fields
             private String name = values[0];
@@ -83,13 +84,13 @@ public class SecondRegistrationFragment extends Fragment {
                     loginError.setText(R.string.loginError);
                     passwordError.setText("");
                     repeatPassword.setText("");
-                } else if (!checkLogin(login)) {
+                } else if (!FieldValidator.validateLogin(login)) {
                     loginError.setText(R.string.wrongLogin);
                 } else if (password.isEmpty()) {
                     passwordError.setText(R.string.passwordError);
                     repeatPasswordError.setText("");
                     loginError.setText("");
-                } else if (!checkPassword(password)) {
+                } else if (!FieldValidator.validatePassword(password)) {
                     passwordError.setText(R.string.weakPassword);
                     repeatPasswordError.setText("");
                     loginError.setText("");
@@ -98,7 +99,7 @@ public class SecondRegistrationFragment extends Fragment {
                     loginError.setText("");
                     passwordError.setText("");
                 } else {
-                    User user = new User(login, password, name, surname);
+                    final User user = new User(login, password, name, surname);
                     AsyncUserApi registerUser = new AsyncUserApi(new RetrofitBuilder());
                     registerUser.registerUser(user, new ApiCallback<AuthInfo>() {
                         @Override
@@ -108,12 +109,12 @@ public class SecondRegistrationFragment extends Fragment {
                             fragmentManagerSimplifier.remove("secondRegistrationFragment");
                             fragmentManagerSimplifier.remove("authorisation");
                             //saving info
-                            sharedPreferences.edit().putString("token", response.getToken()).apply();
+                            SharedPreferencesRepository repository = new SharedPreferencesRepository(getContext());
+                            repository.saveToken(response.getToken());
                             drawerLocker.setDrawerLock(false);
                         }
                     });
                 }
-
             }
         });
 
@@ -127,38 +128,6 @@ public class SecondRegistrationFragment extends Fragment {
             }
         });
         return view;
-    }
-
-    public boolean checkPassword(String password) {
-        Pattern pattern = Pattern.compile("^" +             // Begin of string
-                "(?=.*[a-z])" +                             // Lowercase letters
-                "(?=.*[A-Z])" +                             // Uppercase letters
-                "(?=.*[0-9])" +                             // Digits
-                "(?=.*[!@#\\$%\\^&\\*\\(\\)\\-_=\\+])" +    // Symbols
-                "(?=.{7,})"                                 // Minimal length
-        );
-        password.trim();
-        Matcher matcher = pattern.matcher(password);
-        if (matcher.find()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-    public boolean checkLogin(String login) {
-        Pattern pattern = Pattern.compile("^" + // Beginning of string
-                "([a-z0-9_]{4,32})" + // Lowercase symbols, digits and underscore. Length: [4-32]
-                "$" // End of string
-        );
-        login.trim();
-        Matcher m = pattern.matcher(login);
-        if (m.find()) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
 }

@@ -46,8 +46,8 @@ public class AsyncUserApi {
             @Override
             public void onFailure(Call call, Throwable t) {
                 Log.e(TAG, String.format("Failure while sending response\n" +
-                                         "Error: %s",
-                                          t.getMessage()));
+                                "Error: %s",
+                        t.getMessage()));
             }
         });
     }
@@ -71,12 +71,15 @@ public class AsyncUserApi {
                     }
                 } else {
                     //TODO error handling
+                    Log.e(TAG, "Unsuccessful response at signIn");
                 }
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
-
+                Log.e(TAG, String.format("Failure while sending response\n" +
+                                "Error: %s",
+                        t.getMessage()));
             }
         });
     }
