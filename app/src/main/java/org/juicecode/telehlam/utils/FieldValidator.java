@@ -11,8 +11,7 @@ public class FieldValidator {
                 "(?=.*[A-Z])" +                             // Uppercase letters
                 "(?=.*[0-9])" +                             // Digits
                 "(?=.*[!@#\\$%\\^&\\*\\(\\)\\-_=\\+])" +    // Symbols
-                "(?=.{7,})" +                               // Minimal length
-                "$"                                         // End of string
+                "(?=.{7,})"                                 // Minimal length
         );
         Matcher matcher = pattern.matcher(password.trim());
         return matcher.find();

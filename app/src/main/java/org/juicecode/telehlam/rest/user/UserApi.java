@@ -1,4 +1,4 @@
-package org.juicecode.telehlam.rest;
+package org.juicecode.telehlam.rest.user;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -10,7 +10,7 @@ public interface UserApi {
     Call<AuthInfo> registerUser(@Body User user);
 
     @POST("/user/signIn")
-    Call<Token> signIn(@Body User user);
+    Call<AuthInfo> signIn(@Body User user);
 
     // TODO(matthew.nekirov@gmail.com): add methods
 }

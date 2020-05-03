@@ -1,4 +1,4 @@
-package org.juicecode.telehlam.rest;
+package org.juicecode.telehlam.rest.user;
 
 public class AuthInfo {
     private final long id;

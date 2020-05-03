@@ -1,5 +1,6 @@
 package org.juicecode.telehlam.rest;
 
+import org.juicecode.telehlam.rest.user.UserApi;
 import org.juicecode.telehlam.utils.Constant;
 
 import retrofit2.Retrofit;

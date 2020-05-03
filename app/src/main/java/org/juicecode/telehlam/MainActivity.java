@@ -31,6 +31,8 @@ import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.PermissionCode;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
+import javax.security.auth.PrivateCredentialPermission;
+
 
 public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier,
         DrawerLocker {
@@ -43,6 +45,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // TODO: add logout button
+        SharedPreferences preferences = getSharedPreferences( "org.juicecode.telehlam", MODE_PRIVATE);
+        preferences.edit().remove("token").apply();
 
         //check if user has registered
         SharedPreferencesRepository repository = new SharedPreferencesRepository(this);

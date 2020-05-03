@@ -14,13 +14,14 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.rest.AsyncUserApi;
+import org.juicecode.telehlam.rest.user.AsyncUserApi;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
-import org.juicecode.telehlam.rest.Token;
-import org.juicecode.telehlam.rest.User;
+import org.juicecode.telehlam.rest.user.AuthInfo;
+import org.juicecode.telehlam.rest.user.User;
 import org.juicecode.telehlam.utils.ApiCallback;
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
+import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
 
 public class AuthorisationFragment extends Fragment {
@@ -56,10 +57,11 @@ public class AuthorisationFragment extends Fragment {
 
                 if (checkFields(login, password)) {
                     AsyncUserApi api = new AsyncUserApi(new RetrofitBuilder());
-                    api.signIn(new User(login, password), new ApiCallback<Token>() {
+                    api.signIn(new User(login, password), new ApiCallback<AuthInfo>() {
                         @Override
-                        public void execute(Token response) {
-                            sharedPreferences.edit().putString("token", response.getToken()).apply();
+                        public void execute(AuthInfo response) {
+                            new SharedPreferencesRepository(getContext())
+                                    .saveToken(response.getToken());
                             fragmentManagerSimplifier.remove("authorisation");
                             fragmentManagerSimplifier.remove("firstRegistrationFragment");
                             fragmentManagerSimplifier.remove("secondRegistrationFragment");

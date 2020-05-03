@@ -1,7 +1,5 @@
 package org.juicecode.telehlam.ui.registration;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,19 +12,16 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.rest.AsyncUserApi;
+import org.juicecode.telehlam.rest.user.AsyncUserApi;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
-import org.juicecode.telehlam.rest.AuthInfo;
-import org.juicecode.telehlam.rest.User;
+import org.juicecode.telehlam.rest.user.AuthInfo;
+import org.juicecode.telehlam.rest.user.User;
 import org.juicecode.telehlam.utils.ApiCallback;
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FieldValidator;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SecondRegistrationFragment extends Fragment {
     //UI elements
@@ -75,9 +70,9 @@ public class SecondRegistrationFragment extends Fragment {
             public void onClick(View v) {
                 //getting values
 
-                login = loginField.getText().toString();
-                password = passwordField.getText().toString();
-                repeatedPassword = repeatPassword.getText().toString();
+                login = loginField.getText().toString().trim();
+                password = passwordField.getText().toString().trim();
+                repeatedPassword = repeatPassword.getText().toString().trim();
                 //check if user wrote all information
 
                 if (login.isEmpty()) {

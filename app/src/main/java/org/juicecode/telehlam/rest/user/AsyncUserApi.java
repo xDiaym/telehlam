@@ -1,4 +1,4 @@
-package org.juicecode.telehlam.rest;
+package org.juicecode.telehlam.rest.user;
 
 import android.util.Log;
 
@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 
+import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.utils.ApiCallback;
 
 import retrofit2.Call;
@@ -52,9 +53,9 @@ public class AsyncUserApi {
         });
     }
 
-    public void signIn(@NonNull final User user, @NonNull final ApiCallback<Token> callback) {
-        Call<Token> signIn = userApi.signIn(user);
-        signIn.enqueue(new Callback<Token>() {
+    public void signIn(@NonNull final User user, @NonNull final ApiCallback<AuthInfo> callback) {
+        Call<AuthInfo> signIn = userApi.signIn(user);
+        signIn.enqueue(new Callback<AuthInfo>() {
             @Override
             public void onResponse(Call call, Response response) {
                 Log.i("responseBody", response.toString());
@@ -62,9 +63,8 @@ public class AsyncUserApi {
                     if (response.body() != null) {
                         try {
                             String res = new Gson().toJson(response.body());
-                            Log.e(TAG, res);
-                            Token token = new Gson().fromJson(res, Token.class);
-                            callback.execute(token);
+                            AuthInfo info = new Gson().fromJson(res, AuthInfo.class);
+                            callback.execute(info);
                         } catch (JsonIOException exception) {
                             exception.printStackTrace();
                         }
