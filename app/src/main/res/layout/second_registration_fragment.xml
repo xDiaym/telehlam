@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/side_nav_bar"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/goBackButton"
+            android:layout_width="60dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp"
+            android:background="@android:color/transparent"
+            android:gravity="left"
+            app:srcCompat="@drawable/ic_arrow_back_white_24dp"></ImageButton>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="80dp"
+            android:gravity="center_horizontal"
+            android:text="@string/registration"
+            android:textAlignment="center"
+            android:textColor="@color/textOrIcons"
+            android:textSize="24sp">
+
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/loginField"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/bottom_border"
+            android:hint="@string/login"
+            android:textColor="@color/textOrIcons"
+            android:textColorHint="@color/secondaryText"></EditText>
+
+        <TextView
+            android:id="@+id/loginError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="10dp"
+            android:text=""
+            android:textSize="15sp"></TextView>
+
+        <EditText
+            android:id="@+id/passwordField"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/bottom_border"
+            android:hint="@string/password"
+            android:textColor="@color/textOrIcons"
+            android:textColorHint="@color/secondaryText"></EditText>
+
+        <TextView
+            android:id="@+id/passwordError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="10dp"
+            android:text=""
+            android:textSize="15sp"></TextView>
+
+        <EditText
+            android:id="@+id/repeatPasswordField"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/bottom_border"
+            android:hint="@string/repeat_password"
+            android:textColor="@color/textOrIcons"
+            android:textColorHint="@color/secondaryText"></EditText>
+
+
+        <TextView
+            android:id="@+id/repeatPasswordError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="10dp"
+            android:text=""
+            android:textSize="15sp"></TextView>
+
+        <Button
+            android:id="@+id/login_registration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/login_background"
+            android:padding="10dp"
+            android:text="@string/login"
+            android:textColor="@color/textOrIcons"></Button>
+    </LinearLayout>
+
+</LinearLayout>

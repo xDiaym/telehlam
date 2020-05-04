@@ -47,6 +47,6 @@ public class Contact {
     @NonNull
     @Override
     public String toString() {
-        return  " " + phone;
+        return " " + phone;
     }
 }

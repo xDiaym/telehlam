@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:background="@color/textOrIcons"
     android:orientation="horizontal"
-    android:padding="11dp">
+    android:padding="11dp"
+    android:stateListAnimator="@null">
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/contact_avatar"
