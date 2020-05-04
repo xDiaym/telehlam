@@ -34,11 +34,11 @@ public class AuthorisationFragment extends Fragment {
     FragmentManagerSimplifier fragmentManagerSimplifier;
     DrawerLocker drawerLocker;
     SharedPreferences sharedPreferences;
-
+    Context context;
     @Override
     public View onCreateView(LayoutInflater layoutInflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.authorisation_fragment, container, false);
-
+        context = getContext();
         loginButton = view.findViewById(R.id.login_authorisation);
         loginField = view.findViewById(R.id.loginField);
         loginError = view.findViewById(R.id.loginError);
@@ -60,7 +60,7 @@ public class AuthorisationFragment extends Fragment {
                     api.signIn(new User(login, password), new ApiCallback<AuthInfo>() {
                         @Override
                         public void execute(AuthInfo response) {
-                            new SharedPreferencesRepository(getContext())
+                            new SharedPreferencesRepository(context)
                                     .saveToken(response.getToken());
                             fragmentManagerSimplifier.remove("authorisation");
                             fragmentManagerSimplifier.remove("firstRegistrationFragment");

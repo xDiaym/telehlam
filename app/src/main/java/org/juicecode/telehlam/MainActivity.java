@@ -62,7 +62,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPermission();
+                if (checkFragment("authorisation")) {
+
+                } else {
+                    checkPermission();
+                }
             }
         });
         //all drawer stuff
@@ -110,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (fragmentManager.findFragmentByTag(tag) != null) {
             fragmentTransaction.remove(fragmentManager.findFragmentByTag(tag)).commit();
+            fragmentManager.popBackStack();
         }
     }
 
@@ -153,6 +158,14 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         drawer.setDrawerLockMode(lock
                 ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED
                 : DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+    @Override
+    public boolean checkFragment(String tag) {
+        if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
