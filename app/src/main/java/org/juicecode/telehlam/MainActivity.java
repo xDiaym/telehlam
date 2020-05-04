@@ -21,9 +21,11 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.github.nkzawa.socketio.client.Socket;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.ui.contacts.ContactsFragment;
 import org.juicecode.telehlam.ui.registration.AuthorisationFragment;
 import org.juicecode.telehlam.utils.DrawerLocker;
@@ -40,7 +42,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private DrawerLayout drawer;
     private NavController navController;
     private SharedPreferences sharedPreferences;
-
+    private AppSocket appSocket;
+    private Socket socket;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         SharedPreferencesRepository repository = new SharedPreferencesRepository(this);
         if (repository.getToken() == null) {
             replaceFragment(new AuthorisationFragment(), "authorisation");
+        } else {
+            appSocket = new AppSocket();
+            Socket socket = appSocket.getSocket();
+            socket.connect();
+            socket.emit("login", repository.getToken());
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

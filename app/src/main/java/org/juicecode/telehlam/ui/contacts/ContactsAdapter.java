@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactViewHolder> {
     private ArrayList<Contact> contacts;
 
-    public ContactsAdapter(ArrayList<Contact> contacts) {
+    public ContactsAdapter() {
         this.contacts = contacts;
     }
 
@@ -36,7 +36,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
-        holder.bind(contacts.get(position).getName(), contacts.get(position).getPhone());
+        holder.bind(contacts.get(position).getLogin());
     }
 
     @Override
@@ -67,9 +67,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             contactName = itemView.findViewById(R.id.contact_name);
         }
 
-        public void bind(String name, String phone) {
-            contactName.setText(name);
-            this.phoneNumber = phone;
+        public void bind(String login) {
+            contactName.setText(login);
+
         }
     }
 

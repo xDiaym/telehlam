@@ -18,11 +18,11 @@ public interface ContactDao {
     @Query("SELECT * FROM contacts WHERE contactId = :id")
     Contact getById(long id);
 
-    @Query("SELECT * FROM contacts WHERE phone=:phone")
-    Contact getByPhone(String phone);
+    @Query("SELECT * FROM contacts WHERE login=:login")
+    Contact getBylogin(String login);
 
-    @Query("SELECT COUNT(*) FROM contacts WHERE phone=:phone")
-    int getNumberOfContactsByPhone(String phone);
+    @Query("SELECT COUNT(*) FROM contacts WHERE login=:login")
+    int getNumberOfContactsBylogin(String login);
 
     @Insert
     void insert(Contact contact);
@@ -39,8 +39,8 @@ public interface ContactDao {
     @Query("DELETE FROM contacts")
     void deleteAll();
 
-    @Query("DELETE FROM contacts WHERE phone=:userPhone")
-    void deleteByPhone(String userPhone);
+    @Query("DELETE FROM contacts WHERE login=:userLogin")
+    void deleteByLogin(String userLogin);
 
     @Update
     void update(Contact contact);

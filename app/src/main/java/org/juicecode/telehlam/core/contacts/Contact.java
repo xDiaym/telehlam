@@ -10,30 +10,10 @@ public class Contact {
     @PrimaryKey(autoGenerate = true)
     private int contactId;
     @ColumnInfo
-    private String name;
-    // TODO(all): create class for telephone numbers
-    @ColumnInfo
-    private String phone;
+    private String login;
 
-    public Contact(String name, String phone) {
-        this.name = name;
-        this.phone = phone;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public Contact(String login) {
+        this.login = login;
     }
 
     public int getContactId() {
@@ -44,9 +24,11 @@ public class Contact {
         this.contactId = id;
     }
 
-    @NonNull
-    @Override
-    public String toString() {
-        return " " + phone;
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 }

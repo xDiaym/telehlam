@@ -33,7 +33,7 @@ public class ContactsFragment extends Fragment implements ActivityCompat.OnReque
         contactsRecycler = view.findViewById(R.id.listOfContacts);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         contactsRecycler.setLayoutManager(layoutManager);
-        ContactsAdapter contactsAdapter = new ContactsAdapter(getContacts());
+        ContactsAdapter contactsAdapter = new ContactsAdapter();
         contactsRecycler.setAdapter(contactsAdapter);
         goBackButton = view.findViewById(R.id.goBackButton);
         goBackButton.setOnClickListener(new View.OnClickListener() {
@@ -46,29 +46,6 @@ public class ContactsFragment extends Fragment implements ActivityCompat.OnReque
         return view;
     }
 
-    public ArrayList<Contact> getContacts() {
-        ArrayList<Contact> contacts = new ArrayList<>();
 
-        Activity activity = getActivity();
-        if (activity == null) {
-            return contacts;
-        }
-
-        Cursor phones = activity.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-        if (phones == null) {
-            // TODO(all): return back to main_fragment
-            Toast.makeText(getContext(), "Access denied", Toast.LENGTH_LONG).show();
-            return contacts;
-        }
-
-        while (phones.moveToNext()) {
-            String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            contacts.add(new Contact(name, phoneNumber));
-        }
-        phones.close();
-
-        return contacts;
-    }
 
 }

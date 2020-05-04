@@ -62,12 +62,12 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
     }
 
     //удаление переписки
-    public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, ChatListAdapter chatListAdapter, RecyclerView chatList, String user, Task task) {
+    public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, ChatListAdapter chatListAdapter, RecyclerView chatList, String receiver, Task task) {
         this.chatList = chatList;
         this.context = context;
         this.lifecycleOwner = lifecycleOwner;
         this.chatListAdapter = chatListAdapter;
-        this.receiver = user;
+        this.receiver = receiver;
         this.task = task;
     }
 
@@ -78,7 +78,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
         messageDao = appDataBase.messageDao();
         switch (task) {
             case InsertMessage:
-                if (contactDao.getNumberOfContactsByPhone(contact.getPhone()) > 0) {
+                if (contactDao.getNumberOfContactsBylogin(contact.getLogin()) > 0) {
                     messageDao.insert(message);
                 } else {
                     contactDao.insert(contact);
@@ -89,10 +89,8 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
             case GetAllContacts:
                 //  а ничего он не делает тут кстати, только получение базы и Dao  так что можно убрать
                 break;
-            case DeleteAllMessageHistory:
-                messageDao.DeleteAllMessagesWithUser(receiver);
-                chatListAdapter.deleteElement(receiver);
-                contactDao.deleteByPhone(receiver);
+                //TODO make deleting history
+
         }
         return null;
     }
