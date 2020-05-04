@@ -1,26 +1,21 @@
 package org.juicecode.telehlam.rest.user;
 
-import androidx.annotation.Nullable;
-
-public class User {
-    private long id;
+public class LoginInfo {
     private String login;
+    private String password;
     private String name;
-    private @Nullable String surname;
+    private String surname;
 
-    public User(long id, String login, String name, @Nullable String surname) {
-        this.id = id;
+    public LoginInfo(String login, String password, String name, String surname) {
         this.login = login;
+        this.password = password;
         this.name = name;
         this.surname = surname;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public LoginInfo(String login, String password) {
+        this.login = login;
+        this.password = password;
     }
 
     public String getLogin() {
@@ -31,6 +26,14 @@ public class User {
         this.login = login;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getName() {
         return name;
     }
@@ -39,13 +42,11 @@ public class User {
         this.name = name;
     }
 
-    @Nullable
     public String getSurname() {
         return surname;
     }
 
-    public void setSurname(@Nullable String surname) {
+    public void setSurname(String surname) {
         this.surname = surname;
     }
-
 }

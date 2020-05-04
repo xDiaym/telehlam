@@ -24,9 +24,9 @@ public class AsyncUserApi {
         userApi = retrofitBuilder.getUserApi();
     }
 
-    public void registerUser(@NonNull final User user,
+    public void registerUser(@NonNull final LoginInfo loginInfo,
                              @NonNull final ApiCallback<AuthInfo> callback) {
-        final Call<AuthInfo> call = userApi.registerUser(user);
+        final Call<AuthInfo> call = userApi.registerUser(loginInfo);
         call.enqueue(new Callback<AuthInfo>() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -53,8 +53,8 @@ public class AsyncUserApi {
         });
     }
 
-    public void signIn(@NonNull final User user, @NonNull final ApiCallback<AuthInfo> callback) {
-        Call<AuthInfo> signIn = userApi.signIn(user);
+    public void signIn(@NonNull final LoginInfo loginInfo, @NonNull final ApiCallback<AuthInfo> callback) {
+        Call<AuthInfo> signIn = userApi.signIn(loginInfo);
         signIn.enqueue(new Callback<AuthInfo>() {
             @Override
             public void onResponse(Call call, Response response) {

@@ -1,7 +1,6 @@
 package org.juicecode.telehlam;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -31,7 +30,6 @@ import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.PermissionCode;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
-import javax.security.auth.PrivateCredentialPermission;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier,
