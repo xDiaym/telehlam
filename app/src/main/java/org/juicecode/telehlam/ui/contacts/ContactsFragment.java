@@ -1,41 +1,46 @@
 package org.juicecode.telehlam.ui.contacts;
 
-import android.app.Activity;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ActionMenuView;
 import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.SearchView;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.core.contacts.Contact;
 import org.juicecode.telehlam.utils.DrawerLocker;
 
-import java.util.ArrayList;
+public class ContactsFragment extends Fragment
+        implements ActivityCompat.OnRequestPermissionsResultCallback {
 
-public class ContactsFragment extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback {
-    private RecyclerView contactsRecycler;
-    private ImageButton goBackButton;
+    ContactsAdapter adapter;
 
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = layoutInflater.inflate(R.layout.contacts_list, container, false);
+        setHasOptionsMenu(true);
+
         final DrawerLocker drawerLocker = (DrawerLocker) view.getContext();
         drawerLocker.setDrawerLock(true);
-        contactsRecycler = view.findViewById(R.id.listOfContacts);
+
+        RecyclerView contactsRecycler = view.findViewById(R.id.listOfContacts);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         contactsRecycler.setLayoutManager(layoutManager);
-        ContactsAdapter contactsAdapter = new ContactsAdapter(getContacts());
-        contactsRecycler.setAdapter(contactsAdapter);
-        goBackButton = view.findViewById(R.id.goBackButton);
+        adapter = new ContactsAdapter();
+        contactsRecycler.setAdapter(adapter);
+
+        ImageButton goBackButton = view.findViewById(R.id.goBackButton);
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,29 +51,27 @@ public class ContactsFragment extends Fragment implements ActivityCompat.OnReque
         return view;
     }
 
-    public ArrayList<Contact> getContacts() {
-        ArrayList<Contact> contacts = new ArrayList<>();
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        Log.e("TAG", "HER");
+        inflater.inflate(R.menu.serach_menu, menu);
 
-        Activity activity = getActivity();
-        if (activity == null) {
-            return contacts;
-        }
+        MenuItem item = menu.findItem(R.id.action_search);
+        SearchView view = (SearchView) item.getActionView();
 
-        Cursor phones = activity.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-        if (phones == null) {
-            // TODO(all): return back to main_fragment
-            Toast.makeText(getContext(), "Access denied", Toast.LENGTH_LONG).show();
-            return contacts;
-        }
+        view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-        while (phones.moveToNext()) {
-            String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            contacts.add(new Contact(name, phoneNumber));
-        }
-        phones.close();
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
-        return contacts;
+        super.onCreateOptionsMenu(menu, inflater);
     }
-
 }

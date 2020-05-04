@@ -1,10 +1,13 @@
 package org.juicecode.telehlam.ui.contacts;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,16 +15,47 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
+import org.juicecode.telehlam.rest.RetrofitBuilder;
+import org.juicecode.telehlam.rest.user.AsyncUserApi;
+import org.juicecode.telehlam.rest.user.User;
 import org.juicecode.telehlam.ui.chat.ChatFragment;
+import org.juicecode.telehlam.utils.ApiCallback;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactViewHolder> {
+public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>
+    implements Filterable {
     private ArrayList<Contact> contacts;
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            final List<User> users = new ArrayList<>();
+            if (constraint != null && constraint.length() != 0) {
+                AsyncUserApi api = new AsyncUserApi(new RetrofitBuilder());
+                api.byLogin(constraint.toString(), new ApiCallback<List<User>>() {
+                    @Override
+                    public void execute(List<User> response) {
+                        users.addAll(response);
+                    }
+                });
+            }
+            FilterResults results = new FilterResults();
+            results.values = users;
+            return results;
+        }
 
-    public ContactsAdapter(ArrayList<Contact> contacts) {
-        this.contacts = contacts;
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            contacts.clear();
+            contacts.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
+    ContactsAdapter() {
+        this.contacts = new ArrayList<>();
     }
 
     @NonNull
@@ -30,13 +64,13 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.contact_list_item, parent, false);
-        ContactViewHolder contactViewHolder = new ContactViewHolder(view);
-        return contactViewHolder;
+        return new ContactViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
-        holder.bind(contacts.get(position).getName(), contacts.get(position).getPhone());
+        Contact contact = contacts.get(position);
+        holder.bind(contact.getName(), contact.getPhone());
     }
 
     @Override
@@ -44,11 +78,16 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         return contacts.size();
     }
 
-    public static class ContactViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    static class ContactViewHolder extends RecyclerView.ViewHolder {
         TextView contactName;
         String phoneNumber;
 
-        public ContactViewHolder(@NonNull final View itemView) {
+        ContactViewHolder(@NonNull final View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -67,9 +106,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             contactName = itemView.findViewById(R.id.contact_name);
         }
 
-        public void bind(String name, String phone) {
+        void bind(String name, String phone) {
             contactName.setText(name);
-            this.phoneNumber = phone;
+            phoneNumber = phone;
         }
     }
 

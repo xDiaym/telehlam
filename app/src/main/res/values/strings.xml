@@ -39,4 +39,6 @@
     <string name="weakPassword">Password should have uppercase, lowercase, numbers ,special symbols and at least 7 characters in length</string>
     <string name="wrongRepeatedPassword">Passwords do not match</string>
     <string name="wrongLogin">login must contains only lowercase symbols</string>
+
+    <string name="search_title">Search people</string>
 </resources>

@@ -56,11 +56,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //Checking permission if user tapped
-        FloatingActionButton fab = findViewById(R.id.fab);
+        final FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPermission();
+                addFragment(new ContactsFragment(), "ContactsFragment");
             }
         });
         //all drawer stuff
