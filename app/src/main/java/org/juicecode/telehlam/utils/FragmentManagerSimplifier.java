@@ -8,5 +8,4 @@ public interface FragmentManagerSimplifier {
     void addFragment(Fragment fragment, String tag);
 
     void remove(String tag);
-    boolean checkFragment(String tag);
 }

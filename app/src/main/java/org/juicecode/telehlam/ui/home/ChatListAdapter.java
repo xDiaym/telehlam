@@ -9,12 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
-import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.ui.chat.ChatFragment;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
@@ -22,7 +20,6 @@ import java.util.List;
 
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatViewHolder> {
-
     List<Contact> contacts;
     private Context parent;
 
@@ -47,8 +44,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         View view = inflater.inflate(R.layout.chat_list_item, parent, false);
 
         ChatViewHolder viewHolder = new ChatViewHolder(view);
-        viewHolder.chatName.setText("WTF");
-        // chatItemCount++;
 
         return viewHolder;
     }
@@ -56,7 +51,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         // TODO(all): set real name
-        holder.bind(contacts.get(position).getName(), "Hello world!", contacts.get(position).getPhone());
+        holder.bind(
+                contacts.get(position).getName(),
+                "Hello world!",
+                contacts.get(position).getPhone());
     }
 
     @Override
@@ -77,21 +75,17 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
             chatName = itemView.findViewById(R.id.chat_name);
             chatLastMessage = itemView.findViewById(R.id.chat_last_message);
 
-            // TODO(all):make new class for listener
             itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-
                     FragmentManagerSimplifier simplifier = (FragmentManagerSimplifier) v.getContext();
-                    if(!simplifier.checkFragment("authorisation")) {
-                        ChatFragment chatFragment = new ChatFragment();
-                        Bundle sendingChatName = new Bundle();
-                        String chatNameValue = (String) chatName.getText();
-                        sendingChatName.putStringArray("information", new String[]{chatNameValue, phoneNumber});
-                        chatFragment.setArguments(sendingChatName);
-                        simplifier.replaceFragment(chatFragment, "chatFragment");
-                    }
+                    ChatFragment chatFragment = new ChatFragment();
+                    Bundle sendingChatName = new Bundle();
+                    String chatNameValue = (String) chatName.getText();
+                    sendingChatName.putStringArray("information", new String[]{chatNameValue, phoneNumber});
+                    chatFragment.setArguments(sendingChatName);
+                    simplifier.replaceFragment(chatFragment, "chatFragment");
                 }
             });
 
