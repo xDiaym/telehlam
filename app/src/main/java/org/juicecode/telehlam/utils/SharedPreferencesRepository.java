@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 public class SharedPreferencesRepository {
     private static final String NAME = "org.juicecode.telehlam";
     private static final String TOKEN = "token";
+    private static final String LOGIN = "userLogin";
 
     private SharedPreferences preferences;
 
@@ -23,6 +24,13 @@ public class SharedPreferencesRepository {
                 .putString(TOKEN, token)
                 .apply();
     }
+    public void saveLogin(@NonNull String login){
+        preferences
+                .edit()
+                .putString(LOGIN, login)
+                .apply();
+    }
+    public String getLogin(){ return preferences.getString(LOGIN, null);}
 
     public @Nullable String getToken() {
         return preferences.getString(TOKEN, null);

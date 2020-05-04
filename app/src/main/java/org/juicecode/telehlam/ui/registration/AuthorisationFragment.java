@@ -52,7 +52,7 @@ public class AuthorisationFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String login = loginField.getText().toString().trim();
+                final String login = loginField.getText().toString().trim();
                 String password = passwordField.getText().toString().trim();
 
                 if (checkFields(login, password)) {
@@ -60,8 +60,9 @@ public class AuthorisationFragment extends Fragment {
                     api.signIn(new User(login, password), new ApiCallback<AuthInfo>() {
                         @Override
                         public void execute(AuthInfo response) {
-                            new SharedPreferencesRepository(context)
-                                    .saveToken(response.getToken());
+                            SharedPreferencesRepository repository = new SharedPreferencesRepository(context);
+                            repository.saveToken(response.getToken());
+                            repository.saveLogin(login);
                             fragmentManagerSimplifier.remove("authorisation");
                             fragmentManagerSimplifier.remove("firstRegistrationFragment");
                             fragmentManagerSimplifier.remove("secondRegistrationFragment");

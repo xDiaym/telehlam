@@ -26,6 +26,7 @@ import org.juicecode.telehlam.socketio.SocketIOMethods;
 import org.juicecode.telehlam.socketio.onMessageCallback;
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.KeyboardManager;
+import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,7 @@ public class ChatFragment extends Fragment implements onMessageCallback {
         String[] values = arguments.getStringArray("information");
         receiverNick = values[0];
         //TODO sharedRepository use
-        userNick = sharedPreferences.getString("nickName", "error");
+        userNick = new SharedPreferencesRepository(context).getLogin();
         chat.setAdapter(messageChatAdapter);
         chat.setHasFixedSize(false);
         chat.setNestedScrollingEnabled(false);
