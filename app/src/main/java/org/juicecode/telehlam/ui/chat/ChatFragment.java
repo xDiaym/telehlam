@@ -8,18 +8,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
 import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.KeyboardManager;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -64,7 +61,7 @@ public class ChatFragment extends Fragment {
         DataBaseTask<List<Message>> getMessages = new DataBaseTask<>(getContext(), getViewLifecycleOwner(), messageChatAdapter, chat, phoneNumber, DataBaseTask.Task.GetAllMessages);
         getMessages.execute();
 
-
+        //TODO make hiding keyboard if user tapped on screen
         sendbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +79,7 @@ public class ChatFragment extends Fragment {
                     dataBaseTask.execute();
                     messageChatAdapter.addItem(message);
                     messageField.setText("");
+                    chat.scrollToPosition(chat.getAdapter().getItemCount() - 1);
                 }
             }
         });

@@ -4,10 +4,13 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -21,48 +24,75 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.github.nkzawa.socketio.client.Socket;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 
+import org.juicecode.telehlam.rest.Token;
+import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.ui.contacts.ContactsFragment;
+import org.juicecode.telehlam.ui.home.HomeFragment;
 import org.juicecode.telehlam.ui.registration.AuthorisationFragment;
+import org.juicecode.telehlam.ui.registration.FirstRegistrationFragment;
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.PermissionCode;
-import org.juicecode.telehlam.utils.SharedPreferencesRepository;
-
-import javax.security.auth.PrivateCredentialPermission;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier,
         DrawerLocker {
     private AppBarConfiguration mAppBarConfiguration;
+    private static final int READ_CONTACTS = 100;
     private DrawerLayout drawer;
     private NavController navController;
     private SharedPreferences sharedPreferences;
+    private static Socket socket;
+
+
+    public static Socket getSocket() {
+        return socket;
+    }
+
+    public static void setSocket(Socket socket) {
+        MainActivity.socket = socket;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // TODO: add logout button
-        SharedPreferences preferences = getSharedPreferences( "org.juicecode.telehlam", MODE_PRIVATE);
-        preferences.edit().remove("token").apply();
-
+        sharedPreferences = getSharedPreferences("org.juicecode.telehlam", Context.MODE_PRIVATE);
         //check if user has registered
-        SharedPreferencesRepository repository = new SharedPreferencesRepository(this);
-        if (repository.getToken() == null) {
-            replaceFragment(new AuthorisationFragment(), "authorisation");
+        if (sharedPreferences.getString("token", "").isEmpty()) {
+            addFragment(new AuthorisationFragment(), "authorisation");
+        } else {
+            AppSocket appSocket = new AppSocket(this);
+            socket = appSocket.getSocket();
+            socket.connect();
+            Token token = new Token(sharedPreferences.getString("token",""));
+            String gson = toGson(token);
+            Log.i("tokenJson",gson);
+            socket.emit("login",gson);
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        // really bad code but no way
+        if (checkFragment("authorisation")) {
+
+        } else {
+            setSupportActionBar(toolbar);
+        }
         //Checking permission if user tapped
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPermission();
+                if (checkFragment("authorisation")) {
+
+                } else {
+                    checkPermission();
+                }
             }
         });
         //all drawer stuff
@@ -71,7 +101,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
+                R.id.nav_tools, R.id.nav_share, R.id.nav_send)
                 .setDrawerLayout(drawer)
                 .build();
 
@@ -109,7 +140,20 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (fragmentManager.findFragmentByTag(tag) != null) {
+            fragmentManager.popBackStack();
             fragmentTransaction.remove(fragmentManager.findFragmentByTag(tag)).commit();
+        }
+    }
+    public String toGson(Object obj){
+        String gsonString = new Gson().toJson(obj);
+        return  gsonString;
+    }
+    @Override
+    public boolean checkFragment(String tag) {
+        if (getSupportFragmentManager().findFragmentByTag(tag) != null) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -128,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     public void checkPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
+
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_CONTACTS}, PermissionCode.PERMISSION_READ_CONTACTS);
         } else {
@@ -143,8 +188,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     addFragment(new ContactsFragment(), "contacts");
+                } else {
+
                 }
+                return;
             }
+
+
         }
     }
 

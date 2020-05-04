@@ -2,18 +2,15 @@ package org.juicecode.telehlam.database;
 
 import android.content.Context;
 import android.os.AsyncTask;
-
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
-
 import org.juicecode.telehlam.core.contacts.Contact;
 import org.juicecode.telehlam.core.contacts.ContactDao;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.database.messages.MessageDao;
 import org.juicecode.telehlam.ui.chat.MessageChatAdapter;
 import org.juicecode.telehlam.ui.home.ChatListAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,6 +84,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                 break;
 
             case GetAllContacts:
+
                 //  а ничего он не делает тут кстати, только получение базы и Dao  так что можно убрать
                 break;
             case DeleteAllMessageHistory:
@@ -118,6 +116,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                     @Override
                     public void onChanged(List<Message> messages) {
                         messageChatAdapter.addItems(messages);
+                        chat.scrollToPosition(messageChatAdapter.getItemCount() - 1);
                     }
                 });
         }

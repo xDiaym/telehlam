@@ -28,17 +28,18 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        homeViewModel =
+                ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
+
         chatList = root.findViewById(R.id.chat_list);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         chatList.setLayoutManager(layoutManager);
         chatList.setHasFixedSize(true);
-
         DataBaseTask<List<Contact>> dataBaseTask = new DataBaseTask<>(getContext(), getViewLifecycleOwner(), chatListAdapter, chatList, DataBaseTask.Task.GetAllContacts);
         dataBaseTask.execute();
-
         return root;
     }
 
