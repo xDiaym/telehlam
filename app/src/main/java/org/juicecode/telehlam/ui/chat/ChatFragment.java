@@ -51,6 +51,7 @@ public class ChatFragment extends Fragment implements onMessageCallback {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
         context = getContext();
         socket = AppSocket.getSocket();
+        socket.on("message",new SocketIOMethods((MainActivity)getActivity(),this).getOnMessage());
         final DrawerLocker drawerLocker = (DrawerLocker) view.getContext();
         drawerLocker.setDrawerLock(true);
         //all variables get their values
