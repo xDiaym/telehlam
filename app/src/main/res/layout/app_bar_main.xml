@@ -12,11 +12,12 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/side_nav_bar"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/side_nav_bar"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+
 
     </com.google.android.material.appbar.AppBarLayout>
 

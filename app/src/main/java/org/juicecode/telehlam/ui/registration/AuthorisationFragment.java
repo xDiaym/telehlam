@@ -85,7 +85,7 @@ public class AuthorisationFragment extends Fragment {
         goToRegistrationFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((FragmentManagerSimplifier) getContext()).addFragment(new FirstRegistrationFragment(), "firstRegistrationFragment");
+                ((FragmentManagerSimplifier) getContext()).addFragment(R.id.firstRegistrationFragment, "firstRegistrationFragment");
             }
         });
         return view;

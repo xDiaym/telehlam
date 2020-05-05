@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -15,11 +14,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-
 import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.ui.contacts.ContactsFragment;
 import org.juicecode.telehlam.ui.registration.AuthorisationFragment;
@@ -36,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private SharedPreferences sharedPreferences;
     private AppSocket appSocket;
     private Socket socket;
-
+    private NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,16 +45,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
         //check if user has registered
         SharedPreferencesRepository repository = new SharedPreferencesRepository(this);
-        if (repository.getToken() == null) {
-            replaceFragment(new AuthorisationFragment(), "authorisation");
-        } else {
-            appSocket = new AppSocket();
-            Socket socket = appSocket.getSocket();
-            socket.connect();
-            socket.emit("login", repository.getToken());
-        }
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         //Checking permission if user tapped
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 if (checkFragment("authorisation")) {
 
                 } else {
-                    addFragment(new ContactsFragment(), "contactsFragment");
+                    addFragment(R.id.contactsFragment, "contactsFragment");
                 }
             }
         });
@@ -80,11 +71,19 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 .setDrawerLayout(drawer)
                 .build();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        if (repository.getToken() == null) {
+            addFragment(R.id.authorisationFragment, "authorisation");
+        } else {
+            appSocket = new AppSocket();
+            Socket socket = appSocket.getSocket();
+            socket.connect();
+            socket.emit("login", repository.getToken());
+        }
     }
 
     @Override
@@ -101,12 +100,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 || super.onSupportNavigateUp();
     }
 
-    public void addFragment(Fragment fragment, String tag) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.drawer_layout, fragment, tag)
-                .addToBackStack(fragment.getClass().getName())
-                .commit();
+    public void addFragment(int id, String tag) {
+       /* navController = Navigation.findNavController(this, R.id.main_nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);*/
+        navController.navigate(id);
     }
 
     @Override

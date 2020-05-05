@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.juicecode.telehlam.MainActivity;
+import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.ui.registration.AuthorisationFragment;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
@@ -36,7 +37,7 @@ public class SocketIOMethods {
                     public void run() {
                         // opening authorisation if user's token is wrong
                         JSONObject json =(JSONObject) args[0];
-                        fragmentManagerSimplifier.addFragment(new AuthorisationFragment(), "authorisation");
+                        fragmentManagerSimplifier.addFragment(R.id.authorisationFragment, "authorisation");
                     }
                 });
             }

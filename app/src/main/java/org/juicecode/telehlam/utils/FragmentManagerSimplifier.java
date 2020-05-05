@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment;
 public interface FragmentManagerSimplifier {
     void replaceFragment(Fragment fragment, String tag);
 
-    void addFragment(Fragment fragment, String tag);
+    void addFragment(int id, String tag);
 
     void remove(String tag);
 

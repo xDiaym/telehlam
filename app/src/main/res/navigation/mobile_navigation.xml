@@ -13,6 +13,43 @@
         <action
             android:id="@+id/action_nav_home_self"
             app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_nav_home_to_authorisationFragment"
+            app:destination="@id/authorisationFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_contactsFragment"
+            app:destination="@id/contactsFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/authorisationFragment"
+        android:name="org.juicecode.telehlam.ui.registration.AuthorisationFragment"
+        android:label="AuthorisationFragment" >
+        <action
+            android:id="@+id/action_authorisationFragment_to_firstRegistrationFragment"
+            app:destination="@id/firstRegistrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/firstRegistrationFragment"
+        android:name="org.juicecode.telehlam.ui.registration.FirstRegistrationFragment"
+        android:label="FirstRegistrationFragment" >
+        <action
+            android:id="@+id/action_firstRegistrationFragment_to_secondRegistrationFragment"
+            app:destination="@id/secondRegistrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/secondRegistrationFragment"
+        android:name="org.juicecode.telehlam.ui.registration.SecondRegistrationFragment"
+        android:label="SecondRegistrationFragment" />
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="org.juicecode.telehlam.ui.contacts.ContactsFragment"
+        android:label="ContactsFragment" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="org.juicecode.telehlam.ui.chat.ChatFragment"
+        android:label="ChatFragment" />
 
 </navigation>

@@ -73,7 +73,7 @@ public class FirstRegistrationFragment extends Fragment {
                     arguments.putStringArray("argumentsFromFirstRegistration", new String[]{name, surname, phone});
                     SecondRegistrationFragment secondRegistrationFragment = new SecondRegistrationFragment();
                     secondRegistrationFragment.setArguments(arguments);
-                    fragmentManagerSimplifier.addFragment(secondRegistrationFragment, "secondRegistrationFragment");
+                    fragmentManagerSimplifier.addFragment(R.id.secondRegistrationFragment, "secondRegistrationFragment");
                 }
             }
         });
