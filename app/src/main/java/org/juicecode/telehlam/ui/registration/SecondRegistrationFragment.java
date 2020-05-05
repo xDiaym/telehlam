@@ -17,7 +17,6 @@ import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.AuthInfo;
 import org.juicecode.telehlam.rest.user.User;
 import org.juicecode.telehlam.utils.ApiCallback;
-import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FieldValidator;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
@@ -54,8 +53,6 @@ public class SecondRegistrationFragment extends Fragment {
         //arguments from first fragment
         gettingArguments = getArguments();
         final String[] values = gettingArguments.getStringArray("argumentsFromFirstRegistration");
-        final DrawerLocker drawerLocker = (DrawerLocker) view.getContext();
-        drawerLocker.setDrawerLock(true);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             //String value of fields
@@ -100,13 +97,10 @@ public class SecondRegistrationFragment extends Fragment {
                         @Override
                         public void execute(AuthInfo response) {
                             //removing fragments
-                            fragmentManagerSimplifier.remove("firstRegistrationFragment");
-                            fragmentManagerSimplifier.remove("secondRegistrationFragment");
-                            fragmentManagerSimplifier.remove("authorisation");
+
                             //saving info
                             SharedPreferencesRepository repository = new SharedPreferencesRepository(getContext());
                             repository.saveToken(response.getToken());
-                            drawerLocker.setDrawerLock(false);
                         }
                     });
                 }

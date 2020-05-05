@@ -76,14 +76,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
                 public void onClick(View v) {
 
                     FragmentManagerSimplifier simplifier = (FragmentManagerSimplifier) v.getContext();
-                    if(!simplifier.checkFragment("authorisation")) {
-                        ChatFragment chatFragment = new ChatFragment();
                         Bundle sendingChatName = new Bundle();
                         String chatNameValue = (String) chatName.getText();
                         sendingChatName.putStringArray("information", new String[]{chatNameValue});
-                        chatFragment.setArguments(sendingChatName);
-                        simplifier.replaceFragment(chatFragment, "chatFragment");
-                    }
+                        simplifier.addWithArguments(R.id.chatFragment, sendingChatName);
                 }
             });
 

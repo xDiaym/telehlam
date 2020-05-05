@@ -37,7 +37,7 @@ public class SocketIOMethods {
                     public void run() {
                         // opening authorisation if user's token is wrong
                         JSONObject json =(JSONObject) args[0];
-                        fragmentManagerSimplifier.addFragment(R.id.authorisationFragment, "authorisation");
+                        fragmentManagerSimplifier.addFragment(R.id.authorisationFragment);
                     }
                 });
             }

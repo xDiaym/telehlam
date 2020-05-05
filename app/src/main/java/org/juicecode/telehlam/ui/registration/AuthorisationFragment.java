@@ -19,7 +19,6 @@ import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.AuthInfo;
 import org.juicecode.telehlam.rest.user.User;
 import org.juicecode.telehlam.utils.ApiCallback;
-import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
@@ -32,7 +31,6 @@ public class AuthorisationFragment extends Fragment {
     TextView loginError;
     TextView passwordError;
     FragmentManagerSimplifier fragmentManagerSimplifier;
-    DrawerLocker drawerLocker;
     SharedPreferences sharedPreferences;
     Context context;
     @Override
@@ -46,7 +44,7 @@ public class AuthorisationFragment extends Fragment {
         passwordError = view.findViewById(R.id.passwordError);
 
         fragmentManagerSimplifier = (FragmentManagerSimplifier) view.getContext();
-        drawerLocker = (DrawerLocker) view.getContext();
+
 
         sharedPreferences = view.getContext().getSharedPreferences("org.juicecode.telehlam", Context.MODE_PRIVATE);
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -64,14 +62,12 @@ public class AuthorisationFragment extends Fragment {
                             SharedPreferencesRepository repository = new SharedPreferencesRepository(context);
                             repository.saveToken(response.getToken());
                             repository.saveLogin(login);
-                            fragmentManagerSimplifier.remove("authorisation");
-                            fragmentManagerSimplifier.remove("firstRegistrationFragment");
-                            fragmentManagerSimplifier.remove("secondRegistrationFragment");
+                            fragmentManagerSimplifier.addFragment(R.id.nav_home);
+
                         }
                     });
 
-                    fragmentManagerSimplifier.remove("authorisation");
-                    drawerLocker.setDrawerLock(false);
+                    fragmentManagerSimplifier.addFragment(R.id.authorisationFragment);
                 }
 
 
@@ -79,13 +75,13 @@ public class AuthorisationFragment extends Fragment {
         });
 
         goToRegistrationFragment = view.findViewById(R.id.registration_button);
-        final DrawerLocker drawerLocker = (DrawerLocker) view.getContext();
-        drawerLocker.setDrawerLock(true);
+
+
 
         goToRegistrationFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((FragmentManagerSimplifier) getContext()).addFragment(R.id.firstRegistrationFragment, "firstRegistrationFragment");
+                ((FragmentManagerSimplifier) getContext()).addFragment(R.id.firstRegistrationFragment);
             }
         });
         return view;

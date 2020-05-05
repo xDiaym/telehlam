@@ -54,15 +54,13 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                 @Override
                 public void onClick(View v) {
                     FragmentManagerSimplifier simplifier = (FragmentManagerSimplifier) v.getContext();
-                    ChatFragment chatFragment = new ChatFragment();
+
                     //sending contact info to ChatFragment
                     Bundle sendingChatName = new Bundle();
                     String chatNameValue = (String) contactName.getText();
                     sendingChatName.putStringArray("information", new String[]{chatNameValue});
                     //sendingChatName.putLong("receiverId",id);
-                    chatFragment.setArguments(sendingChatName);
-
-                    simplifier.replaceFragment(chatFragment, "chatFragment");
+                    simplifier.addWithArguments(R.id.chatFragment, sendingChatName);
                 }
             });
             contactName = itemView.findViewById(R.id.contact_name);

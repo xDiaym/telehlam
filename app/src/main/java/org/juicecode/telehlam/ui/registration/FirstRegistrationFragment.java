@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
 
@@ -43,8 +42,7 @@ public class FirstRegistrationFragment extends Fragment {
         nameError = view.findViewById(R.id.nameError);
         surnameError = view.findViewById(R.id.surnameError);
         phoneError = view.findViewById(R.id.phoneError);
-        final DrawerLocker drawerLocker = (DrawerLocker) view.getContext();
-        drawerLocker.setDrawerLock(true);
+
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
 
@@ -71,9 +69,7 @@ public class FirstRegistrationFragment extends Fragment {
                     //sending arguments and open second fragment
                     Bundle arguments = new Bundle();
                     arguments.putStringArray("argumentsFromFirstRegistration", new String[]{name, surname, phone});
-                    SecondRegistrationFragment secondRegistrationFragment = new SecondRegistrationFragment();
-                    secondRegistrationFragment.setArguments(arguments);
-                    fragmentManagerSimplifier.addFragment(R.id.secondRegistrationFragment, "secondRegistrationFragment");
+                    fragmentManagerSimplifier.addWithArguments(R.id.secondRegistrationFragment,arguments);
                 }
             }
         });

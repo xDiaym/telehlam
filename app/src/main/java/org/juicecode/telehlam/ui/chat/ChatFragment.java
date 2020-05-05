@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.nkzawa.socketio.client.Socket;
-import com.google.gson.Gson;
 
 import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
@@ -25,7 +24,6 @@ import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.socketio.SocketIOMethods;
 import org.juicecode.telehlam.socketio.onMessageCallback;
-import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
@@ -54,8 +52,6 @@ public class ChatFragment extends Fragment implements onMessageCallback {
         context = getContext();
         socket = AppSocket.getSocket();
         socket.on("message",new SocketIOMethods((MainActivity)getActivity(),this).getOnMessage());
-        final DrawerLocker drawerLocker = (DrawerLocker) view.getContext();
-        drawerLocker.setDrawerLock(true);
         //all variables get their values
         final Context context = getContext();
         chat = view.findViewById(R.id.chat);
@@ -111,7 +107,6 @@ public class ChatFragment extends Fragment implements onMessageCallback {
             public void onClick(View v) {
                 KeyboardManager.hideKeyboard(getActivity());
                 getActivity().onBackPressed();
-                drawerLocker.setDrawerLock(false);
             }
         });
 
