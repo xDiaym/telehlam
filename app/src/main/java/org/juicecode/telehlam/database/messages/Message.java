@@ -17,8 +17,8 @@ public class Message {
     private int type;
     private String text;
     private long timestamp;
-    private String authorPhone;
-    private String receiverPhone;
+    private long authorId;
+    private long receiverId;
     @TypeConverters(Status.class)
     private Status status;
 
@@ -30,29 +30,31 @@ public class Message {
     }
 
     @Ignore
-    public Message(int type, String text, String authorPhone, String receiverPhone) {
+    public Message(int type, String text, long authorId, long receiverId) {
         this.type = type;
-        this.authorPhone = authorPhone;
-        this.receiverPhone = receiverPhone;
+        this.authorId= authorId;
+        this.receiverId = receiverId;
         this.text = text;
         this.timestamp = (new Date()).getTime();
         this.status = Status.NONE;
     }
 
-    public String getAuthorPhone() {
-        return authorPhone;
+    public long getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthorPhone(String authorPhone) {
-        this.authorPhone = authorPhone;
+
+
+    public long getReceiverId() {
+        return receiverId;
     }
 
-    public String getReceiverPhone() {
-        return receiverPhone;
+    public void setAuthorId(long authorId) {
+        this.authorId = authorId;
     }
 
-    public void setReceiverPhone(String receiverPhone) {
-        this.receiverPhone = receiverPhone;
+    public void setReceiverId(long receiverId) {
+        this.receiverId = receiverId;
     }
 
     public Status getStatus() {

@@ -31,7 +31,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
     private MessageChatAdapter messageChatAdapter;
     private Message message;
     private List<Message> messages = new ArrayList<>();
-    private String receiver;
+    private long receiver;
     private RecyclerView chat;
 
     //добавление сообщения
@@ -52,7 +52,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
     }
 
     //получение сообщений
-    public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, MessageChatAdapter messageChatAdapter, RecyclerView chat, String receiver, Task task) {
+    public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, MessageChatAdapter messageChatAdapter, RecyclerView chat, long receiver, Task task) {
         this.context = context;
         this.lifecycleOwner = lifecycleOwner;
         this.messageChatAdapter = messageChatAdapter;
@@ -62,7 +62,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
     }
 
     //удаление переписки
-    public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, ChatListAdapter chatListAdapter, RecyclerView chatList, String receiver, Task task) {
+    public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, ChatListAdapter chatListAdapter, RecyclerView chatList, long receiver, Task task) {
         this.chatList = chatList;
         this.context = context;
         this.lifecycleOwner = lifecycleOwner;
@@ -112,7 +112,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
 
             case GetAllMessages:
                 super.onPostExecute(t);
-                messageDao.getAllByPhones(receiver).observe(lifecycleOwner, new Observer<List<Message>>() {
+                messageDao.getAllById(receiver).observe(lifecycleOwner, new Observer<List<Message>>() {
                     @Override
                     public void onChanged(List<Message> messages) {
                         messageChatAdapter.addItems(messages);

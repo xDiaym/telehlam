@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.nkzawa.socketio.client.Socket;
+import com.google.gson.Gson;
 
 import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
@@ -38,12 +39,13 @@ public class ChatFragment extends Fragment implements onMessageCallback {
     EditText messageField;
     ImageButton sendbutton;
     ImageButton goBack;
-    String receiverNick;
-    String userNick;
+    long userId;
+    long receiverId;
     MessageChatAdapter messageChatAdapter;
     List<Message> messageList;
     Socket socket;
     Context context;
+    String receiverLogin;
     SharedPreferences sharedPreferences;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,9 +64,8 @@ public class ChatFragment extends Fragment implements onMessageCallback {
         messageChatAdapter = new MessageChatAdapter();
         Bundle arguments = getArguments();
         String[] values = arguments.getStringArray("information");
-        receiverNick = values[0];
-        //TODO sharedRepository use
-        userNick = new SharedPreferencesRepository(context).getLogin();
+        receiverLogin = values[0];
+        userId = new SharedPreferencesRepository(context).getId();
         chat.setAdapter(messageChatAdapter);
         chat.setHasFixedSize(false);
         chat.setNestedScrollingEnabled(false);
@@ -72,10 +73,10 @@ public class ChatFragment extends Fragment implements onMessageCallback {
         messageList = new ArrayList<>();
         sendbutton = view.findViewById(R.id.send_message_button);
         nameOfContact = view.findViewById(R.id.chat_name);
-        nameOfContact.setText(receiverNick);
+        nameOfContact.setText(receiverLogin);
         goBack = view.findViewById(R.id.go_back_button);
         //getting all messages for chat
-        DataBaseTask<List<Message>> getMessages = new DataBaseTask<>(getContext(), getViewLifecycleOwner(), messageChatAdapter, chat,receiverNick, DataBaseTask.Task.GetAllMessages);
+        DataBaseTask<List<Message>> getMessages = new DataBaseTask<>(getContext(), getViewLifecycleOwner(), messageChatAdapter, chat,receiverId, DataBaseTask.Task.GetAllMessages);
         getMessages.execute();
 
 
@@ -84,17 +85,22 @@ public class ChatFragment extends Fragment implements onMessageCallback {
             public void onClick(View v) {
                 String messageText = messageField.getText().toString().trim();
                 if (!messageText.isEmpty()) {
+                    //TODO(all): delete test code
                     Message message;
+
+
+                    if (new Random().nextBoolean()) {
+                        message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId);
+                    } else {
+                        message = new Message(Message.MESSAGE_INCOMING, messageText, receiverId, userId);
+                    }
                     /*
-                    // TODO(all): delete test code
+                    code for emitting messages is not ready
                     message = new Message(Message.MESSAGE_OUTGOING,messageText,userNick, receiverNick);
                     DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, new Contact(receiverNick), message, DataBaseTask.Task.InsertMessage);
-                    dataBaseTask.execute();*/
-                    if (new Random().nextBoolean()) {
-                        message = new Message(Message.MESSAGE_OUTGOING, messageText, userNick, receiverNick);
-                    } else {
-                        message = new Message(Message.MESSAGE_INCOMING, messageText, receiverNick, userNick);
-                    }
+                    dataBaseTask.execute();
+                    socket.emit("message",message);
+                    */
 
                 }
             }
@@ -113,10 +119,10 @@ public class ChatFragment extends Fragment implements onMessageCallback {
     }
 
     @Override
-    public void savingMessage(String message) {
+    public void savingIncomingMessage(String message) {
         Message incomingMessage;
-        incomingMessage = new Message(Message.MESSAGE_INCOMING,message,userNick, receiverNick);
-        DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, new Contact(receiverNick), incomingMessage, DataBaseTask.Task.InsertMessage);
+        incomingMessage = new Message(Message.MESSAGE_INCOMING,message,userId, receiverId);
+        DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, new Contact(receiverLogin), incomingMessage, DataBaseTask.Task.InsertMessage);
         dataBaseTask.execute();
         messageChatAdapter.addItem(incomingMessage);
         messageField.setText("");

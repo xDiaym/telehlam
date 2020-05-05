@@ -1,5 +1,5 @@
 package org.juicecode.telehlam.socketio;
 
 public interface onMessageCallback {
-    void savingMessage(String message);
+    void savingIncomingMessage(String message);
 }

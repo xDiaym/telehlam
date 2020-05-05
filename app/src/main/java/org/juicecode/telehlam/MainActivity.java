@@ -1,17 +1,12 @@
 package org.juicecode.telehlam;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -30,10 +25,7 @@ import org.juicecode.telehlam.ui.contacts.ContactsFragment;
 import org.juicecode.telehlam.ui.registration.AuthorisationFragment;
 import org.juicecode.telehlam.utils.DrawerLocker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
-import org.juicecode.telehlam.utils.PermissionCode;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
-
-import javax.security.auth.PrivateCredentialPermission;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier,
@@ -44,13 +36,14 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private SharedPreferences sharedPreferences;
     private AppSocket appSocket;
     private Socket socket;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // TODO: add logout button
-        SharedPreferences preferences = getSharedPreferences( "org.juicecode.telehlam", MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("org.juicecode.telehlam", MODE_PRIVATE);
         preferences.edit().remove("token").apply();
 
         //check if user has registered
@@ -73,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 if (checkFragment("authorisation")) {
 
                 } else {
-                    checkPermission();
+                    addFragment(new ContactsFragment(), "contactsFragment");
                 }
             }
         });
@@ -138,35 +131,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     }
 
 
-    public void checkPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_CONTACTS}, PermissionCode.PERMISSION_READ_CONTACTS);
-        } else {
-            addFragment(new ContactsFragment(), "contacts");
-        }
-    }
-
-    public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case PermissionCode.PERMISSION_READ_CONTACTS: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    addFragment(new ContactsFragment(), "contacts");
-                }
-            }
-        }
-    }
-
     @Override
     public void setDrawerLock(boolean lock) {
         drawer.setDrawerLockMode(lock
                 ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED
                 : DrawerLayout.LOCK_MODE_UNLOCKED);
     }
+
     @Override
     public boolean checkFragment(String tag) {
         if (getSupportFragmentManager().findFragmentByTag(tag) != null) {

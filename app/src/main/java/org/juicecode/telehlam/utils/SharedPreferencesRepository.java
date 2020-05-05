@@ -10,7 +10,7 @@ public class SharedPreferencesRepository {
     private static final String NAME = "org.juicecode.telehlam";
     private static final String TOKEN = "token";
     private static final String LOGIN = "userLogin";
-
+    private static final String ID = "userId";
     private SharedPreferences preferences;
 
 
@@ -29,6 +29,15 @@ public class SharedPreferencesRepository {
                 .edit()
                 .putString(LOGIN, login)
                 .apply();
+    }
+    public void saveId(@NonNull long id){
+        preferences
+                .edit()
+                .putLong(ID, id)
+                .apply();
+    }
+    public long getId(){
+        return preferences.getLong(ID, 0);
     }
     public String getLogin(){ return preferences.getString(LOGIN, null);}
 

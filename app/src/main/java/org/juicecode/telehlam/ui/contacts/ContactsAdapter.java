@@ -58,7 +58,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                     //sending contact info to ChatFragment
                     Bundle sendingChatName = new Bundle();
                     String chatNameValue = (String) contactName.getText();
-                    sendingChatName.putStringArray("information", new String[]{chatNameValue, phoneNumber});
+                    sendingChatName.putStringArray("information", new String[]{chatNameValue});
+                    //sendingChatName.putLong("receiverId",id);
                     chatFragment.setArguments(sendingChatName);
 
                     simplifier.replaceFragment(chatFragment, "chatFragment");

@@ -28,21 +28,6 @@ public class ContactsFragment extends Fragment implements ActivityCompat.OnReque
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = layoutInflater.inflate(R.layout.contacts_list, container, false);
-        final DrawerLocker drawerLocker = (DrawerLocker) view.getContext();
-        drawerLocker.setDrawerLock(true);
-        contactsRecycler = view.findViewById(R.id.listOfContacts);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        contactsRecycler.setLayoutManager(layoutManager);
-        ContactsAdapter contactsAdapter = new ContactsAdapter();
-        contactsRecycler.setAdapter(contactsAdapter);
-        goBackButton = view.findViewById(R.id.goBackButton);
-        goBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-                drawerLocker.setDrawerLock(false);
-            }
-        });
         return view;
     }
 

@@ -53,7 +53,7 @@ public class SocketIOMethods {
                         try {
                             String message = data.getString("message");
                             //executing callback of saving message in room database;
-                            callback.savingMessage(message);
+                            callback.savingIncomingMessage(message);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

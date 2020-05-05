@@ -60,6 +60,7 @@ public class AuthorisationFragment extends Fragment {
                     api.signIn(new User(login, password), new ApiCallback<AuthInfo>() {
                         @Override
                         public void execute(AuthInfo response) {
+                            //if user is found saving token and login of user in SharedPreferences
                             SharedPreferencesRepository repository = new SharedPreferencesRepository(context);
                             repository.saveToken(response.getToken());
                             repository.saveLogin(login);
