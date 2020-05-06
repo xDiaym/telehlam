@@ -61,11 +61,9 @@ public class AuthorisationFragment extends Fragment {
                             repository.saveToken(response.getToken());
                             repository.saveLogin(login);
                             fragmentManagerSimplifier.addFragment(R.id.nav_home);
-
                         }
                     });
 
-                    fragmentManagerSimplifier.addFragment(R.id.authorisationFragment);
                 }
 
 

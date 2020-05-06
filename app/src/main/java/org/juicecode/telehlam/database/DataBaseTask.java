@@ -71,6 +71,11 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
         this.task = task;
     }
 
+    public DataBaseTask(Task task,Context context){
+        this.context = context;
+        this.task = task;
+    }
+
     @Override
     protected T doInBackground(Void... voids) {
         appDataBase = DBClient.getInstance(context).getAppDataBase();
@@ -90,7 +95,10 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                 //  а ничего он не делает тут кстати, только получение базы и Dao  так что можно убрать
                 break;
                 //TODO make deleting history
-
+            case DeleteAllMessageHistory:
+                contactDao.deleteAll();
+                messageDao.deleteAll();
+                break;
         }
         return null;
     }

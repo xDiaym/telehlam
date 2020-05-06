@@ -39,6 +39,9 @@ public class SharedPreferencesRepository {
     public long getId(){
         return preferences.getLong(ID, 0);
     }
+    public void deleteInfo(){
+        preferences.edit().clear().apply();
+    }
     public String getLogin(){ return preferences.getString(LOGIN, null);}
 
     public @Nullable String getToken() {

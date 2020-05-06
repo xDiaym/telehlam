@@ -97,10 +97,11 @@ public class SecondRegistrationFragment extends Fragment {
                         @Override
                         public void execute(AuthInfo response) {
                             //removing fragments
-
                             //saving info
+
                             SharedPreferencesRepository repository = new SharedPreferencesRepository(getContext());
                             repository.saveToken(response.getToken());
+                            fragmentManagerSimplifier.addFragment(R.id.nav_home);
                         }
                     });
                 }

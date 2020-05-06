@@ -15,16 +15,18 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+
 import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
+import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
 
-public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier
-        {
+public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier {
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
     private NavController navController;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private AppSocket appSocket;
     private Socket socket;
     private NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    addFragment(R.id.contactsFragment);
+                addFragment(R.id.contactsFragment);
             }
         });
         //all drawer stuff
@@ -60,23 +63,29 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-                .setDrawerLayout(drawer)
-                .build();
+
 
         navigationView = findViewById(R.id.nav_view);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home,
+                R.id.nav_logout)
+                .setDrawerLayout(drawer)
+                .build();
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                if(destination.getId() == R.id.nav_home){
+                if (destination.getId() == R.id.nav_home) {
                     fab.setVisibility(View.VISIBLE);
                     toolbar.setVisibility(View.VISIBLE);
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                }else if ( destination.getId()==R.id.nav_logout){
+                    toolbar.setVisibility(View.VISIBLE);
+                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                    fab.setVisibility(View.GONE);
                 } else {
                     fab.setVisibility(View.GONE);
                     toolbar.setVisibility(View.GONE);
@@ -111,12 +120,24 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
     public void addFragment(int id) {
         navController.navigate(id);
+        KeyboardManager.hideKeyboard(this);
     }
 
-            @Override
-            public void addWithArguments(int id, Bundle bundle) {
-                navController.navigate(id,bundle);
-            }
-
-
+    @Override
+    public void onBackPressed() {
+        if(navController.getCurrentDestination().getId() == R.id.nav_home
+                ||navController.getCurrentDestination().getId() == R.id.nav_logout){
+                KeyboardManager.hideKeyboard(this);
+        }else{
+                super.onBackPressed();
+                KeyboardManager.hideKeyboard(this);
         }
+
+    }
+
+    @Override
+    public void addWithArguments(int id, Bundle bundle) {
+        navController.navigate(id, bundle);
+    }
+
+}

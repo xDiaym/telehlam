@@ -22,8 +22,8 @@ import org.juicecode.telehlam.core.contacts.Contact;
 import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.socketio.AppSocket;
-import org.juicecode.telehlam.socketio.SocketIOMethods;
 import org.juicecode.telehlam.socketio.onMessageCallback;
+import org.juicecode.telehlam.socketio.onMessageListener;
 import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
@@ -51,7 +51,7 @@ public class ChatFragment extends Fragment implements onMessageCallback {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
         context = getContext();
         socket = AppSocket.getSocket();
-        socket.on("message",new SocketIOMethods((MainActivity)getActivity(),this).getOnMessage());
+        socket.on("message",new onMessageListener((MainActivity)getActivity(),this));
         //all variables get their values
         final Context context = getContext();
         chat = view.findViewById(R.id.chat);
@@ -90,11 +90,12 @@ public class ChatFragment extends Fragment implements onMessageCallback {
                     } else {
                         message = new Message(Message.MESSAGE_INCOMING, messageText, receiverId, userId);
                     }
+                    DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, new Contact(receiverLogin), message, DataBaseTask.Task.InsertMessage);
+                    dataBaseTask.execute();
                     /*
                     code for emitting messages is not ready
                     message = new Message(Message.MESSAGE_OUTGOING,messageText,userNick, receiverNick);
-                    DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, new Contact(receiverNick), message, DataBaseTask.Task.InsertMessage);
-                    dataBaseTask.execute();
+
                     socket.emit("message",message);
                     */
 
@@ -105,7 +106,6 @@ public class ChatFragment extends Fragment implements onMessageCallback {
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                KeyboardManager.hideKeyboard(getActivity());
                 getActivity().onBackPressed();
             }
         });
