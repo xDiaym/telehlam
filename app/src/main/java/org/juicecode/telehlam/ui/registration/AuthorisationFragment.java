@@ -33,6 +33,7 @@ public class AuthorisationFragment extends Fragment {
     FragmentManagerSimplifier fragmentManagerSimplifier;
     SharedPreferences sharedPreferences;
     Context context;
+
     @Override
     public View onCreateView(LayoutInflater layoutInflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.authorisation_fragment, container, false);
@@ -61,14 +62,9 @@ public class AuthorisationFragment extends Fragment {
                             repository.saveToken(response.getToken());
                             repository.saveLogin(login);
                             fragmentManagerSimplifier.addFragment(R.id.nav_home);
-
                         }
                     });
-
-                    fragmentManagerSimplifier.addFragment(R.id.authorisationFragment);
                 }
-
-
             }
         });
 

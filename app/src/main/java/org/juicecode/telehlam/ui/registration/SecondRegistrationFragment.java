@@ -101,6 +101,7 @@ public class SecondRegistrationFragment extends Fragment {
                             //saving info
                             SharedPreferencesRepository repository = new SharedPreferencesRepository(getContext());
                             repository.saveToken(response.getToken());
+                            fragmentManagerSimplifier.addFragment(R.id.nav_home);
                         }
                     });
                 }

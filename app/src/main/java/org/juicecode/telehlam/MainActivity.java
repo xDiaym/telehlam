@@ -15,16 +15,18 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+
 import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
+import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
 
-public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier
-        {
+public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier {
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
     private NavController navController;
@@ -32,14 +34,15 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private AppSocket appSocket;
     private Socket socket;
     private NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // TODO: add logout button
-        //SharedPreferences preferences = getSharedPreferences("org.juicecode.telehlam", MODE_PRIVATE);
-        //preferences.edit().remove("token").apply();
+        SharedPreferences preferences = getSharedPreferences("org.juicecode.telehlam", MODE_PRIVATE);
+        preferences.edit().remove("token").apply();
 
         //check if user has registered
         SharedPreferencesRepository repository = new SharedPreferencesRepository(this);
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    addFragment(R.id.contactsFragment);
+                addFragment(R.id.contactsFragment);
             }
         });
         //all drawer stuff
@@ -73,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                if(destination.getId() == R.id.nav_home){
+                if (destination.getId() == R.id.nav_home) {
                     fab.setVisibility(View.VISIBLE);
                     toolbar.setVisibility(View.VISIBLE);
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
@@ -110,13 +113,14 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     }
 
     public void addFragment(int id) {
+        KeyboardManager.hideKeyboard(this);
         navController.navigate(id);
     }
 
-            @Override
-            public void addWithArguments(int id, Bundle bundle) {
-                navController.navigate(id,bundle);
-            }
+    @Override
+    public void addWithArguments(int id, Bundle bundle) {
+        KeyboardManager.hideKeyboard(this);
+        navController.navigate(id, bundle);
+    }
 
-
-        }
+}
