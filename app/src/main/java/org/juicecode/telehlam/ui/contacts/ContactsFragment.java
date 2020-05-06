@@ -8,7 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ActionMenuView;
 import android.widget.ImageButton;
 import android.widget.SearchView;
 
@@ -27,22 +26,15 @@ public class ContactsFragment extends Fragment
 
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = layoutInflater.inflate(R.layout.contacts_list, container, false);
+        View view = layoutInflater.inflate(R.layout.fragment_contacts, container, false);
         setHasOptionsMenu(true);
+
         RecyclerView contactsRecycler = view.findViewById(R.id.listOfContacts);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         contactsRecycler.setLayoutManager(layoutManager);
         adapter = new ContactsAdapter();
         contactsRecycler.setAdapter(adapter);
 
-        ImageButton goBackButton = view.findViewById(R.id.goBackButton);
-        goBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-
-            }
-        });
         return view;
     }
 
