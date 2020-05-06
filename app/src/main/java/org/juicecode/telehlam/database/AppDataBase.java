@@ -8,7 +8,7 @@ import org.juicecode.telehlam.core.contacts.ContactDao;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.database.messages.MessageDao;
 
-@Database(entities = {Message.class, Contact.class}, version = 4)
+@Database(entities = {Message.class, Contact.class}, version = 5)
 public abstract class AppDataBase extends RoomDatabase {
     public abstract MessageDao messageDao();
 

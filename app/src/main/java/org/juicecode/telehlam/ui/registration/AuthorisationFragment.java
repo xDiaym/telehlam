@@ -45,8 +45,6 @@ public class AuthorisationFragment extends Fragment {
 
         fragmentManagerSimplifier = (FragmentManagerSimplifier) view.getContext();
 
-
-        sharedPreferences = view.getContext().getSharedPreferences("org.juicecode.telehlam", Context.MODE_PRIVATE);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,9 +73,6 @@ public class AuthorisationFragment extends Fragment {
         });
 
         goToRegistrationFragment = view.findViewById(R.id.registration_button);
-
-
-
         goToRegistrationFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

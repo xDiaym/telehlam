@@ -19,7 +19,16 @@ public class ContactsFragment extends Fragment implements ActivityCompat.OnReque
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = layoutInflater.inflate(R.layout.contacts_list, container, false);
+        goBackButton = view.findViewById(R.id.goBackButton);
+        goBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
         return view;
+
+
     }
 
 
