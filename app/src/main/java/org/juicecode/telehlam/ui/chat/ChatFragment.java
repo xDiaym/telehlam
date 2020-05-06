@@ -44,7 +44,6 @@ public class ChatFragment extends Fragment implements onMessageCallback {
     Socket socket;
     Context context;
     String receiverLogin;
-    SharedPreferences sharedPreferences;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,6 +61,7 @@ public class ChatFragment extends Fragment implements onMessageCallback {
         String[] values = arguments.getStringArray("information");
         receiverLogin = values[0];
         userId = new SharedPreferencesRepository(context).getId();
+        receiverId = arguments.getLong("receiverId");
         chat.setAdapter(messageChatAdapter);
         chat.setHasFixedSize(false);
         chat.setNestedScrollingEnabled(false);
@@ -86,15 +86,16 @@ public class ChatFragment extends Fragment implements onMessageCallback {
 
 
                     if (new Random().nextBoolean()) {
-                        message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId);
+                        message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId,receiverLogin);
                     } else {
-                        message = new Message(Message.MESSAGE_INCOMING, messageText, receiverId, userId);
+                        message = new Message(Message.MESSAGE_INCOMING, messageText, receiverId, userId,receiverLogin);
                     }
-                    DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, new Contact(receiverLogin), message, DataBaseTask.Task.InsertMessage);
+                    DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, new Contact(receiverLogin,receiverId), message, DataBaseTask.Task.InsertMessage);
                     dataBaseTask.execute();
+                    messageField.setText("");
                     /*
                     code for emitting messages is not ready
-                    message = new Message(Message.MESSAGE_OUTGOING,messageText,userNick, receiverNick);
+                    message = new Message(Message.MESSAGE_OUTGOING,messageText,userId, receiverId);
 
                     socket.emit("message",message);
                     */
@@ -116,8 +117,8 @@ public class ChatFragment extends Fragment implements onMessageCallback {
     @Override
     public void savingIncomingMessage(String message) {
         Message incomingMessage;
-        incomingMessage = new Message(Message.MESSAGE_INCOMING,message,userId, receiverId);
-        DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, new Contact(receiverLogin), incomingMessage, DataBaseTask.Task.InsertMessage);
+        incomingMessage = new Message(Message.MESSAGE_INCOMING,message,userId, receiverId,receiverLogin);
+        DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, new Contact(receiverLogin,receiverId), incomingMessage, DataBaseTask.Task.InsertMessage);
         dataBaseTask.execute();
         messageChatAdapter.addItem(incomingMessage);
         messageField.setText("");

@@ -2,6 +2,7 @@ package org.juicecode.telehlam.database;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.TextView;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -33,8 +34,9 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
     private List<Message> messages = new ArrayList<>();
     private long receiver;
     private RecyclerView chat;
+    private TextView lastMessageField;
 
-    //добавление сообщения
+    //inserting messages
     public DataBaseTask(Context context, Contact contact, Message message, Task task) {
         this.task = task;
         this.context = context;
@@ -42,7 +44,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
         this.message = message;
     }
 
-    //получение контактов
+    //getting contacts
     public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, ChatListAdapter chatListAdapter, RecyclerView chatList, Task task) {
         this.context = context;
         this.lifecycleOwner = lifecycleOwner;
@@ -51,7 +53,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
         this.task = task;
     }
 
-    //получение сообщений
+    //getting messages
     public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, MessageChatAdapter messageChatAdapter, RecyclerView chat, long receiver, Task task) {
         this.context = context;
         this.lifecycleOwner = lifecycleOwner;
@@ -61,16 +63,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
         this.task = task;
     }
 
-    //удаление переписки
-    public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, ChatListAdapter chatListAdapter, RecyclerView chatList, long receiver, Task task) {
-        this.chatList = chatList;
-        this.context = context;
-        this.lifecycleOwner = lifecycleOwner;
-        this.chatListAdapter = chatListAdapter;
-        this.receiver = receiver;
-        this.task = task;
-    }
-
+    //deleting history
     public DataBaseTask(Task task,Context context){
         this.context = context;
         this.task = task;
@@ -94,7 +87,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
             case GetAllContacts:
                 //  а ничего он не делает тут кстати, только получение базы и Dao  так что можно убрать
                 break;
-                //TODO make deleting history
+
             case DeleteAllMessageHistory:
                 contactDao.deleteAll();
                 messageDao.deleteAll();
@@ -113,6 +106,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                     public void onChanged(List<Contact> contacts) {
                         chatListAdapter = new ChatListAdapter(context, contacts);
                         chatList.setAdapter(chatListAdapter);
+
                     }
                 });
 
@@ -124,6 +118,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                     @Override
                     public void onChanged(List<Message> messages) {
                         messageChatAdapter.addItems(messages);
+                        chat.scrollToPosition(messageChatAdapter.getItemCount()-1);
                     }
                 });
         }

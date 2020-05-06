@@ -89,9 +89,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         return filter;
     }
 
-    static class ContactViewHolder extends RecyclerView.ViewHolder {
+    class ContactViewHolder extends RecyclerView.ViewHolder {
         TextView contactName;
-        String phoneNumber;
 
         ContactViewHolder(@NonNull final View itemView) {
             super(itemView);
@@ -103,7 +102,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                     Bundle sendingChatName = new Bundle();
                     String chatNameValue = (String) contactName.getText();
                     sendingChatName.putStringArray("information", new String[]{chatNameValue});
-                    //sendingChatName.putLong("receiverId",id);
+                    sendingChatName.putLong("receiverId", contacts.get(getAdapterPosition()).getId());
                     simplifier.addWithArguments(R.id.chatFragment, sendingChatName);
                 }
             });

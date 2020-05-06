@@ -38,10 +38,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // TODO: add logout button
-        //SharedPreferences preferences = getSharedPreferences("org.juicecode.telehlam", MODE_PRIVATE);
-        //preferences.edit().remove("token").apply();
-
         //check if user has registered
         SharedPreferencesRepository repository = new SharedPreferencesRepository(this);
 
@@ -124,7 +120,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     public void onBackPressed() {
         if(navController.getCurrentDestination().getId() == R.id.nav_home){
                 KeyboardManager.hideKeyboard(this);
-        }else{
+        } else if(navController.getCurrentDestination().getId() == R.id.chatFragment){
+            addFragment(R.id.nav_home);
+        }
+        else{
                 super.onBackPressed();
                 KeyboardManager.hideKeyboard(this);
         }

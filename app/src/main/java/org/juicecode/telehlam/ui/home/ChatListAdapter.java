@@ -2,6 +2,7 @@ package org.juicecode.telehlam.ui.home;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.github.nkzawa.socketio.client.Socket;
 import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
+import org.juicecode.telehlam.database.DataBaseTask;
+import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.ui.chat.ChatFragment;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 

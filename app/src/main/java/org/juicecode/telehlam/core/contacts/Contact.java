@@ -11,7 +11,7 @@ public class Contact {
     private int contactId;
     @ColumnInfo
     private String login;
-
+    private long id;
     @ColumnInfo
     private String name;
     @ColumnInfo
@@ -33,8 +33,17 @@ public class Contact {
         this.surname = surname;
     }
 
-    public Contact(String login) {
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Contact(String login, long id) {
         this.login = login;
+        this.id = id;
     }
 
     public int getContactId() {
