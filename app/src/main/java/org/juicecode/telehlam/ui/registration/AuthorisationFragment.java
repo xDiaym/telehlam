@@ -12,9 +12,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.rest.user.AsyncUserApi;
+import org.juicecode.telehlam.rest.user.UserRepository;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.AuthInfo;
 import org.juicecode.telehlam.rest.user.LoginInfo;
@@ -33,6 +34,7 @@ public class AuthorisationFragment extends Fragment {
     FragmentManagerSimplifier fragmentManagerSimplifier;
     SharedPreferences sharedPreferences;
     Context context;
+
     @Override
     public View onCreateView(LayoutInflater layoutInflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.authorisation_fragment, container, false);
@@ -52,21 +54,18 @@ public class AuthorisationFragment extends Fragment {
                 String password = passwordField.getText().toString().trim();
 
                 if (checkFields(login, password)) {
-                    AsyncUserApi api = new AsyncUserApi(new RetrofitBuilder());
-                    api.signIn(new LoginInfo(login, password), new ApiCallback<AuthInfo>() {
+                    UserRepository api = new UserRepository(new RetrofitBuilder());
+                    api.signIn(new LoginInfo(login, password)).observe(getViewLifecycleOwner(), new Observer<AuthInfo>() {
                         @Override
-                        public void execute(AuthInfo response) {
+                        public void onChanged(AuthInfo authInfo) {
                             //if user is found saving token and login of user in SharedPreferences
                             SharedPreferencesRepository repository = new SharedPreferencesRepository(context);
-                            repository.saveToken(response.getToken());
+                            repository.saveToken(authInfo.getToken());
                             repository.saveLogin(login);
                             fragmentManagerSimplifier.addFragment(R.id.nav_home);
                         }
                     });
-
                 }
-
-
             }
         });
 

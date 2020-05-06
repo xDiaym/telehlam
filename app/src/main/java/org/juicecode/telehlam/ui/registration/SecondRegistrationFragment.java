@@ -92,15 +92,12 @@ public class SecondRegistrationFragment extends Fragment {
                     passwordError.setText("");
                 } else {
                     final LoginInfo loginInfo = new LoginInfo(login, password, name, surname);
-                    AsyncUserApi registerUser = new AsyncUserApi(new RetrofitBuilder());
-                    registerUser.registerUser(loginInfo, new ApiCallback<AuthInfo>() {
+                    UserRepository registerUser = new UserRepository(new RetrofitBuilder());
+                    registerUser.registerUser(loginInfo).observe(getViewLifecycleOwner(), new Observer<AuthInfo>() {
                         @Override
-                        public void execute(AuthInfo response) {
-                            //removing fragments
-                            //saving info
-
+                        public void onChanged(AuthInfo authInfo) {
                             SharedPreferencesRepository repository = new SharedPreferencesRepository(getContext());
-                            repository.saveToken(response.getToken());
+                            repository.saveToken(authInfo.getToken());
                             fragmentManagerSimplifier.addFragment(R.id.nav_home);
                         }
                     });
