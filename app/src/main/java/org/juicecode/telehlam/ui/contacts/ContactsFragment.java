@@ -17,9 +17,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.utils.DrawerLocker;
+
 
 public class ContactsFragment extends Fragment
         implements ActivityCompat.OnRequestPermissionsResultCallback {
@@ -30,10 +29,6 @@ public class ContactsFragment extends Fragment
 
         View view = layoutInflater.inflate(R.layout.contacts_list, container, false);
         setHasOptionsMenu(true);
-
-        final DrawerLocker drawerLocker = (DrawerLocker) view.getContext();
-        drawerLocker.setDrawerLock(true);
-
         RecyclerView contactsRecycler = view.findViewById(R.id.listOfContacts);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         contactsRecycler.setLayoutManager(layoutManager);
@@ -45,7 +40,7 @@ public class ContactsFragment extends Fragment
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
-                drawerLocker.setDrawerLock(false);
+
             }
         });
         return view;

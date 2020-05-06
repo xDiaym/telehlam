@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         setContentView(R.layout.activity_main);
 
         // TODO: add logout button
-        SharedPreferences preferences = getSharedPreferences("org.juicecode.telehlam", MODE_PRIVATE);
-        preferences.edit().remove("token").apply();
+        //SharedPreferences preferences = getSharedPreferences("org.juicecode.telehlam", MODE_PRIVATE);
+        //preferences.edit().remove("token").apply();
 
         //check if user has registered
         SharedPreferencesRepository repository = new SharedPreferencesRepository(this);
