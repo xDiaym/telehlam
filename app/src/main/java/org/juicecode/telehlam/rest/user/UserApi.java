@@ -1,5 +1,7 @@
 package org.juicecode.telehlam.rest.user;
 
+import org.juicecode.telehlam.core.contacts.User;
+
 import java.util.List;
 
 import retrofit2.Call;

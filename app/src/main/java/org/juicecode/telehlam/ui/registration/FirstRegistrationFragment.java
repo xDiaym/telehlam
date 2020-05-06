@@ -69,7 +69,7 @@ public class FirstRegistrationFragment extends Fragment {
                     //sending arguments and open second fragment
                     Bundle arguments = new Bundle();
                     arguments.putStringArray("argumentsFromFirstRegistration", new String[]{name, surname, phone});
-                    fragmentManagerSimplifier.addWithArguments(R.id.secondRegistrationFragment,arguments);
+                    fragmentManagerSimplifier.addWithArguments(R.id.secondRegistrationFragment, arguments);
                 }
             }
         });

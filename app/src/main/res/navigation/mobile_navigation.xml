@@ -24,26 +24,24 @@
             app:destination="@id/contactsFragment" />
         <action
             android:id="@+id/action_nav_home_to_chatFragment"
-            app:destination="@id/chatFragment"
-            />/>
+            app:destination="@id/chatFragment" />/>
     </fragment>
     <fragment
         android:id="@+id/authorisationFragment"
         android:name="org.juicecode.telehlam.ui.registration.AuthorisationFragment"
-        android:label="AuthorisationFragment" >
+        android:label="AuthorisationFragment">
         <action
             android:id="@+id/action_authorisationFragment_to_firstRegistrationFragment"
-            app:destination="@id/firstRegistrationFragment"
-            />/>
+            app:destination="@id/firstRegistrationFragment" />/>
         <action
             android:id="@+id/action_authorisationFragment_to_nav_home"
-            app:destination="@id/nav_home"
-             /> />
+            app:destination="@id/nav_home" />
+        />
     </fragment>
     <fragment
         android:id="@+id/firstRegistrationFragment"
         android:name="org.juicecode.telehlam.ui.registration.FirstRegistrationFragment"
-        android:label="FirstRegistrationFragment" >
+        android:label="FirstRegistrationFragment">
         <action
             android:id="@+id/action_firstRegistrationFragment_to_secondRegistrationFragment"
             app:destination="@id/secondRegistrationFragment"
@@ -53,7 +51,7 @@
     <fragment
         android:id="@+id/secondRegistrationFragment"
         android:name="org.juicecode.telehlam.ui.registration.SecondRegistrationFragment"
-        android:label="SecondRegistrationFragment" >
+        android:label="SecondRegistrationFragment">
         <action
             android:id="@+id/action_secondRegistrationFragment_to_nav_home"
             app:destination="@id/nav_home"

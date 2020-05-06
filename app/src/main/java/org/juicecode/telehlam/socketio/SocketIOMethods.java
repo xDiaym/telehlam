@@ -1,13 +1,11 @@
 package org.juicecode.telehlam.socketio;
 
 import com.github.nkzawa.emitter.Emitter;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.ui.registration.AuthorisationFragment;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
 public class SocketIOMethods {
@@ -16,13 +14,6 @@ public class SocketIOMethods {
     private FragmentManagerSimplifier fragmentManagerSimplifier;
     private Emitter.Listener onMessage;
     private onMessageCallback onMessageCallback;
-    public Emitter.Listener getOnMessage() {
-        return onMessage;
-    }
-
-    public Emitter.Listener getLogin() {
-        return login;
-    }
 
     public SocketIOMethods(final MainActivity mainActivity, final onMessageCallback callback) {
         this.mainActivity = mainActivity;
@@ -36,7 +27,7 @@ public class SocketIOMethods {
                     @Override
                     public void run() {
                         // opening authorisation if user's token is wrong
-                        JSONObject json =(JSONObject) args[0];
+                        JSONObject json = (JSONObject) args[0];
                         fragmentManagerSimplifier.addFragment(R.id.authorisationFragment);
                     }
                 });
@@ -49,7 +40,7 @@ public class SocketIOMethods {
                 mainActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        JSONObject data = (JSONObject)args[0];
+                        JSONObject data = (JSONObject) args[0];
                         //getting message from json
                         try {
                             String message = data.getString("message");
@@ -64,6 +55,14 @@ public class SocketIOMethods {
         };
 
 
+    }
+
+    public Emitter.Listener getOnMessage() {
+        return onMessage;
+    }
+
+    public Emitter.Listener getLogin() {
+        return login;
     }
 
 

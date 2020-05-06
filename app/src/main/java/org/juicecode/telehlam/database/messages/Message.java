@@ -32,7 +32,7 @@ public class Message {
     @Ignore
     public Message(int type, String text, long authorId, long receiverId) {
         this.type = type;
-        this.authorId= authorId;
+        this.authorId = authorId;
         this.receiverId = receiverId;
         this.text = text;
         this.timestamp = (new Date()).getTime();
@@ -43,14 +43,12 @@ public class Message {
         return authorId;
     }
 
-
+    public void setAuthorId(long authorId) {
+        this.authorId = authorId;
+    }
 
     public long getReceiverId() {
         return receiverId;
-    }
-
-    public void setAuthorId(long authorId) {
-        this.authorId = authorId;
     }
 
     public void setReceiverId(long receiverId) {

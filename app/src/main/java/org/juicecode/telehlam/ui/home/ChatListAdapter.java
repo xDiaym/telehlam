@@ -11,24 +11,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.nkzawa.socketio.client.Socket;
-
-import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.core.contacts.Contact;
-import org.juicecode.telehlam.ui.chat.ChatFragment;
+import org.juicecode.telehlam.core.contacts.User;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
 import java.util.List;
 
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatViewHolder> {
-    List<Contact> contacts;
-    private Context parent;
+    private List<User> contacts;
 
 
-    public ChatListAdapter(Context context, List<Contact> contacts) {
-        parent = context;
+    public ChatListAdapter(List<User> contacts) {
         this.contacts = contacts;
     }
 
@@ -40,9 +34,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.chat_list_item, parent, false);
 
-        ChatViewHolder viewHolder = new ChatViewHolder(view);
-
-        return viewHolder;
+        return new ChatViewHolder(view);
     }
 
     @Override
@@ -58,15 +50,14 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         return contacts.size();
     }
 
-    class ChatViewHolder extends RecyclerView.ViewHolder {
-        private ImageView chatAvatar;
+    static class ChatViewHolder extends RecyclerView.ViewHolder {
         private TextView chatName;
         private TextView chatLastMessage;
 
-        public ChatViewHolder(@NonNull View itemView) {
+        ChatViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            chatAvatar = itemView.findViewById(R.id.contact_avatar);
+            ImageView chatAvatar = itemView.findViewById(R.id.contact_avatar);
             chatName = itemView.findViewById(R.id.chat_name);
             chatLastMessage = itemView.findViewById(R.id.chat_last_message);
 
@@ -76,16 +67,16 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
                 public void onClick(View v) {
 
                     FragmentManagerSimplifier simplifier = (FragmentManagerSimplifier) v.getContext();
-                        Bundle sendingChatName = new Bundle();
-                        String chatNameValue = (String) chatName.getText();
-                        sendingChatName.putStringArray("information", new String[]{chatNameValue});
-                        simplifier.addWithArguments(R.id.chatFragment, sendingChatName);
+                    Bundle sendingChatName = new Bundle();
+                    String chatNameValue = (String) chatName.getText();
+                    sendingChatName.putStringArray("information", new String[]{chatNameValue});
+                    simplifier.addWithArguments(R.id.chatFragment, sendingChatName);
                 }
             });
 
         }
 
-        public void bind(String login, String lastMessage) {
+        void bind(String login, String lastMessage) {
             chatName.setText(login);
             chatLastMessage.setText(lastMessage);
         }

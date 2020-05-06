@@ -1,18 +1,26 @@
-package org.juicecode.telehlam.rest.user;
+package org.juicecode.telehlam.core.contacts;
 
 import androidx.annotation.Nullable;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "contacts")
 public class User {
+    @PrimaryKey(autoGenerate = true)
     private long id;
+    @ColumnInfo
+    private long userId;
+    @ColumnInfo
     private String login;
+    @ColumnInfo
     private String name;
-    private @Nullable String surname;
+    @ColumnInfo
+    @Nullable
+    private String surname;
 
-    public User(long id, String login, String name, @Nullable String surname) {
-        this.id = id;
+    public User(String login) {
         this.login = login;
-        this.name = name;
-        this.surname = surname;
     }
 
     public long getId() {
@@ -21,6 +29,14 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public String getLogin() {

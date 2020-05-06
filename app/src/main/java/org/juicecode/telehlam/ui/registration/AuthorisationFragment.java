@@ -15,11 +15,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.rest.user.UserRepository;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.AuthInfo;
 import org.juicecode.telehlam.rest.user.LoginInfo;
-import org.juicecode.telehlam.utils.ApiCallback;
+import org.juicecode.telehlam.rest.user.UserRepository;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 

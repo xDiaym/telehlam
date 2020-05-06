@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         setContentView(R.layout.activity_main);
 
         // TODO: add logout button
-        // SharedPreferences preferences = getSharedPreferences("org.juicecode.telehlam", MODE_PRIVATE);
-        // preferences.edit().remove("token").apply();
+        SharedPreferences preferences = getSharedPreferences("org.juicecode.telehlam", MODE_PRIVATE);
+        preferences.edit().remove("token").apply();
 
         //check if user has registered
         SharedPreferencesRepository repository = new SharedPreferencesRepository(this);
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                     fab.setVisibility(View.VISIBLE);
                     toolbar.setVisibility(View.VISIBLE);
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                } else if (destination.getId() == R.id.contactsFragment){
+                } else if (destination.getId() == R.id.contactsFragment) {
                     toolbar.setVisibility(View.VISIBLE);
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                     fab.setVisibility(View.GONE);
@@ -104,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Hide keyboard while fragment changed
+        KeyboardManager.hideKeyboard(this);
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;

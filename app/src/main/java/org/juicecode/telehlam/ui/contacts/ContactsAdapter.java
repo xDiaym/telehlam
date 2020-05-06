@@ -16,16 +16,16 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
+import org.juicecode.telehlam.core.contacts.User;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.UserRepository;
-import org.juicecode.telehlam.rest.user.User;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>
-    implements Filterable {
+        implements Filterable {
     private LifecycleOwner lifecycleOwner;
     private ArrayList<User> contacts;
     private Filter filter = new Filter() {
@@ -91,7 +91,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     static class ContactViewHolder extends RecyclerView.ViewHolder {
         TextView contactName;
-        String phoneNumber;
 
         ContactViewHolder(@NonNull final View itemView) {
             super(itemView);
