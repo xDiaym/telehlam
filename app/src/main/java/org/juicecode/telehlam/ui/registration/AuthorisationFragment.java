@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.user.UserRepository;
@@ -54,12 +55,12 @@ public class AuthorisationFragment extends Fragment {
 
                 if (checkFields(login, password)) {
                     UserRepository api = new UserRepository(new RetrofitBuilder());
-                    api.signIn(new LoginInfo(login, password), new ApiCallback<AuthInfo>() {
+                    api.signIn(new LoginInfo(login, password)).observe(getViewLifecycleOwner(), new Observer<AuthInfo>() {
                         @Override
-                        public void execute(AuthInfo response) {
+                        public void onChanged(AuthInfo authInfo) {
                             //if user is found saving token and login of user in SharedPreferences
                             SharedPreferencesRepository repository = new SharedPreferencesRepository(context);
-                            repository.saveToken(response.getToken());
+                            repository.saveToken(authInfo.getToken());
                             repository.saveLogin(login);
                             fragmentManagerSimplifier.addFragment(R.id.nav_home);
                         }

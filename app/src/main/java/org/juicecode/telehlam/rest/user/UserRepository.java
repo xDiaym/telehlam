@@ -6,11 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 
 import org.juicecode.telehlam.rest.RetrofitBuilder;
-import org.juicecode.telehlam.utils.ApiCallback;
 
 import java.util.List;
 
@@ -28,19 +26,19 @@ public class UserRepository {
         userApi = retrofitBuilder.getUserApi();
     }
 
-    public void registerUser(@NonNull final LoginInfo loginInfo,
-                             @NonNull final ApiCallback<AuthInfo> callback) {
+    public LiveData<AuthInfo> registerUser(@NonNull final LoginInfo loginInfo) {
         final Call<AuthInfo> call = userApi.registerUser(loginInfo);
+        final MutableLiveData<AuthInfo> info = new MutableLiveData<>();
+
         call.enqueue(new Callback<AuthInfo>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<AuthInfo> call, Response<AuthInfo> response) {
                 if (response.isSuccessful()) {
                     if (response.body() == null) {
                         Log.i(TAG, "Incorrect server answer!");
                         return;
                     }
-                    AuthInfo info = (AuthInfo) response.body();
-                    callback.execute(info);
+                    info.setValue(response.body());
                     Log.i(TAG, "User successfully registered");
                 } else {
                     //TODO make error handling
@@ -55,19 +53,21 @@ public class UserRepository {
                         t.getMessage()));
             }
         });
+
+        return info;
     }
 
-    public void signIn(@NonNull final LoginInfo loginInfo, @NonNull final ApiCallback<AuthInfo> callback) {
-        Call<AuthInfo> signIn = userApi.signIn(loginInfo);
+    public LiveData<AuthInfo> signIn(@NonNull final LoginInfo loginInfo) {
+        final Call<AuthInfo> signIn = userApi.signIn(loginInfo);
+        final MutableLiveData<AuthInfo> info = new MutableLiveData<>();
+
         signIn.enqueue(new Callback<AuthInfo>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<AuthInfo> call, Response<AuthInfo> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         try {
-                            String res = new Gson().toJson(response.body());
-                            AuthInfo info = new Gson().fromJson(res, AuthInfo.class);
-                            callback.execute(info);
+                            info.setValue(response.body());
                         } catch (JsonIOException exception) {
                             exception.printStackTrace();
                         }
@@ -85,6 +85,8 @@ public class UserRepository {
                         t.getMessage()));
             }
         });
+
+        return info;
     }
 
     public LiveData<List<User>> byLogin(@NonNull String login) {

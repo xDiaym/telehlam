@@ -70,8 +70,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.contact_list_item, parent, false);
-        ContactViewHolder contactViewHolder = new ContactViewHolder(view);
-        return contactViewHolder;
+        return new ContactViewHolder(view);
     }
 
     @Override
@@ -111,7 +110,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             contactName = itemView.findViewById(R.id.contact_name);
         }
 
-        public void bind(String login) {
+        void bind(String login) {
             contactName.setText(login);
         }
     }

@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.user.UserRepository;
@@ -93,14 +94,11 @@ public class SecondRegistrationFragment extends Fragment {
                 } else {
                     final LoginInfo loginInfo = new LoginInfo(login, password, name, surname);
                     UserRepository registerUser = new UserRepository(new RetrofitBuilder());
-                    registerUser.registerUser(loginInfo, new ApiCallback<AuthInfo>() {
+                    registerUser.registerUser(loginInfo).observe(getViewLifecycleOwner(), new Observer<AuthInfo>() {
                         @Override
-                        public void execute(AuthInfo response) {
-                            //removing fragments
-
-                            //saving info
+                        public void onChanged(AuthInfo authInfo) {
                             SharedPreferencesRepository repository = new SharedPreferencesRepository(getContext());
-                            repository.saveToken(response.getToken());
+                            repository.saveToken(authInfo.getToken());
                             fragmentManagerSimplifier.addFragment(R.id.nav_home);
                         }
                     });
