@@ -15,7 +15,7 @@ import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.user.AsyncUserApi;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.AuthInfo;
-import org.juicecode.telehlam.rest.user.User;
+import org.juicecode.telehlam.rest.user.LoginInfo;
 import org.juicecode.telehlam.utils.ApiCallback;
 import org.juicecode.telehlam.utils.FieldValidator;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
@@ -91,9 +91,9 @@ public class SecondRegistrationFragment extends Fragment {
                     loginError.setText("");
                     passwordError.setText("");
                 } else {
-                    final User user = new User(login, password, name, surname);
+                    final LoginInfo loginInfo = new LoginInfo(login, password, name, surname);
                     AsyncUserApi registerUser = new AsyncUserApi(new RetrofitBuilder());
-                    registerUser.registerUser(user, new ApiCallback<AuthInfo>() {
+                    registerUser.registerUser(loginInfo, new ApiCallback<AuthInfo>() {
                         @Override
                         public void execute(AuthInfo response) {
                             //removing fragments

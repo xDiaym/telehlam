@@ -17,7 +17,7 @@ import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.user.AsyncUserApi;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.AuthInfo;
-import org.juicecode.telehlam.rest.user.User;
+import org.juicecode.telehlam.rest.user.LoginInfo;
 import org.juicecode.telehlam.utils.ApiCallback;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
@@ -53,7 +53,7 @@ public class AuthorisationFragment extends Fragment {
 
                 if (checkFields(login, password)) {
                     AsyncUserApi api = new AsyncUserApi(new RetrofitBuilder());
-                    api.signIn(new User(login, password), new ApiCallback<AuthInfo>() {
+                    api.signIn(new LoginInfo(login, password), new ApiCallback<AuthInfo>() {
                         @Override
                         public void execute(AuthInfo response) {
                             //if user is found saving token and login of user in SharedPreferences
