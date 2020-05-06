@@ -3,6 +3,8 @@ package org.juicecode.telehlam.rest.user;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -17,12 +19,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class AsyncUserApi {
-    private static final String TAG = AsyncUserApi.class.getCanonicalName();
+public class UserRepository {
+    private static final String TAG = UserRepository.class.getCanonicalName();
 
     private static UserApi userApi;
 
-    public AsyncUserApi(@NonNull RetrofitBuilder retrofitBuilder) {
+    public UserRepository(@NonNull RetrofitBuilder retrofitBuilder) {
         userApi = retrofitBuilder.getUserApi();
     }
 
@@ -85,14 +87,14 @@ public class AsyncUserApi {
         });
     }
 
-    public void byLogin(@NonNull String login, final ApiCallback<List<User>> callback) {
+    public LiveData<List<User>> byLogin(@NonNull String login) {
         Call<List<User>> call = userApi.byLogin(login);
+        final MutableLiveData<List<User>> users = new MutableLiveData<>();
         call.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<User> users = response.body();
-                    callback.execute(users);
+                    users.setValue(response.body());
                 } else {
                     //TODO error handling
                     Log.e(TAG, "Unsuccessful response at signIn");
@@ -106,6 +108,8 @@ public class AsyncUserApi {
                         t.getMessage()));
             }
         });
+
+        return users;
     }
 
 }

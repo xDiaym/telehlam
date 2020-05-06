@@ -32,7 +32,7 @@ public class ContactsFragment extends Fragment
         RecyclerView contactsRecycler = view.findViewById(R.id.listOfContacts);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         contactsRecycler.setLayoutManager(layoutManager);
-        adapter = new ContactsAdapter();
+        adapter = new ContactsAdapter(getViewLifecycleOwner());
         contactsRecycler.setAdapter(adapter);
 
         return view;

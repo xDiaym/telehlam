@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.rest.user.AsyncUserApi;
+import org.juicecode.telehlam.rest.user.UserRepository;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.AuthInfo;
 import org.juicecode.telehlam.rest.user.LoginInfo;
@@ -53,7 +53,7 @@ public class AuthorisationFragment extends Fragment {
                 String password = passwordField.getText().toString().trim();
 
                 if (checkFields(login, password)) {
-                    AsyncUserApi api = new AsyncUserApi(new RetrofitBuilder());
+                    UserRepository api = new UserRepository(new RetrofitBuilder());
                     api.signIn(new LoginInfo(login, password), new ApiCallback<AuthInfo>() {
                         @Override
                         public void execute(AuthInfo response) {

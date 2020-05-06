@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.rest.user.AsyncUserApi;
+import org.juicecode.telehlam.rest.user.UserRepository;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.AuthInfo;
 import org.juicecode.telehlam.rest.user.LoginInfo;
@@ -92,7 +92,7 @@ public class SecondRegistrationFragment extends Fragment {
                     passwordError.setText("");
                 } else {
                     final LoginInfo loginInfo = new LoginInfo(login, password, name, surname);
-                    AsyncUserApi registerUser = new AsyncUserApi(new RetrofitBuilder());
+                    UserRepository registerUser = new UserRepository(new RetrofitBuilder());
                     registerUser.registerUser(loginInfo, new ApiCallback<AuthInfo>() {
                         @Override
                         public void execute(AuthInfo response) {

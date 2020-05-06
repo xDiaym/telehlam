@@ -10,15 +10,15 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.core.contacts.Contact;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
-import org.juicecode.telehlam.rest.user.AsyncUserApi;
+import org.juicecode.telehlam.rest.user.UserRepository;
 import org.juicecode.telehlam.rest.user.User;
-import org.juicecode.telehlam.ui.chat.ChatFragment;
-import org.juicecode.telehlam.utils.ApiCallback;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
 import java.util.ArrayList;
@@ -26,19 +26,15 @@ import java.util.List;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>
     implements Filterable {
-    private ArrayList<Contact> contacts;
+    private LifecycleOwner lifecycleOwner;
+    private ArrayList<User> contacts;
     private Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            final List<User> users = new ArrayList<>();
+            LiveData<List<User>> users = null;
             if (constraint != null && constraint.length() != 0) {
-                AsyncUserApi api = new AsyncUserApi(new RetrofitBuilder());
-                api.byLogin(constraint.toString(), new ApiCallback<List<User>>() {
-                    @Override
-                    public void execute(List<User> response) {
-                        users.addAll(response);
-                    }
-                });
+                UserRepository api = new UserRepository(new RetrofitBuilder());
+                users = api.byLogin(constraint.toString());
             }
             FilterResults results = new FilterResults();
             results.values = users;
@@ -47,14 +43,25 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            contacts.clear();
-            contacts.addAll((List) results.values);
-            notifyDataSetChanged();
+            if (results == null || results.values == null) {
+                contacts.clear();
+                notifyDataSetChanged();
+            } else {
+                ((LiveData<List<User>>) results.values).observe(lifecycleOwner, new Observer<List<User>>() {
+                    @Override
+                    public void onChanged(List<User> users) {
+                        contacts.clear();
+                        contacts.addAll(users);
+                        notifyDataSetChanged();
+                    }
+                });
+            }
         }
     };
 
-    ContactsAdapter() {
-        this.contacts = new ArrayList<>();
+    ContactsAdapter(LifecycleOwner owner) {
+        this.lifecycleOwner = owner;
+        this.contacts = new ArrayList<User>();
     }
 
     @NonNull
@@ -69,7 +76,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
-        Contact contact = contacts.get(position);
+        User contact = contacts.get(position);
         holder.bind(contact.getLogin());
     }
 
