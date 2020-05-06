@@ -51,9 +51,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         // TODO(all): set real name
-        holder.bind(
-                contacts.get(position).getLogin(),
-                "Hello world!");
+        holder.bind(contacts.get(position).getLogin());
     }
 
     @Override
@@ -88,9 +86,11 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
 
         }
 
-        public void bind(String login, String lastMessage) {
+        public void bind(String login) {
             chatName.setText(login);
-            chatLastMessage.setText(lastMessage);
+            DataBaseTask<Message> dataBaseTask = new DataBaseTask(parent , DataBaseTask.Task.GetLastMessage,contacts.get(getAdapterPosition()).getId(),chatLastMessage);
+            dataBaseTask.execute();
+
         }
     }
 }

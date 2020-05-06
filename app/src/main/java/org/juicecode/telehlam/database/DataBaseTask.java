@@ -62,7 +62,13 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
         this.receiver = receiver;
         this.task = task;
     }
-
+    //getting lastMessage
+    public DataBaseTask(Context context, Task task,long id, TextView textView){
+        this.context = context;
+        this.task = task;
+        this.receiver = id;
+        this.lastMessageField = textView;
+    }
     //deleting history
     public DataBaseTask(Task task,Context context){
         this.context = context;
@@ -92,6 +98,10 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                 contactDao.deleteAll();
                 messageDao.deleteAll();
                 break;
+            case GetAllMessages:
+                break;
+            case GetLastMessage:
+                message = messageDao.getLastMessage(receiver);
         }
         return null;
     }
@@ -121,10 +131,14 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                         chat.scrollToPosition(messageChatAdapter.getItemCount()-1);
                     }
                 });
+                break;
+            case GetLastMessage:
+                lastMessageField.setText(message.getText());
+                break;
         }
     }
 
     public enum Task {
-        GetAllContacts, InsertMessage, GetAllMessages, DeleteAllMessageHistory
+        GetAllContacts, InsertMessage, GetAllMessages, DeleteAllMessageHistory,GetLastMessage
     }
 }
