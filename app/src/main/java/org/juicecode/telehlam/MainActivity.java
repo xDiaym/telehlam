@@ -27,8 +27,7 @@ import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
 
-public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier
-        {
+public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier {
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
     private NavController navController;
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    addFragment(R.id.contactsFragment);
+                addFragment(R.id.contactsFragment);
             }
         });
         //all drawer stuff
@@ -79,11 +78,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                if(destination.getId() == R.id.nav_home){
+                if (destination.getId() == R.id.nav_home) {
                     fab.setVisibility(View.VISIBLE);
                     toolbar.setVisibility(View.VISIBLE);
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                }else if ( destination.getId()==R.id.nav_logout||destination.getId() == R.id.contactsFragment){
+                } else if (destination.getId() == R.id.nav_logout || destination.getId() == R.id.contactsFragment) {
                     toolbar.setVisibility(View.VISIBLE);
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                     fab.setVisibility(View.GONE);
@@ -102,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             Socket socket = appSocket.getSocket();
             socket.connect();
             socket.emit("login", repository.getToken());
-            socket.on("login",new loginListener(this,this));
+            socket.on("login", new loginListener(this, this));
         }
     }
 
@@ -129,22 +128,26 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
     @Override
     public void onBackPressed() {
-        if(navController.getCurrentDestination().getId() == R.id.nav_home){
-                KeyboardManager.hideKeyboard(this);
-        } else if(navController.getCurrentDestination().getId() == R.id.chatFragment){
+        if (navController.getCurrentDestination().getId() == R.id.nav_home) {
+            KeyboardManager.hideKeyboard(this);
+        } else if (navController.getCurrentDestination().getId() == R.id.chatFragment) {
             addFragment(R.id.nav_home);
-        }
-        else{
-                super.onBackPressed();
-                KeyboardManager.hideKeyboard(this);
+        } else {
+            super.onBackPressed();
+            KeyboardManager.hideKeyboard(this);
         }
 
     }
 
-            @Override
-            public void addWithArguments(int id, Bundle bundle) {
-                navController.navigate(id,bundle);
-            }
+    @Override
+    public void addWithArguments(int id, Bundle bundle) {
+        navController.navigate(id, bundle);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        socket.disconnect();
+    }
+}
 
-        }

@@ -18,6 +18,6 @@ public interface MessageDao {
     @Query("DELETE FROM messages")
     void deleteAll();
 
-    @Query("SELECT * FROM messages WHERE id = ((SELECT MAX(ID)  FROM messages)) and receiverId=:user or authorId=:user")
-    Message getLastMessage(long user);
+    @Query("SELECT * FROM messages WHERE id = ((SELECT MAX(ID)  FROM messages)) and (receiverId=:user or authorId=:user)")
+    LiveData<Message> getLastMessage(long user);
 }

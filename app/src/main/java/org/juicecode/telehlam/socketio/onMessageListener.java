@@ -1,7 +1,11 @@
 package org.juicecode.telehlam.socketio;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.github.nkzawa.emitter.Emitter;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
@@ -24,7 +28,15 @@ public class onMessageListener implements Emitter.Listener {
             public void run() {
                 // opening authorisation if user's token is wrong
                 JSONObject json = (JSONObject) args[0];
-                fragmentManagerSimplifier.addFragment(R.id.authorisationFragment);
+                String text = null;
+                try {
+                    text = json.getString("text");
+                } catch (JSONException jsonException){
+
+                }
+                MutableLiveData<String> mutableLiveData = new MutableLiveData<>();
+                mutableLiveData.setValue(text);
+                callback.savingIncomingMessage(mutableLiveData);
             }
         });
     }

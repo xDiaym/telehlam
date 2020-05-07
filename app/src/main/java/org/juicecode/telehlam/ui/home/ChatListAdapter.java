@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
@@ -24,9 +25,10 @@ import java.util.List;
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatViewHolder> {
     private List<User> contacts;
     private Context context;
-
-    public ChatListAdapter(List<User> contacts) {
+    private LifecycleOwner lifecycleOwner;
+    public ChatListAdapter(List<User> contacts, LifecycleOwner lifecycleOwner) {
         this.contacts = contacts;
+        this.lifecycleOwner = lifecycleOwner;
     }
 
 
@@ -63,7 +65,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         private long id;
         ChatViewHolder(@NonNull View itemView) {
             super(itemView);
-
             ImageView chatAvatar = itemView.findViewById(R.id.contact_avatar);
             chatName = itemView.findViewById(R.id.chat_name);
             chatLastMessage = itemView.findViewById(R.id.chat_last_message);
@@ -86,7 +87,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
             this.pos = pos;
             this.id = id;
             chatName.setText(login);
-            DataBaseTask<Message> dataBaseTask = new DataBaseTask(context, DataBaseTask.Task.GetLastMessage,id,chatLastMessage);
+            DataBaseTask<Message> dataBaseTask = new DataBaseTask(context, DataBaseTask.Task.GetLastMessage,id,chatLastMessage,lifecycleOwner);
             dataBaseTask.execute();
         }
     }

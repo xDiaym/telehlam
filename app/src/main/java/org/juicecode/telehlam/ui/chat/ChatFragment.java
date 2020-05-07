@@ -11,6 +11,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,7 +54,7 @@ public class ChatFragment extends Fragment implements onMessageCallback {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
         context = getContext();
         socket = AppSocket.getSocket();
-        socket.on("new message",new onMessageListener((MainActivity) getActivity(),this));
+        socket.on("message",new onMessageListener((MainActivity) getActivity(),this));
         //all variables get their values
         final Context context = getContext();
         chat = view.findViewById(R.id.chat);
@@ -117,12 +119,18 @@ public class ChatFragment extends Fragment implements onMessageCallback {
     }
 
     @Override
-    public void savingIncomingMessage(String message) {
-        Message incomingMessage;
-        incomingMessage = new Message(Message.MESSAGE_INCOMING, message, userId, receiverId);
-        DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, user, incomingMessage, DataBaseTask.Task.InsertMessage);
-        dataBaseTask.execute();
-        messageChatAdapter.addItem(incomingMessage);
-        messageField.setText("");
+    public void savingIncomingMessage(LiveData<String> message) {
+        message.observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Message incomingMessage;
+                incomingMessage = new Message(Message.MESSAGE_INCOMING, s, userId, receiverId);
+                DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, user, incomingMessage, DataBaseTask.Task.InsertMessage);
+                dataBaseTask.execute();
+                messageChatAdapter.addItem(incomingMessage);
+                messageField.setText("");
+            }
+        });
+
     }
 }

@@ -74,9 +74,10 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
         this.task = task;
     }
     //getting last message
-    public DataBaseTask(Context context, Task task, long id, TextView textView){
+    public DataBaseTask(Context context, Task task, long id, TextView textView,LifecycleOwner lifecycleOwner){
         this.context = context;
         this.task = task;
+        this.lifecycleOwner = lifecycleOwner;
         this.receiver = id;
         this.lastMessageField = textView;
     }
@@ -100,8 +101,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                 //  а ничего он не делает тут кстати, только получение базы и Dao  так что можно убрать
                 break;
             case GetLastMessage:
-                message = messageDao.getLastMessage(receiver);
-                messageText = message.getText();
+
                 break;
             case DeleteAllMessageHistory:
                 contactDao.deleteAll();
@@ -119,7 +119,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                 contactDao.getAll().observe(lifecycleOwner, new Observer<List<User>>() {
                     @Override
                     public void onChanged(List<User> users) {
-                        chatListAdapter = new ChatListAdapter(users);
+                        chatListAdapter = new ChatListAdapter(users,lifecycleOwner);
                         chatList.setAdapter(chatListAdapter);
                     }
                 });
@@ -136,9 +136,14 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                     }
                 });
             case GetLastMessage:
-                if(lastMessageField!=null){
-                    lastMessageField.setText(messageText);
-                }
+               messageDao.getLastMessage(receiver).observe(lifecycleOwner, new Observer<Message>() {
+                   @Override
+                   public void onChanged(Message message) {
+                       if(lastMessageField!=null){
+                           lastMessageField.setText(message.getText());
+                       }
+                   }
+               });
 
         }
     }

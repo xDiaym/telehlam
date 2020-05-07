@@ -18,9 +18,6 @@ public interface ContactDao {
     @Query("SELECT * FROM contacts WHERE id = :id")
     User getById(long id);
 
-    @Query("SELECT * FROM contacts WHERE login = :login")
-    User getByLogin(String login);
-
     @Query("SELECT COUNT(*) FROM contacts WHERE id = :id")
     int getNumberOfContactsById(long id);
 
