@@ -72,6 +72,7 @@ public class ChatFragment extends Fragment implements onMessageCallback {
         nameOfContact = view.findViewById(R.id.chat_name);
         nameOfContact.setText(receiverLogin);
         goBack = view.findViewById(R.id.go_back_button);
+        nameOfContact.setText(user.getLogin());
         //getting all messages for chat
         DataBaseTask<List<Message>> getMessages = new DataBaseTask<>(getContext(), getViewLifecycleOwner(), messageChatAdapter, chat, receiverId, DataBaseTask.Task.GetAllMessages);
         getMessages.execute();
@@ -93,6 +94,8 @@ public class ChatFragment extends Fragment implements onMessageCallback {
                     }
                     DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, user, message, DataBaseTask.Task.InsertMessage);
                     dataBaseTask.execute();
+                    messageField.setText("");
+                    chat.scrollToPosition(messageChatAdapter.getItemCount()-1);
                     /*
                     code for emitting messages is not ready
                     message = new Message(Message.MESSAGE_OUTGOING,messageText,userNick, receiverNick);

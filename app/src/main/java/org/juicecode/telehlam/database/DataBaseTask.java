@@ -2,6 +2,7 @@ package org.juicecode.telehlam.database;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.TextView;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -28,11 +29,13 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
     private RecyclerView chatList;
     private MessageDao messageDao;
     private List<User> users = new ArrayList<>();
+    private String messageText;
     private MessageChatAdapter messageChatAdapter;
     private Message message;
     private List<Message> messages = new ArrayList<>();
     private long receiver;
     private RecyclerView chat;
+    private TextView lastMessageField;
 
     //добавление сообщения
     public DataBaseTask(Context context, User user, Message message, Task task) {
@@ -62,13 +65,20 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
     }
 
     //удаление переписки
-    public DataBaseTask(Context context,   Task task) {
+    public DataBaseTask(Context context,Task task) {
         this.chatList = chatList;
         this.context = context;
         this.lifecycleOwner = lifecycleOwner;
         this.chatListAdapter = chatListAdapter;
         this.receiver = receiver;
         this.task = task;
+    }
+    //getting last message
+    public DataBaseTask(Context context, Task task, long id, TextView textView){
+        this.context = context;
+        this.task = task;
+        this.receiver = id;
+        this.lastMessageField = textView;
     }
 
     @Override
@@ -89,8 +99,14 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
             case GetAllContacts:
                 //  а ничего он не делает тут кстати, только получение базы и Dao  так что можно убрать
                 break;
-            //TODO make deleting history
-
+            case GetLastMessage:
+                message = messageDao.getLastMessage(receiver);
+                messageText = message.getText();
+                break;
+            case DeleteAllMessageHistory:
+                //contactDao.deleteAll();
+                //message.deleteAll();
+                break;
         }
         return null;
     }
@@ -116,12 +132,18 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                     @Override
                     public void onChanged(List<Message> messages) {
                         messageChatAdapter.addItems(messages);
+                        chat.scrollToPosition(messageChatAdapter.getItemCount()-1);
                     }
                 });
+            case GetLastMessage:
+                if(lastMessageField!=null){
+                    lastMessageField.setText(messageText);
+                }
+
         }
     }
 
     public enum Task {
-        GetAllContacts, InsertMessage, GetAllMessages, DeleteAllMessageHistory
+        GetAllContacts, InsertMessage, GetAllMessages, DeleteAllMessageHistory,GetLastMessage
     }
 }

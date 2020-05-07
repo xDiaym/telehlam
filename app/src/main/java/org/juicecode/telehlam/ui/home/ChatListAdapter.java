@@ -2,6 +2,7 @@ package org.juicecode.telehlam.ui.home;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.User;
+import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
 import java.util.List;
@@ -21,7 +23,7 @@ import java.util.List;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatViewHolder> {
     private List<User> contacts;
-
+    private Context context;
 
     public ChatListAdapter(List<User> contacts) {
         this.contacts = contacts;
@@ -34,6 +36,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.chat_list_item, parent, false);
+        context = view.getContext();
         for(User u:contacts){
             Log.i("usersId", Long.toString(u.getId()));
         }
@@ -45,7 +48,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         // TODO(all): set real name
         holder.bind(
                 contacts.get(position).getLogin(),
-                "Hello world!",position);
+                position,contacts.get(position).getId());
     }
 
     @Override
@@ -57,6 +60,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         private TextView chatName;
         private TextView chatLastMessage;
         private int pos;
+        private long id;
         ChatViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -78,10 +82,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
 
         }
 
-        void bind(String login, String lastMessage, int pos) {
+        void bind(String login, int pos,long id) {
             this.pos = pos;
+            this.id = id;
             chatName.setText(login);
-            chatLastMessage.setText(lastMessage);
+            DataBaseTask<Message> dataBaseTask = new DataBaseTask(context, DataBaseTask.Task.GetLastMessage,id,chatLastMessage);
+            dataBaseTask.execute();
         }
     }
 }
