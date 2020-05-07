@@ -22,8 +22,8 @@ import org.juicecode.telehlam.core.contacts.User;
 import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.socketio.AppSocket;
-import org.juicecode.telehlam.socketio.SocketIOMethods;
 import org.juicecode.telehlam.socketio.onMessageCallback;
+import org.juicecode.telehlam.socketio.onMessageListener;
 import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
@@ -35,7 +35,7 @@ public class ChatFragment extends Fragment implements onMessageCallback {
     RecyclerView chat;
     TextView nameOfContact;
     EditText messageField;
-    ImageButton sendbutton;
+    ImageButton sendButton;
     ImageButton goBack;
     User user;
     long userId;
@@ -45,14 +45,14 @@ public class ChatFragment extends Fragment implements onMessageCallback {
     Socket socket;
     Context context;
     String receiverLogin;
-    SharedPreferences sharedPreferences;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
         context = getContext();
         socket = AppSocket.getSocket();
-        //socket.on("message", new SocketIOMethods((MainActivity) getActivity(), this).getOnMessage());
+        socket.on("new message",new onMessageListener((MainActivity) getActivity(),this));
         //all variables get their values
         final Context context = getContext();
         chat = view.findViewById(R.id.chat);
@@ -68,7 +68,7 @@ public class ChatFragment extends Fragment implements onMessageCallback {
         chat.setNestedScrollingEnabled(false);
         messageField = view.findViewById(R.id.message_field);
         messageList = new ArrayList<>();
-        sendbutton = view.findViewById(R.id.send_message_button);
+        sendButton = view.findViewById(R.id.send_message_button);
         nameOfContact = view.findViewById(R.id.chat_name);
         nameOfContact.setText(receiverLogin);
         goBack = view.findViewById(R.id.go_back_button);
@@ -78,14 +78,15 @@ public class ChatFragment extends Fragment implements onMessageCallback {
         getMessages.execute();
 
 
-        sendbutton.setOnClickListener(new View.OnClickListener() {
+        sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String messageText = messageField.getText().toString().trim();
                 if (!messageText.isEmpty()) {
                     //TODO(all): delete test code
                     Message message;
-
+                    message = new Message(Message.MESSAGE_OUTGOING,messageText,userId, receiverId);
+                    socket.emit("new message",message);
 
                     if (new Random().nextBoolean()) {
                         message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId);
@@ -96,12 +97,9 @@ public class ChatFragment extends Fragment implements onMessageCallback {
                     dataBaseTask.execute();
                     messageField.setText("");
                     chat.scrollToPosition(messageChatAdapter.getItemCount()-1);
-                    /*
-                    code for emitting messages is not ready
-                    message = new Message(Message.MESSAGE_OUTGOING,messageText,userNick, receiverNick);
+                    //emitting message
 
-                    socket.emit("message",message);
-                    */
+
 
                 }
             }

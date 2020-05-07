@@ -1,5 +1,7 @@
 package org.juicecode.telehlam.socketio;
 
+import android.util.Log;
+
 import com.github.nkzawa.emitter.Emitter;
 
 import org.json.JSONObject;

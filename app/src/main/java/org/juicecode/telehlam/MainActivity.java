@@ -21,6 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import org.juicecode.telehlam.socketio.AppSocket;
+import org.juicecode.telehlam.socketio.loginListener;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             Socket socket = appSocket.getSocket();
             socket.connect();
             socket.emit("login", repository.getToken());
+            socket.on("login",new loginListener(this,this));
         }
     }
 

@@ -104,8 +104,8 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                 messageText = message.getText();
                 break;
             case DeleteAllMessageHistory:
-                //contactDao.deleteAll();
-                //message.deleteAll();
+                contactDao.deleteAll();
+                messageDao.deleteAll();
                 break;
         }
         return null;

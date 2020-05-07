@@ -27,6 +27,8 @@ public interface ContactDao {
     @Insert
     void insert(User User);
 
+    @Query("DELETE FROM contacts")
+    void deleteAll();
     @Update
     void update(User User);
 }
