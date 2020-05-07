@@ -40,7 +40,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
             results.values = users;
             return results;
         }
-//k
+
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             if (results == null || results.values == null) {
