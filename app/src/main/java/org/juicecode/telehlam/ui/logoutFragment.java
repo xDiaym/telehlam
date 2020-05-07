@@ -39,7 +39,7 @@ public class logoutFragment extends Fragment {
    public void logout(){
        SharedPreferencesRepository repository = new SharedPreferencesRepository(getContext());
        repository.deleteInfo();
-       DataBaseTask<Void> dataBaseTask = new DataBaseTask(DataBaseTask.Task.DeleteAllMessageHistory, getContext());
+       DataBaseTask<Void> dataBaseTask = new DataBaseTask(getContext(), DataBaseTask.Task.DeleteAllMessageHistory);
        dataBaseTask.execute();
        FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier)getActivity();
        fragmentManagerSimplifier.addFragment(R.id.authorisationFragment);

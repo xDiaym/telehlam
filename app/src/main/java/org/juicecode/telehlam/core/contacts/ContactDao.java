@@ -21,26 +21,11 @@ public interface ContactDao {
     @Query("SELECT * FROM contacts WHERE login = :login")
     User getByLogin(String login);
 
-    @Query("SELECT COUNT(*) FROM contacts WHERE login = :login")
-    int getNumberOfContactsByLogin(String login);
+    @Query("SELECT COUNT(*) FROM contacts WHERE id = :id")
+    int getNumberOfContactsById(long id);
 
     @Insert
     void insert(User User);
-
-    @Insert
-    void insertMany(ArrayList<User> contacts);
-
-    @Delete
-    void delete(User User);
-
-    @Query("DELETE FROM contacts WHERE id = :id")
-    void deleteById(long id);
-
-    @Query("DELETE FROM contacts")
-    void deleteAll();
-
-    @Query("DELETE FROM contacts WHERE login = :userLogin")
-    void deleteByLogin(String userLogin);
 
     @Update
     void update(User User);

@@ -2,6 +2,7 @@ package org.juicecode.telehlam.ui.home;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,9 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.chat_list_item, parent, false);
-
+        for(User u:contacts){
+            Log.i("usersId", Long.toString(u.getId()));
+        }
         return new ChatViewHolder(view);
     }
 
@@ -42,7 +45,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         // TODO(all): set real name
         holder.bind(
                 contacts.get(position).getLogin(),
-                "Hello world!");
+                "Hello world!",position);
     }
 
     @Override
@@ -50,10 +53,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         return contacts.size();
     }
 
-    static class ChatViewHolder extends RecyclerView.ViewHolder {
+     class ChatViewHolder extends RecyclerView.ViewHolder {
         private TextView chatName;
         private TextView chatLastMessage;
-
+        private int pos;
         ChatViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -68,15 +71,15 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
 
                     FragmentManagerSimplifier simplifier = (FragmentManagerSimplifier) v.getContext();
                     Bundle sendingChatName = new Bundle();
-                    String chatNameValue = (String) chatName.getText();
-                    sendingChatName.putStringArray("information", new String[]{chatNameValue});
+                    sendingChatName.putSerializable("user", contacts.get(pos));
                     simplifier.addWithArguments(R.id.chatFragment, sendingChatName);
                 }
             });
 
         }
 
-        void bind(String login, String lastMessage) {
+        void bind(String login, String lastMessage, int pos) {
+            this.pos = pos;
             chatName.setText(login);
             chatLastMessage.setText(lastMessage);
         }

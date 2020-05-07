@@ -37,6 +37,7 @@ public class ChatFragment extends Fragment implements onMessageCallback {
     EditText messageField;
     ImageButton sendbutton;
     ImageButton goBack;
+    User user;
     long userId;
     long receiverId;
     MessageChatAdapter messageChatAdapter;
@@ -59,8 +60,8 @@ public class ChatFragment extends Fragment implements onMessageCallback {
         chat.setLayoutManager(linearLayout);
         messageChatAdapter = new MessageChatAdapter();
         Bundle arguments = getArguments();
-        String[] values = arguments.getStringArray("information");
-        receiverLogin = values[0];
+        user = (User) arguments.getSerializable("user");
+        receiverId = user.getId();
         userId = new SharedPreferencesRepository(context).getId();
         chat.setAdapter(messageChatAdapter);
         chat.setHasFixedSize(false);
@@ -90,11 +91,12 @@ public class ChatFragment extends Fragment implements onMessageCallback {
                     } else {
                         message = new Message(Message.MESSAGE_INCOMING, messageText, receiverId, userId);
                     }
+                    DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, user, message, DataBaseTask.Task.InsertMessage);
+                    dataBaseTask.execute();
                     /*
                     code for emitting messages is not ready
                     message = new Message(Message.MESSAGE_OUTGOING,messageText,userNick, receiverNick);
-                    DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, new Contact(receiverNick), message, DataBaseTask.Task.InsertMessage);
-                    dataBaseTask.execute();
+
                     socket.emit("message",message);
                     */
 
@@ -117,7 +119,7 @@ public class ChatFragment extends Fragment implements onMessageCallback {
     public void savingIncomingMessage(String message) {
         Message incomingMessage;
         incomingMessage = new Message(Message.MESSAGE_INCOMING, message, userId, receiverId);
-        DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, new User(receiverLogin), incomingMessage, DataBaseTask.Task.InsertMessage);
+        DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, user, incomingMessage, DataBaseTask.Task.InsertMessage);
         dataBaseTask.execute();
         messageChatAdapter.addItem(incomingMessage);
         messageField.setText("");

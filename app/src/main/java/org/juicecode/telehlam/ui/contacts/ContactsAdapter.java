@@ -2,6 +2,7 @@ package org.juicecode.telehlam.ui.contacts;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         implements Filterable {
     private LifecycleOwner lifecycleOwner;
     private ArrayList<User> contacts;
+
     private Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -53,6 +55,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                         contacts.clear();
                         contacts.addAll(users);
                         notifyDataSetChanged();
+                        for(User u:contacts){
+                            Log.i("c", Long.toString(u.getId()));
+                            Log.i("logins", u.getLogin());
+                        }
                     }
                 });
             }
@@ -76,7 +82,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
         User contact = contacts.get(position);
-        holder.bind(contact.getLogin());
+        holder.bind(contact.getLogin(),position);
     }
 
     @Override
@@ -91,7 +97,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     class ContactViewHolder extends RecyclerView.ViewHolder {
         TextView contactName;
-
+        private int pos;
         ContactViewHolder(@NonNull final View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -101,16 +107,16 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                     //sending contact info to ChatFragment
                     Bundle sendingChatName = new Bundle();
                     String chatNameValue = (String) contactName.getText();
-                    sendingChatName.putStringArray("information", new String[]{chatNameValue});
-                    sendingChatName.putLong("receiverId", contacts.get(getAdapterPosition()).getId());
+                    sendingChatName.putSerializable("user", contacts.get(pos));
                     simplifier.addWithArguments(R.id.chatFragment, sendingChatName);
                 }
             });
             contactName = itemView.findViewById(R.id.contact_name);
         }
 
-        void bind(String login) {
+        void bind(String login, int pos) {
             contactName.setText(login);
+            this.pos = pos;
         }
     }
 

@@ -5,12 +5,14 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "contacts")
-public class User {
+public class User implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    private long DataBaseId;
     @ColumnInfo
-    private long userId;
+    private long id;
     @ColumnInfo
     private String login;
     @ColumnInfo
@@ -19,8 +21,20 @@ public class User {
     @Nullable
     private String surname;
 
-    public User(String login) {
+    public User(){}
+    public User(String login,long userId,String name, String surname) {
         this.login = login;
+        this.id = userId;
+        this.name = name;
+        this.surname = surname;
+    }
+
+    public long getDataBaseId() {
+        return DataBaseId;
+    }
+
+    public void setDataBaseId(long dataBaseId) {
+        DataBaseId = dataBaseId;
     }
 
     public long getId() {
@@ -29,14 +43,6 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
     }
 
     public String getLogin() {
@@ -63,5 +69,4 @@ public class User {
     public void setSurname(@Nullable String surname) {
         this.surname = surname;
     }
-
 }

@@ -51,4 +51,7 @@ public class SharedPreferencesRepository {
     String getToken() {
         return preferences.getString(TOKEN, null);
     }
+    public void deleteInfo(){
+        preferences.edit().clear();
+    }
 }

@@ -62,7 +62,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
     }
 
     //удаление переписки
-    public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, ChatListAdapter chatListAdapter, RecyclerView chatList, long receiver, Task task) {
+    public DataBaseTask(Context context,   Task task) {
         this.chatList = chatList;
         this.context = context;
         this.lifecycleOwner = lifecycleOwner;
@@ -78,7 +78,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
         messageDao = appDataBase.messageDao();
         switch (task) {
             case InsertMessage:
-                if (contactDao.getNumberOfContactsByLogin(user.getLogin()) > 0) {
+                if (contactDao.getNumberOfContactsById(user.getId()) > 0) {
                     messageDao.insert(message);
                 } else {
                     contactDao.insert(user);
