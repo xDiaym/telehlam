@@ -3,12 +3,12 @@ package org.juicecode.telehlam.rest.user;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 
 import org.juicecode.telehlam.rest.RetrofitBuilder;
-import org.juicecode.telehlam.utils.ApiCallback;
 
 import java.util.List;
 
@@ -17,28 +17,28 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class AsyncUserApi {
-    private static final String TAG = AsyncUserApi.class.getCanonicalName();
+public class UserRepository {
+    private static final String TAG = UserRepository.class.getCanonicalName();
 
     private static UserApi userApi;
 
-    public AsyncUserApi(@NonNull RetrofitBuilder retrofitBuilder) {
+    public UserRepository(@NonNull RetrofitBuilder retrofitBuilder) {
         userApi = retrofitBuilder.getUserApi();
     }
 
-    public void registerUser(@NonNull final LoginInfo loginInfo,
-                             @NonNull final ApiCallback<AuthInfo> callback) {
+    public LiveData<AuthInfo> registerUser(@NonNull final LoginInfo loginInfo) {
         final Call<AuthInfo> call = userApi.registerUser(loginInfo);
+        final MutableLiveData<AuthInfo> info = new MutableLiveData<>();
+
         call.enqueue(new Callback<AuthInfo>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<AuthInfo> call, Response<AuthInfo> response) {
                 if (response.isSuccessful()) {
                     if (response.body() == null) {
                         Log.i(TAG, "Incorrect server answer!");
                         return;
                     }
-                    AuthInfo info = (AuthInfo) response.body();
-                    callback.execute(info);
+                    info.setValue(response.body());
                     Log.i(TAG, "User successfully registered");
                 } else {
                     //TODO make error handling
@@ -53,19 +53,21 @@ public class AsyncUserApi {
                         t.getMessage()));
             }
         });
+
+        return info;
     }
 
-    public void signIn(@NonNull final LoginInfo loginInfo, @NonNull final ApiCallback<AuthInfo> callback) {
-        Call<AuthInfo> signIn = userApi.signIn(loginInfo);
+    public LiveData<AuthInfo> signIn(@NonNull final LoginInfo loginInfo) {
+        final Call<AuthInfo> signIn = userApi.signIn(loginInfo);
+        final MutableLiveData<AuthInfo> info = new MutableLiveData<>();
+
         signIn.enqueue(new Callback<AuthInfo>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<AuthInfo> call, Response<AuthInfo> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         try {
-                            String res = new Gson().toJson(response.body());
-                            AuthInfo info = new Gson().fromJson(res, AuthInfo.class);
-                            callback.execute(info);
+                            info.setValue(response.body());
                         } catch (JsonIOException exception) {
                             exception.printStackTrace();
                         }
@@ -83,16 +85,18 @@ public class AsyncUserApi {
                         t.getMessage()));
             }
         });
+
+        return info;
     }
 
-    public void byLogin(@NonNull String login, final ApiCallback<List<User>> callback) {
+    public LiveData<List<User>> byLogin(@NonNull String login) {
         Call<List<User>> call = userApi.byLogin(login);
+        final MutableLiveData<List<User>> users = new MutableLiveData<>();
         call.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<User> users = response.body();
-                    callback.execute(users);
+                    users.setValue(response.body());
                 } else {
                     //TODO error handling
                     Log.e(TAG, "Unsuccessful response at signIn");
@@ -106,6 +110,8 @@ public class AsyncUserApi {
                         t.getMessage()));
             }
         });
+
+        return users;
     }
 
 }

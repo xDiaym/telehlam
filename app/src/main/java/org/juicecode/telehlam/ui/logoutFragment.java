@@ -21,7 +21,6 @@ import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
 public class logoutFragment extends Fragment {
 
-    private LogoutViewModel mViewModel;
     Button logout;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,

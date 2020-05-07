@@ -19,6 +19,16 @@ public class Message {
     private long timestamp;
     private long authorId;
     private long receiverId;
+    private String anotherUserLogin;
+
+    public String getAnotherUserLogin() {
+        return anotherUserLogin;
+    }
+
+    public void setAnotherUserLogin(String anotherUserLogin) {
+        this.anotherUserLogin = anotherUserLogin;
+    }
+
     @TypeConverters(Status.class)
     private Status status;
 
@@ -30,8 +40,9 @@ public class Message {
     }
 
     @Ignore
-    public Message(int type, String text, long authorId, long receiverId) {
+    public Message(int type, String text, long authorId, long receiverId,String anotherUserLogin) {
         this.type = type;
+        this.anotherUserLogin = anotherUserLogin;
         this.authorId= authorId;
         this.receiverId = receiverId;
         this.text = text;

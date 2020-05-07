@@ -15,18 +15,17 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-
 import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
 
-public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier {
+public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier
+        {
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
     private NavController navController;
@@ -34,15 +33,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private AppSocket appSocket;
     private Socket socket;
     private NavigationView navigationView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // TODO: add logout button
-        //SharedPreferences preferences = getSharedPreferences("org.juicecode.telehlam", MODE_PRIVATE);
-        //preferences.edit().remove("token").apply();
 
         //check if user has registered
         SharedPreferencesRepository repository = new SharedPreferencesRepository(this);
@@ -55,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addFragment(R.id.contactsFragment);
+                    addFragment(R.id.contactsFragment);
             }
         });
         //all drawer stuff
@@ -63,26 +57,25 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-
-
-        navigationView = findViewById(R.id.nav_view);
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
                 R.id.nav_logout)
                 .setDrawerLayout(drawer)
                 .build();
+
+        navigationView = findViewById(R.id.nav_view);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                if (destination.getId() == R.id.nav_home) {
+                if(destination.getId() == R.id.nav_home){
                     fab.setVisibility(View.VISIBLE);
                     toolbar.setVisibility(View.VISIBLE);
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                }else if ( destination.getId()==R.id.nav_logout){
+                }else if ( destination.getId()==R.id.nav_logout||destination.getId() == R.id.contactsFragment){
                     toolbar.setVisibility(View.VISIBLE);
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                     fab.setVisibility(View.GONE);
@@ -125,19 +118,22 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
     @Override
     public void onBackPressed() {
-        if(navController.getCurrentDestination().getId() == R.id.nav_home
-                ||navController.getCurrentDestination().getId() == R.id.nav_logout){
+        if(navController.getCurrentDestination().getId() == R.id.nav_home){
                 KeyboardManager.hideKeyboard(this);
-        }else{
+        } else if(navController.getCurrentDestination().getId() == R.id.chatFragment){
+            addFragment(R.id.nav_home);
+        }
+        else{
                 super.onBackPressed();
                 KeyboardManager.hideKeyboard(this);
         }
 
     }
 
-    @Override
-    public void addWithArguments(int id, Bundle bundle) {
-        navController.navigate(id, bundle);
-    }
+            @Override
+            public void addWithArguments(int id, Bundle bundle) {
+                navController.navigate(id,bundle);
+            }
 
-}
+
+        }

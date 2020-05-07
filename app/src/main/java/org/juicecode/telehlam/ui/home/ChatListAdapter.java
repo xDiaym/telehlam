@@ -2,6 +2,7 @@ package org.juicecode.telehlam.ui.home;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.github.nkzawa.socketio.client.Socket;
 import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.Contact;
+import org.juicecode.telehlam.database.DataBaseTask;
+import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.ui.chat.ChatFragment;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
@@ -48,9 +51,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         // TODO(all): set real name
-        holder.bind(
-                contacts.get(position).getLogin(),
-                "Hello world!");
+        holder.bind(contacts.get(position).getLogin());
     }
 
     @Override
@@ -85,9 +86,11 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
 
         }
 
-        public void bind(String login, String lastMessage) {
+        public void bind(String login) {
             chatName.setText(login);
-            chatLastMessage.setText(lastMessage);
+            DataBaseTask<Message> dataBaseTask = new DataBaseTask(parent , DataBaseTask.Task.GetLastMessage,contacts.get(getAdapterPosition()).getId(),chatLastMessage);
+            dataBaseTask.execute();
+
         }
     }
 }

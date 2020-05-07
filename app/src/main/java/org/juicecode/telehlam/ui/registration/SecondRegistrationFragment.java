@@ -10,12 +10,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.rest.user.AsyncUserApi;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.AuthInfo;
 import org.juicecode.telehlam.rest.user.LoginInfo;
+import org.juicecode.telehlam.rest.user.UserRepository;
 import org.juicecode.telehlam.utils.ApiCallback;
 import org.juicecode.telehlam.utils.FieldValidator;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
@@ -92,15 +93,12 @@ public class SecondRegistrationFragment extends Fragment {
                     passwordError.setText("");
                 } else {
                     final LoginInfo loginInfo = new LoginInfo(login, password, name, surname);
-                    AsyncUserApi registerUser = new AsyncUserApi(new RetrofitBuilder());
-                    registerUser.registerUser(loginInfo, new ApiCallback<AuthInfo>() {
+                    UserRepository registerUser = new UserRepository(new RetrofitBuilder());
+                    registerUser.registerUser(loginInfo).observe(getViewLifecycleOwner(), new Observer<AuthInfo>() {
                         @Override
-                        public void execute(AuthInfo response) {
-                            //removing fragments
-                            //saving info
-
+                        public void onChanged(AuthInfo authInfo) {
                             SharedPreferencesRepository repository = new SharedPreferencesRepository(getContext());
-                            repository.saveToken(response.getToken());
+                            repository.saveToken(authInfo.getToken());
                             fragmentManagerSimplifier.addFragment(R.id.nav_home);
                         }
                     });
