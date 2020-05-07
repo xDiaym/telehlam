@@ -1,14 +1,12 @@
 package org.juicecode.telehlam.ui.contacts;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -16,13 +14,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import org.juicecode.telehlam.R;
 
 
 public class ContactsFragment extends Fragment
         implements ActivityCompat.OnRequestPermissionsResultCallback {
 
-    ContactsAdapter adapter;
+    private ContactsAdapter adapter;
 
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -40,7 +39,6 @@ public class ContactsFragment extends Fragment
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        Log.e("TAG", "HER");
         inflater.inflate(R.menu.serach_menu, menu);
 
         MenuItem item = menu.findItem(R.id.action_search);
@@ -58,7 +56,5 @@ public class ContactsFragment extends Fragment
                 return false;
             }
         });
-
-        super.onCreateOptionsMenu(menu, inflater);
     }
 }

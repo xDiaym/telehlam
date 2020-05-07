@@ -15,9 +15,11 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+
 import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
@@ -33,10 +35,15 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private AppSocket appSocket;
     private Socket socket;
     private NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // TODO: add logout button
+        // SharedPreferences preferences = getSharedPreferences("org.juicecode.telehlam", MODE_PRIVATE);
+        // preferences.edit().remove("token").apply();
 
         //check if user has registered
         SharedPreferencesRepository repository = new SharedPreferencesRepository(this);
@@ -99,6 +106,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Hide keyboard while fragment changed
+        KeyboardManager.hideKeyboard(this);
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -112,8 +121,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     }
 
     public void addFragment(int id) {
-        navController.navigate(id);
         KeyboardManager.hideKeyboard(this);
+        navController.navigate(id);
     }
 
     @Override

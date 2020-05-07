@@ -24,27 +24,31 @@ public class SharedPreferencesRepository {
                 .putString(TOKEN, token)
                 .apply();
     }
-    public void saveLogin(@NonNull String login){
+
+    public void saveLogin(@NonNull String login) {
         preferences
                 .edit()
                 .putString(LOGIN, login)
                 .apply();
     }
-    public void saveId(@NonNull long id){
+
+    public void saveId(@NonNull long id) {
         preferences
                 .edit()
                 .putLong(ID, id)
                 .apply();
     }
-    public long getId(){
+
+    public long getId() {
         return preferences.getLong(ID, 0);
     }
-    public void deleteInfo(){
-        preferences.edit().clear().apply();
-    }
-    public String getLogin(){ return preferences.getString(LOGIN, null);}
 
-    public @Nullable String getToken() {
+    public String getLogin() {
+        return preferences.getString(LOGIN, null);
+    }
+
+    public @Nullable
+    String getToken() {
         return preferences.getString(TOKEN, null);
     }
 }

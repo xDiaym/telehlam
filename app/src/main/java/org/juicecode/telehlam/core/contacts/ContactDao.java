@@ -13,35 +13,35 @@ import java.util.List;
 @Dao
 public interface ContactDao {
     @Query("SELECT * FROM contacts")
-    LiveData<List<Contact>> getAll();
+    LiveData<List<User>> getAll();
 
-    @Query("SELECT * FROM contacts WHERE contactId = :id")
-    Contact getById(long id);
+    @Query("SELECT * FROM contacts WHERE id = :id")
+    User getById(long id);
 
-    @Query("SELECT * FROM contacts WHERE login=:login")
-    Contact getBylogin(String login);
+    @Query("SELECT * FROM contacts WHERE login = :login")
+    User getByLogin(String login);
 
-    @Query("SELECT COUNT(*) FROM contacts WHERE login=:login")
-    int getNumberOfContactsBylogin(String login);
-
-    @Insert
-    void insert(Contact contact);
+    @Query("SELECT COUNT(*) FROM contacts WHERE login = :login")
+    int getNumberOfContactsByLogin(String login);
 
     @Insert
-    void insertMany(ArrayList<Contact> contacts);
+    void insert(User User);
+
+    @Insert
+    void insertMany(ArrayList<User> contacts);
 
     @Delete
-    void delete(Contact contact);
+    void delete(User User);
 
-    @Query("DELETE FROM contacts WHERE contactId = :id")
+    @Query("DELETE FROM contacts WHERE id = :id")
     void deleteById(long id);
 
     @Query("DELETE FROM contacts")
     void deleteAll();
 
-    @Query("DELETE FROM contacts WHERE login=:userLogin")
+    @Query("DELETE FROM contacts WHERE login = :userLogin")
     void deleteByLogin(String userLogin);
 
     @Update
-    void update(Contact contact);
+    void update(User User);
 }

@@ -2,14 +2,13 @@ package org.juicecode.telehlam.database;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.TextView;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.juicecode.telehlam.core.contacts.Contact;
 import org.juicecode.telehlam.core.contacts.ContactDao;
+import org.juicecode.telehlam.core.contacts.User;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.database.messages.MessageDao;
 import org.juicecode.telehlam.ui.chat.MessageChatAdapter;
@@ -21,30 +20,29 @@ import java.util.List;
 public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
     private Context context;
     private Task task;
-    private Contact contact;
+    private User user;
     private AppDataBase appDataBase;
     private ContactDao contactDao;
     private LifecycleOwner lifecycleOwner;
     private ChatListAdapter chatListAdapter;
     private RecyclerView chatList;
     private MessageDao messageDao;
-    private List<Contact> contacts = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
     private MessageChatAdapter messageChatAdapter;
     private Message message;
     private List<Message> messages = new ArrayList<>();
     private long receiver;
     private RecyclerView chat;
-    private TextView lastMessageField;
 
-    //inserting messages
-    public DataBaseTask(Context context, Contact contact, Message message, Task task) {
+    //добавление сообщения
+    public DataBaseTask(Context context, User user, Message message, Task task) {
         this.task = task;
         this.context = context;
-        this.contact = contact;
+        this.user = user;
         this.message = message;
     }
 
-    //getting contacts
+    //получение контактов
     public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, ChatListAdapter chatListAdapter, RecyclerView chatList, Task task) {
         this.context = context;
         this.lifecycleOwner = lifecycleOwner;
@@ -53,7 +51,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
         this.task = task;
     }
 
-    //getting messages
+    //получение сообщений
     public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, MessageChatAdapter messageChatAdapter, RecyclerView chat, long receiver, Task task) {
         this.context = context;
         this.lifecycleOwner = lifecycleOwner;
@@ -62,16 +60,14 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
         this.receiver = receiver;
         this.task = task;
     }
-    //getting lastMessage
-    public DataBaseTask(Context context, Task task,long id, TextView textView){
+
+    //удаление переписки
+    public DataBaseTask(Context context, LifecycleOwner lifecycleOwner, ChatListAdapter chatListAdapter, RecyclerView chatList, long receiver, Task task) {
+        this.chatList = chatList;
         this.context = context;
-        this.task = task;
-        this.receiver = id;
-        this.lastMessageField = textView;
-    }
-    //deleting history
-    public DataBaseTask(Task task,Context context){
-        this.context = context;
+        this.lifecycleOwner = lifecycleOwner;
+        this.chatListAdapter = chatListAdapter;
+        this.receiver = receiver;
         this.task = task;
     }
 
@@ -82,10 +78,10 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
         messageDao = appDataBase.messageDao();
         switch (task) {
             case InsertMessage:
-                if (contactDao.getNumberOfContactsBylogin(contact.getLogin()) > 0) {
+                if (contactDao.getNumberOfContactsByLogin(user.getLogin()) > 0) {
                     messageDao.insert(message);
                 } else {
-                    contactDao.insert(contact);
+                    contactDao.insert(user);
                     messageDao.insert(message);
                 }
                 break;
@@ -93,15 +89,8 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
             case GetAllContacts:
                 //  а ничего он не делает тут кстати, только получение базы и Dao  так что можно убрать
                 break;
+            //TODO make deleting history
 
-            case DeleteAllMessageHistory:
-                contactDao.deleteAll();
-                messageDao.deleteAll();
-                break;
-            case GetAllMessages:
-                break;
-            case GetLastMessage:
-                message = messageDao.getLastMessage(receiver);
         }
         return null;
     }
@@ -111,12 +100,11 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
         super.onPostExecute(t);
         switch (task) {
             case GetAllContacts:
-                contactDao.getAll().observe(lifecycleOwner, new Observer<List<Contact>>() {
+                contactDao.getAll().observe(lifecycleOwner, new Observer<List<User>>() {
                     @Override
-                    public void onChanged(List<Contact> contacts) {
-                        chatListAdapter = new ChatListAdapter(context, contacts);
+                    public void onChanged(List<User> users) {
+                        chatListAdapter = new ChatListAdapter(users);
                         chatList.setAdapter(chatListAdapter);
-
                     }
                 });
 
@@ -128,17 +116,12 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                     @Override
                     public void onChanged(List<Message> messages) {
                         messageChatAdapter.addItems(messages);
-                        chat.scrollToPosition(messageChatAdapter.getItemCount()-1);
                     }
                 });
-                break;
-            case GetLastMessage:
-                lastMessageField.setText(message.getText());
-                break;
         }
     }
 
     public enum Task {
-        GetAllContacts, InsertMessage, GetAllMessages, DeleteAllMessageHistory,GetLastMessage
+        GetAllContacts, InsertMessage, GetAllMessages, DeleteAllMessageHistory
     }
 }
