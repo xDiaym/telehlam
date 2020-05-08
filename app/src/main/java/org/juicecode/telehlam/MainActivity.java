@@ -27,7 +27,7 @@ import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
 
-public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier {
+public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier  {
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
     private NavController navController;
@@ -40,14 +40,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // TODO: add logout button
-        // SharedPreferences preferences = getSharedPreferences("org.juicecode.telehlam", MODE_PRIVATE);
-        // preferences.edit().remove("token").apply();
-
-        //check if user has registered
         SharedPreferencesRepository repository = new SharedPreferencesRepository(this);
-
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -94,13 +87,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 }
             }
         });
+        appSocket = new AppSocket();
+        Socket socket = appSocket.getSocket();
         if (repository.getToken() == null) {
             addFragment(R.id.authorisationFragment);
         } else {
-            appSocket = new AppSocket();
-            Socket socket = appSocket.getSocket();
             socket.connect();
-            socket.emit("login", repository.getToken());
+            socket.emit("login", new SharedPreferencesRepository(this).getToken());
             socket.on("login", new loginListener(this, this));
         }
     }
@@ -143,6 +136,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     public void addWithArguments(int id, Bundle bundle) {
         navController.navigate(id, bundle);
     }
+
+
+
 
     @Override
     protected void onDestroy() {

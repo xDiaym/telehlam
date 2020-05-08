@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.github.nkzawa.emitter.Emitter;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.juicecode.telehlam.MainActivity;
@@ -27,16 +28,21 @@ public class onMessageListener implements Emitter.Listener {
             @Override
             public void run() {
                 // opening authorisation if user's token is wrong
-                JSONObject json = (JSONObject) args[0];
+                JSONArray json = (JSONArray) args[0];
                 String text = null;
-                try {
-                    text = json.getString("text");
-                } catch (JSONException jsonException){
+                for( int i =0;i<json.length();i++){
+                    try {
+                        JSONObject message = json.getJSONObject(i);
+                        text = message.getString("text");
+                        MutableLiveData<String> mutableLiveData = new MutableLiveData<>();
+                        mutableLiveData.setValue(text);
+                        callback.savingIncomingMessage(mutableLiveData);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                 }
-                MutableLiveData<String> mutableLiveData = new MutableLiveData<>();
-                mutableLiveData.setValue(text);
-                callback.savingIncomingMessage(mutableLiveData);
+
             }
         });
     }

@@ -89,6 +89,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> 
         @Override
         public void bind(Message message) {
             text.setText(message.getText());
+
         }
     }
 

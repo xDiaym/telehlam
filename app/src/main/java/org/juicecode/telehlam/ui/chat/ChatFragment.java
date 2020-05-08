@@ -88,19 +88,17 @@ public class ChatFragment extends Fragment implements onMessageCallback {
                     //TODO(all): delete test code
                     Message message;
                     message = new Message(Message.MESSAGE_OUTGOING,messageText,userId, receiverId);
-                    socket.emit("new message",message);
-
-                    if (new Random().nextBoolean()) {
+                    /*if (new Random().nextBoolean()) {
                         message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId);
                     } else {
                         message = new Message(Message.MESSAGE_INCOMING, messageText, receiverId, userId);
-                    }
+                    }*/
                     DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, user, message, DataBaseTask.Task.InsertMessage);
                     dataBaseTask.execute();
                     messageField.setText("");
                     chat.scrollToPosition(messageChatAdapter.getItemCount()-1);
                     //emitting message
-
+                    socket.emit("message",message);
 
 
                 }
