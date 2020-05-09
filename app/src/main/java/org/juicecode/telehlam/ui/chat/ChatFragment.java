@@ -11,26 +11,16 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleService;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.Socket;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.User;
 import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.socketio.AppSocket;
-import org.juicecode.telehlam.socketio.MessageSender;
-import org.juicecode.telehlam.socketio.OnNewMessageListener;
-import org.juicecode.telehlam.socketio.NewMessageAdapter;
+import org.juicecode.telehlam.socketio.MessageEvent;
 import org.juicecode.telehlam.utils.Constant;
 import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
@@ -59,11 +49,7 @@ public class ChatFragment extends Fragment {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
         context = getContext();
 
-        socket = AppSocket
-                .getInstance(Constant.baseUrl);
-        socket.addListener("message",
-                        new NewMessageAdapter((MainActivity) getActivity(),
-                                new ChatNewMessageListener()));
+        socket = AppSocket.getInstance(Constant.baseUrl);
 
         //all variables get their values
         final Context context = getContext();
@@ -103,7 +89,7 @@ public class ChatFragment extends Fragment {
                     messageField.setText("");
                     chat.scrollToPosition(messageChatAdapter.getItemCount() - 1);
 
-                    new MessageSender(socket).sendMessage(message);
+                    new MessageEvent(socket).sendMessage(message);
                 }
             }
         });
@@ -117,17 +103,5 @@ public class ChatFragment extends Fragment {
         });
 
         return view;
-    }
-
-    class ChatNewMessageListener implements OnNewMessageListener {
-
-        @Override
-        public void onNewMessage(Message message) {
-            Log.e("Tag", message.getText());
-            DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, user, message, DataBaseTask.Task.InsertMessage);
-            dataBaseTask.execute();
-
-            messageChatAdapter.addItem(message);
-        }
     }
 }

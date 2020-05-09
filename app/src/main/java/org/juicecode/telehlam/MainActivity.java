@@ -3,6 +3,7 @@ package org.juicecode.telehlam;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.JsonReader;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -17,16 +18,15 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.github.nkzawa.socketio.client.Socket;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.juicecode.telehlam.database.DataBaseTask;
+import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.rest.user.AuthInfo;
 import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.socketio.LoginEvent;
+import org.juicecode.telehlam.socketio.MessageEvent;
 import org.juicecode.telehlam.utils.Constant;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
@@ -104,6 +104,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             new LoginEvent(socket).login(info);
             // TODO: login listener
         }
+
+        socket.addListener("message", new MessageEvent.MessageListener(this) {
+            @Override
+            public void onNewMessage(Message message) {
+                Log.e("AY", message.getText());
+            }
+        });
     }
 
     @Override

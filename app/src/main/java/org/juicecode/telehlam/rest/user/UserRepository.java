@@ -97,7 +97,6 @@ public class UserRepository {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.i("info",Long.toString(response.body().get(0).getId()));
                     users.setValue(response.body());
                 } else {
                     //TODO error handling
