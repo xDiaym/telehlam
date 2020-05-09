@@ -25,6 +25,7 @@ public class ConfirmScannerPrint extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_confirm_scanner_print, container, false);
         login = view.findViewById(R.id.login);
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

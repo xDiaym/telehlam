@@ -80,7 +80,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                     fab.setVisibility(View.VISIBLE);
                     toolbar.setVisibility(View.VISIBLE);
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                } else if (destination.getId() == R.id.nav_logout || destination.getId() == R.id.contactsFragment) {
+                } else if (destination.getId() == R.id.nav_logout
+                        || destination.getId() == R.id.contactsFragment
+                        || destination.getId() == R.id.requestFingerPrintFragment) {
                     toolbar.setVisibility(View.VISIBLE);
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                     fab.setVisibility(View.GONE);
@@ -141,7 +143,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     public void onBackPressed() {
         if (navController.getCurrentDestination().getId() == R.id.nav_home
                 ||navController.getCurrentDestination().getId() == R.id.nav_logout
-                ||navController.getCurrentDestination().getId() == R.id.authorisationFragment) {
+                ||navController.getCurrentDestination().getId() == R.id.authorisationFragment
+                ||navController.getCurrentDestination().getId() == R.id.confirmScannerPrint) {
             KeyboardManager.hideKeyboard(this);
         } else if (navController.getCurrentDestination().getId() == R.id.chatFragment) {
             addFragment(R.id.nav_home);
