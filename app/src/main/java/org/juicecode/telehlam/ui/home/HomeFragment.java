@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.core.contacts.User;
+import org.juicecode.telehlam.database.AppDataBase;
 import org.juicecode.telehlam.database.DataBaseTask;
 
 import java.util.List;
@@ -35,7 +36,6 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         chatList.setLayoutManager(layoutManager);
         chatList.setHasFixedSize(true);
-
         DataBaseTask<List<User>> dataBaseTask = new DataBaseTask<>(getContext(), getViewLifecycleOwner(), chatListAdapter, chatList, DataBaseTask.Task.GetAllContacts);
         dataBaseTask.execute();
 

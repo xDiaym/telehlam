@@ -12,7 +12,7 @@ public class SharedPreferencesRepository {
     private static final String LOGIN = "userLogin";
     private static final String ID = "userId";
     private SharedPreferences preferences;
-
+    private String hasFingerPrint = "fingerPrint";
 
     public SharedPreferencesRepository(@NonNull Context context) {
         preferences = context.getSharedPreferences(NAME, Context.MODE_PRIVATE);
@@ -24,14 +24,22 @@ public class SharedPreferencesRepository {
                 .putString(TOKEN, token)
                 .apply();
     }
-
+    public void saveFingerPrint(){
+        preferences
+                .edit()
+                .putBoolean(hasFingerPrint,true)
+                .apply();
+    }
     public void saveLogin(@NonNull String login) {
         preferences
                 .edit()
                 .putString(LOGIN, login)
                 .apply();
     }
-
+    public boolean getFingerPrint(){
+        return preferences
+                .getBoolean(hasFingerPrint,false);
+    }
     public void saveId(@NonNull long id) {
         preferences
                 .edit()
@@ -52,6 +60,6 @@ public class SharedPreferencesRepository {
         return preferences.getString(TOKEN, null);
     }
     public void deleteInfo(){
-        preferences.edit().clear();
+        preferences.edit().remove(TOKEN).remove(LOGIN).remove(ID).remove(hasFingerPrint).apply();
     }
 }
