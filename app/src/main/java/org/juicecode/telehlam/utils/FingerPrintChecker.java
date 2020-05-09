@@ -59,12 +59,9 @@ public class FingerPrintChecker {
                     String text;
                     if (type == ADDING_FINGERPRINT) {
                         text = "You added fingerprint!";
-                    } else {
-                        text = "confirmed";
+                        snackbarShower.showSnackbar(text);
                     }
-                    Toast.makeText(context, text,
-                            Toast.LENGTH_SHORT)
-                            .show();
+
                 }
 
                 @Override
@@ -77,8 +74,8 @@ public class FingerPrintChecker {
             });
 
             promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                    .setTitle("TELEhlam")
-                    .setSubtitle("COnfirm fingerprint to continue")
+                    .setTitle("Telehlam")
+                    .setSubtitle("Confirm fingerprint to continue")
                     .setNegativeButtonText("Cancel")
                     .build();
             biometricPrompt.authenticate(promptInfo);
