@@ -19,6 +19,7 @@ import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
 public class ConfirmScannerPrint extends Fragment {
     Button login;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

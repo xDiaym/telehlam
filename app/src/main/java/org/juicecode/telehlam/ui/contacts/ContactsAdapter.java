@@ -55,10 +55,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
                         contacts.clear();
                         contacts.addAll(users);
                         notifyDataSetChanged();
-                        for(User u:contacts){
-                            Log.i("c", Long.toString(u.getId()));
-                            Log.i("logins", u.getLogin());
-                        }
                     }
                 });
             }

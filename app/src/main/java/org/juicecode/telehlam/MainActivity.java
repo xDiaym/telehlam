@@ -97,16 +97,16 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             addFragment(R.id.authorisationFragment);
         }  else if(repository.getFingerPrint()){
             addFragment(R.id.confirmScannerPrint);
-        }else {
-            socket = AppSocket.getInstance(Constant.baseUrl);
-            socket.connect();
-
-            // Login
-            AuthInfo info = new AuthInfo(0,
-                    new SharedPreferencesRepository(this).getToken());
-            new LoginEvent(socket).login(info);
-            // TODO: login listener
         }
+        socket = AppSocket.getInstance(Constant.baseUrl);
+        socket.connect();
+
+        // Login
+        AuthInfo info = new AuthInfo(0,
+                new SharedPreferencesRepository(this).getToken());
+        new LoginEvent(socket).login(info);
+        // TODO: login listener
+
 
         socket.addListener("message", new MessageEvent.MessageListener(this) {
             @Override
@@ -160,7 +160,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        socket.disconnect();
+        if (socket != null) {
+            socket.disconnect();
+        }
     }
 }
 
