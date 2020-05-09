@@ -12,6 +12,11 @@
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/logout" />
+        <item
+            android:id="@+id/requestFingerPrintFragment"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="fingerPrint" />
+
 </group>
 
 </menu>

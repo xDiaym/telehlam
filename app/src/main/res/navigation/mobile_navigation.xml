@@ -29,12 +29,15 @@
         <action
             android:id="@+id/action_nav_home_to_logoutFragment2"
             app:destination="@id/nav_logout" />
+        <action
+            android:id="@+id/confirmScannerPrint"
+            app:destination="@id/confirmScannerPrint" />
 
     </fragment>
     <fragment
         android:id="@+id/authorisationFragment"
         android:name="org.juicecode.telehlam.ui.registration.AuthorisationFragment"
-        android:label="AuthorisationFragment" >
+        android:label="Authorisation" >
         <action
             android:id="@+id/action_authorisationFragment_to_firstRegistrationFragment"
             app:destination="@id/firstRegistrationFragment"
@@ -42,7 +45,11 @@
         <action
             android:id="@+id/action_authorisationFragment_to_nav_home"
             app:destination="@id/nav_home"
-             /> />
+             />
+        <action
+            android:id="@+id/action_authorisationFragment_to_requestFingerPrintFragment"
+            app:destination="@id/requestFingerPrintFragment" />
+        />
     </fragment>
     <fragment
         android:id="@+id/firstRegistrationFragment"
@@ -53,6 +60,9 @@
             app:destination="@id/secondRegistrationFragment"
 
             />
+        <action
+            android:id="@+id/action_firstRegistrationFragment_to_requestFingerPrintFragment"
+            app:destination="@id/requestFingerPrintFragment" />
     </fragment>
     <fragment
         android:id="@+id/secondRegistrationFragment"
@@ -67,7 +77,7 @@
     <fragment
         android:id="@+id/contactsFragment"
         android:name="org.juicecode.telehlam.ui.contacts.ContactsFragment"
-        android:label="ContactsFragment" />
+        android:label="Contacts" />
     <fragment
         android:id="@+id/chatFragment"
         android:name="org.juicecode.telehlam.ui.chat.ChatFragment"
@@ -75,11 +85,23 @@
     <fragment
         android:id="@+id/nav_logout"
         android:name="org.juicecode.telehlam.ui.logoutFragment"
-        android:label="logoutFragment">
+        android:label="Logout">
     <action
         android:id="@+id/action_secondRegistrationFragment_to_nav_home"
         app:destination="@id/nav_logout"/>
 
 </fragment>
+    <fragment
+        android:id="@+id/requestFingerPrintFragment"
+        android:name="org.juicecode.telehlam.RequestFingerPrintFragment"
+        android:label="Adding fingerprint" >
+        <action
+            android:id="@+id/action_requestFingerPrintFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmScannerPrint"
+        android:name="org.juicecode.telehlam.ConfirmScannerPrint"
+        android:label="Identifying" />
 
 </navigation>

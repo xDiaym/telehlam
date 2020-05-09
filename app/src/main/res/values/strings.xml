@@ -15,7 +15,7 @@
     <string name="new_message">New message</string>
     <string name="delete_message_history">Clean history?</string>
     <string name="message_field_hint">Just start typing</string>
-    <string name="yes">Да</string>
+    <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="authorisation">Authorisation</string>
     <string name="login">Login</string>
@@ -42,4 +42,9 @@
     <string name="logout_warning">Are you sure you want to logout, if you do this, all your messages history will be deleted.</string>
     <string name="search_title">Search people</string>
     <string name="logout">Logout</string>
+    <string name="fingerPrintWarning">Do you want to protect your app with your fingerprint scanner?</string>
+    <string name="fingerprint_identify">Identify yourself with fingerprint</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rejectFingerPrint">I do not want to add fingerprint</string>
+    <string name="hasFingerprint">You already have fingerprint</string>
 </resources>

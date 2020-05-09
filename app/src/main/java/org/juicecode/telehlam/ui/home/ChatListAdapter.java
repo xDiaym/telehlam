@@ -87,8 +87,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
             this.pos = pos;
             this.id = id;
             chatName.setText(login);
-            DataBaseTask<Message> dataBaseTask = new DataBaseTask(context, DataBaseTask.Task.GetLastMessage,id,chatLastMessage,lifecycleOwner);
-            dataBaseTask.execute();
+            //DataBaseTask<Message> dataBaseTask = new DataBaseTask(context, DataBaseTask.Task.GetLastMessage,id,chatLastMessage,lifecycleOwner);
+            //dataBaseTask.execute();
         }
     }
 }

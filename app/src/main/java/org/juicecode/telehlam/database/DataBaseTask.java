@@ -135,7 +135,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                         chat.scrollToPosition(messageChatAdapter.getItemCount()-1);
                     }
                 });
-            case GetLastMessage:
+            /*case GetLastMessage:
                messageDao.getLastMessage(receiver).observe(lifecycleOwner, new Observer<Message>() {
                    @Override
                    public void onChanged(Message message) {
@@ -143,7 +143,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                            lastMessageField.setText(message.getText());
                        }
                    }
-               });
+               });*/
 
         }
     }

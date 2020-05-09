@@ -59,7 +59,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
-                R.id.nav_logout)
+                R.id.nav_logout,
+                R.id.requestFingerPrintFragment)
                 .setDrawerLayout(drawer)
                 .build();
 
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                     fab.setVisibility(View.VISIBLE);
                     toolbar.setVisibility(View.VISIBLE);
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                } else if (destination.getId() == R.id.nav_logout || destination.getId() == R.id.contactsFragment) {
+                } else if (destination.getId() == R.id.nav_logout || destination.getId() == R.id.contactsFragment||destination.getId() == R.id.requestFingerPrintFragment ) {
                     toolbar.setVisibility(View.VISIBLE);
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                     fab.setVisibility(View.GONE);
@@ -91,7 +92,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         Socket socket = appSocket.getSocket();
         if (repository.getToken() == null) {
             addFragment(R.id.authorisationFragment);
-        } else {
+        } else if(repository.getFingerPrint()){
+            addFragment(R.id.confirmScannerPrint);
+        } else{
             socket.connect();
             socket.emit("login", new SharedPreferencesRepository(this).getToken());
             socket.on("login", new loginListener(this, this));

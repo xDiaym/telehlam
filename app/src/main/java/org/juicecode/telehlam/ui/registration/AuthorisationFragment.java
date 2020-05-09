@@ -62,7 +62,7 @@ public class AuthorisationFragment extends Fragment {
                             SharedPreferencesRepository repository = new SharedPreferencesRepository(context);
                             repository.saveToken(authInfo.getToken());
                             repository.saveLogin(login);
-                            fragmentManagerSimplifier.addFragment(R.id.nav_home);
+                            fragmentManagerSimplifier.addFragment(R.id.requestFingerPrintFragment);
 
                         }
                     });
