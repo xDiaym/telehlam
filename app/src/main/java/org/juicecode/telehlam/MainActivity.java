@@ -94,7 +94,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
         if (repository.getToken() == null) {
             addFragment(R.id.authorisationFragment);
-        } else {
+        }  else if(repository.getFingerPrint()){
+            addFragment(R.id.confirmScannerPrint);
+        }else {
             socket = AppSocket.getInstance(Constant.baseUrl);
             socket.connect();
 
