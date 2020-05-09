@@ -39,18 +39,15 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.chat_list_item, parent, false);
         context = view.getContext();
-        for(User u:contacts){
-            Log.i("usersId", Long.toString(u.getId()));
-        }
+
         return new ChatViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         // TODO(all): set real name
-        holder.bind(
-                contacts.get(position).getLogin(),
-                position,contacts.get(position).getId());
+        Log.e("TAG", Long.toString(contacts.get(position).getId()));
+        holder.bind(contacts.get(position).getLogin(), position, contacts.get(position).getId());
     }
 
     @Override
@@ -58,11 +55,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         return contacts.size();
     }
 
-     class ChatViewHolder extends RecyclerView.ViewHolder {
+    class ChatViewHolder extends RecyclerView.ViewHolder {
         private TextView chatName;
         private TextView chatLastMessage;
         private int pos;
         private long id;
+
         ChatViewHolder(@NonNull View itemView) {
             super(itemView);
             ImageView chatAvatar = itemView.findViewById(R.id.contact_avatar);
@@ -73,7 +71,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
 
                 @Override
                 public void onClick(View v) {
-
                     FragmentManagerSimplifier simplifier = (FragmentManagerSimplifier) v.getContext();
                     Bundle sendingChatName = new Bundle();
                     sendingChatName.putSerializable("user", contacts.get(pos));
@@ -87,7 +84,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
             this.pos = pos;
             this.id = id;
             chatName.setText(login);
-            DataBaseTask<Message> dataBaseTask = new DataBaseTask(context, DataBaseTask.Task.GetLastMessage,id,chatLastMessage,lifecycleOwner);
+            DataBaseTask<Message> dataBaseTask = new DataBaseTask<>(context,
+                    DataBaseTask.Task.GetLastMessage, id, chatLastMessage, lifecycleOwner);
             dataBaseTask.execute();
         }
     }
