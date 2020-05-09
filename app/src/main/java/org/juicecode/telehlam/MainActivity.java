@@ -63,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
-                R.id.nav_logout)
+                R.id.nav_logout,
+                R.id.requestFingerPrintFragment)
                 .setDrawerLayout(drawer)
                 .build();
 
@@ -94,7 +95,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
         if (repository.getToken() == null) {
             addFragment(R.id.authorisationFragment);
-        } else {
+        }  else if(repository.getFingerPrint()){
+            addFragment(R.id.confirmScannerPrint);
+        }else {
             socket = AppSocket.getInstance(Constant.baseUrl);
             socket.connect();
 
@@ -136,7 +139,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
     @Override
     public void onBackPressed() {
-        if (navController.getCurrentDestination().getId() == R.id.nav_home) {
+        if (navController.getCurrentDestination().getId() == R.id.nav_home
+                ||navController.getCurrentDestination().getId() == R.id.nav_logout
+                ||navController.getCurrentDestination().getId() == R.id.authorisationFragment) {
             KeyboardManager.hideKeyboard(this);
         } else if (navController.getCurrentDestination().getId() == R.id.chatFragment) {
             addFragment(R.id.nav_home);
