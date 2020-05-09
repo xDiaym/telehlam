@@ -1,11 +1,11 @@
 package org.juicecode.telehlam.database.messages;
 
-import androidx.lifecycle.LiveData;
-import androidx.room.Dao;
-import androidx.room.Insert;
-import androidx.room.Query;
+        import androidx.lifecycle.LiveData;
+        import androidx.room.Dao;
+        import androidx.room.Insert;
+        import androidx.room.Query;
 
-import java.util.List;
+        import java.util.List;
 
 @Dao
 public interface MessageDao {
@@ -18,6 +18,6 @@ public interface MessageDao {
     @Query("DELETE FROM messages")
     void deleteAll();
 
-    @Query("SELECT * FROM messages WHERE id = ((SELECT MAX(ID)  FROM messages)) and (receiverId=:user or authorId=:user)")
+    @Query("SELECT * FROM messages WHERE (type=1 and receiverId=:user OR type = 0 and authorId=:user) ORDER BY id DESC LIMIT 1")
     LiveData<Message> getLastMessage(long user);
 }

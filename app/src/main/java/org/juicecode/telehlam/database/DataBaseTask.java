@@ -100,9 +100,10 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
             case GetAllContacts:
                 //  а ничего он не делает тут кстати, только получение базы и Dao  так что можно убрать
                 break;
-            case GetLastMessage:
 
+                case GetLastMessage:
                 break;
+
             case DeleteAllMessageHistory:
                 contactDao.deleteAll();
                 messageDao.deleteAll();
@@ -123,7 +124,6 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                         chatList.setAdapter(chatListAdapter);
                     }
                 });
-
                 break;
 
             case GetAllMessages:
@@ -135,20 +135,23 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                         chat.scrollToPosition(messageChatAdapter.getItemCount()-1);
                     }
                 });
-            /*case GetLastMessage:
+                break;
+
+            case GetLastMessage:
                messageDao.getLastMessage(receiver).observe(lifecycleOwner, new Observer<Message>() {
                    @Override
                    public void onChanged(Message message) {
-                       if(lastMessageField!=null){
+                       if(lastMessageField != null){
                            lastMessageField.setText(message.getText());
                        }
                    }
-               });*/
+               });
+               break;
 
         }
     }
 
     public enum Task {
-        GetAllContacts, InsertMessage, GetAllMessages, DeleteAllMessageHistory,GetLastMessage
+        GetAllContacts, InsertMessage, GetAllMessages, DeleteAllMessageHistory, GetLastMessage
     }
 }
