@@ -74,7 +74,7 @@
         android:label="ChatFragment" />
     <fragment
         android:id="@+id/nav_logout"
-        android:name="org.juicecode.telehlam.ui.logoutFragment"
+        android:name="org.juicecode.telehlam.ui.LogoutFragment"
         android:label="logoutFragment">
     <action
         android:id="@+id/action_secondRegistrationFragment_to_nav_home"

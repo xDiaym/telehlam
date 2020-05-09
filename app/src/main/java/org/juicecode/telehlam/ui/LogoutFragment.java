@@ -19,7 +19,7 @@ import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
-public class logoutFragment extends Fragment {
+public class LogoutFragment extends Fragment {
 
     Button logout;
     @Override

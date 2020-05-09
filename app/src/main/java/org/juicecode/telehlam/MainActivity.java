@@ -2,6 +2,7 @@ package org.juicecode.telehlam;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.JsonReader;
 import android.view.Menu;
 import android.view.View;
 
@@ -19,9 +20,14 @@ import androidx.navigation.ui.NavigationUI;
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.juicecode.telehlam.rest.user.AuthInfo;
 import org.juicecode.telehlam.socketio.AppSocket;
-import org.juicecode.telehlam.socketio.loginListener;
+import org.juicecode.telehlam.socketio.LoginEvent;
+import org.juicecode.telehlam.utils.Constant;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
@@ -31,10 +37,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
     private NavController navController;
-    private SharedPreferences sharedPreferences;
-    private AppSocket appSocket;
-    private Socket socket;
     private NavigationView navigationView;
+    private AppSocket socket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,14 +91,18 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 }
             }
         });
-        appSocket = new AppSocket();
-        Socket socket = appSocket.getSocket();
+
         if (repository.getToken() == null) {
             addFragment(R.id.authorisationFragment);
         } else {
+            socket = AppSocket.getInstance(Constant.baseUrl);
             socket.connect();
-            socket.emit("login", new SharedPreferencesRepository(this).getToken());
-            socket.on("login", new loginListener(this, this));
+
+            // Login
+            AuthInfo info = new AuthInfo(0,
+                    new SharedPreferencesRepository(this).getToken());
+            new LoginEvent(socket).login(info);
+            // TODO: login listener
         }
     }
 
@@ -136,9 +144,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     public void addWithArguments(int id, Bundle bundle) {
         navController.navigate(id, bundle);
     }
-
-
-
 
     @Override
     protected void onDestroy() {

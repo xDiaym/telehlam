@@ -12,6 +12,7 @@ import java.util.Date;
 public class Message {
     public static final int MESSAGE_INCOMING = 0;
     public static final int MESSAGE_OUTGOING = 1;
+
     @PrimaryKey(autoGenerate = true)
     private int id;
     private int type;
@@ -22,7 +23,10 @@ public class Message {
     @TypeConverters(Status.class)
     private Status status;
 
-    public Message(){}
+    public Message() {
+
+    }
+
     @Ignore
     public Message(int type, String text, long authorId, long receiverId) {
         this.type = type;
@@ -30,6 +34,16 @@ public class Message {
         this.receiverId = receiverId;
         this.text = text;
         this.timestamp = (new Date().getTime());
+        this.status = Status.NONE;
+    }
+
+    @Ignore
+    public Message(int type, String text, long authorId, long receiverId, long timestamp) {
+        this.type = type;
+        this.authorId = authorId;
+        this.receiverId = receiverId;
+        this.text = text;
+        this.timestamp = timestamp;
         this.status = Status.NONE;
     }
 
