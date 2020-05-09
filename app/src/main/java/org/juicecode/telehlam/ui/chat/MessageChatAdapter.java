@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.database.messages.Message;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> {
@@ -79,31 +82,43 @@ public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> 
 
 
     static class OutgoingMessageHolder extends BaseMessageHolder {
-
+        TextView dataField;
         public OutgoingMessageHolder(@NonNull View itemView) {
             super(itemView);
-
+            dataField = itemView.findViewById(R.id.dataField);
             text = itemView.findViewById(R.id.outcoming_message_field);
         }
 
         @Override
         public void bind(Message message) {
             text.setText(message.getText());
-
+            long date = message.getTimestamp();
+            String dateValue = validateDate(date);
+            dataField.setText(dateValue);
         }
     }
 
     static class IncomingMessageHolder extends BaseMessageHolder {
 
+        TextView dataField;
         public IncomingMessageHolder(@NonNull View itemView) {
             super(itemView);
-
             text = itemView.findViewById(R.id.incoming_message_field);
+            dataField = itemView.findViewById(R.id.dataField);
         }
 
         @Override
         public void bind(Message message) {
             text.setText(message.getText());
+            long date = message.getTimestamp();
+            String dateValue = validateDate(date);
+            dataField.setText(dateValue);
         }
+
+    }
+    public static String validateDate(long date){
+        Date dateObject = new Date(date);
+        String dateString= new SimpleDateFormat("HH:mm").format(dateObject);
+        return dateString;
     }
 }

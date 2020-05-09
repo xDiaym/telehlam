@@ -22,20 +22,14 @@ public class Message {
     @TypeConverters(Status.class)
     private Status status;
 
-    public Message(int type, String text, long timestamp) {
-        this.type = type;
-        this.text = text;
-        this.timestamp = timestamp;
-        this.status = Status.NONE;
-    }
-
+    public Message(){}
     @Ignore
     public Message(int type, String text, long authorId, long receiverId) {
         this.type = type;
         this.authorId = authorId;
         this.receiverId = receiverId;
         this.text = text;
-        this.timestamp = (new Date()).getTime();
+        this.timestamp = (new Date().getTime());
         this.status = Status.NONE;
     }
 
