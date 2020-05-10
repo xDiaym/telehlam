@@ -32,7 +32,6 @@ public class AuthorisationFragment extends Fragment {
     TextView loginError;
     TextView passwordError;
     FragmentManagerSimplifier fragmentManagerSimplifier;
-    SharedPreferences sharedPreferences;
     Context context;
 
     @Override

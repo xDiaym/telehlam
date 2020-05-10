@@ -65,6 +65,7 @@ public class ChatFragment extends Fragment {
         chat.setAdapter(messageChatAdapter);
         chat.setHasFixedSize(false);
         chat.setNestedScrollingEnabled(false);
+        chat.scrollToPosition(messageChatAdapter.getItemCount()-1);
         messageField = view.findViewById(R.id.message_field);
         messageList = new ArrayList<>();
         sendButton = view.findViewById(R.id.send_message_button);
@@ -77,10 +78,11 @@ public class ChatFragment extends Fragment {
         final MessageViewModel viewModel = ViewModelProviders
                 .of(this)
                 .get(MessageViewModel.class);
-        viewModel.getMessages().observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
+        viewModel.getChatMessages(receiverId).observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
             @Override
             public void onChanged(List<Message> messages) {
                 messageChatAdapter.setMessages(messages);
+                chat.scrollToPosition(messageChatAdapter.getItemCount()-1);
             }
         });
 
