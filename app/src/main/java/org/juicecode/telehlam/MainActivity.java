@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             }
         });
     }
-//
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Hide keyboard while fragment changed
