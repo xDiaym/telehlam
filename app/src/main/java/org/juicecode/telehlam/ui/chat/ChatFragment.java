@@ -2,7 +2,6 @@ package org.juicecode.telehlam.ui.chat;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,12 +77,9 @@ public class ChatFragment extends Fragment {
         final MessageViewModel viewModel = ViewModelProviders
                 .of(this)
                 .get(MessageViewModel.class);
-        viewModel.getChatMessages(receiverId).observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
+        viewModel.getMessages().observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
             @Override
             public void onChanged(List<Message> messages) {
-                for (Message m : messages) {
-                    Log.e("qwe", String.valueOf(m.getAuthorId()) + ": " + m.getText());
-                }
                 messageChatAdapter.setMessages(messages);
             }
         });
@@ -96,6 +92,7 @@ public class ChatFragment extends Fragment {
                 if (!messageText.isEmpty()) {
                     //TODO(all): delete test code
                     Message message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId);
+                    //TODO delete this
                     DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, user, message, DataBaseTask.Task.InsertMessage);
                     dataBaseTask.execute();
 

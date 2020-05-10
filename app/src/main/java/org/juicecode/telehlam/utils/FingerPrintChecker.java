@@ -67,9 +67,6 @@ public class FingerPrintChecker {
                 @Override
                 public void onAuthenticationFailed() {
                     super.onAuthenticationFailed();
-                    Toast.makeText(context, "Authentication failed",
-                            Toast.LENGTH_SHORT)
-                            .show();
                 }
             });
 

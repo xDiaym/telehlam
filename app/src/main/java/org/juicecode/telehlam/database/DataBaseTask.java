@@ -142,7 +142,12 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                    @Override
                    public void onChanged(Message message) {
                        if(lastMessageField != null){
-                           lastMessageField.setText(message.getText());
+                           if(message.getAuthorId()==receiver){
+                               lastMessageField.setText(message.getText());
+                           } else {
+                               lastMessageField.setText("You: "+message.getText());
+                           }
+
                        }
                    }
                });
