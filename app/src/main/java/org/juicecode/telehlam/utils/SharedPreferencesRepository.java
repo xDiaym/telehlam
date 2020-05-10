@@ -27,7 +27,7 @@ public class SharedPreferencesRepository {
     public void saveFingerPrint(){
         preferences
                 .edit()
-                .putBoolean(hasFingerPrint,true)
+                .putBoolean(hasFingerPrint, true)
                 .apply();
     }
     public void saveLogin(@NonNull String login) {
@@ -36,10 +36,12 @@ public class SharedPreferencesRepository {
                 .putString(LOGIN, login)
                 .apply();
     }
+
     public boolean getFingerPrint(){
         return preferences
                 .getBoolean(hasFingerPrint,false);
     }
+
     public void saveId(@NonNull long id) {
         preferences
                 .edit()

@@ -22,8 +22,8 @@ public class MessageViewModel extends AndroidViewModel {
         repository.insert(message);
     }
 
-    public LiveData<List<Message>> getChatMessages(long receiveerId) {
-        return repository.getChatMessages(receiveerId);
+    public LiveData<List<Message>> getChatMessages(long receiverId) {
+        return repository.getChatMessages(receiverId);
     }
 
     public LiveData<List<Message>> getMessages() {

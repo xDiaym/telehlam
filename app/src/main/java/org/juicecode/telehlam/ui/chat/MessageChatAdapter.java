@@ -1,6 +1,7 @@
 package org.juicecode.telehlam.ui.chat;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> 
     }
 
     public void addItems(List<Message> messages) {
-        this.messages = messages;
+        this.messages.addAll(messages);
         notifyDataSetChanged();
     }
 

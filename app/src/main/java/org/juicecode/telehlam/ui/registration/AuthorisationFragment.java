@@ -54,13 +54,14 @@ public class AuthorisationFragment extends Fragment {
                 String password = passwordField.getText().toString().trim();
 
                 if (checkFields(login, password)) {
-                    UserRepository api = new UserRepository(new RetrofitBuilder());
+                    final UserRepository api = new UserRepository(new RetrofitBuilder());
                     api.signIn(new LoginInfo(login, password)).observe(getViewLifecycleOwner(), new Observer<AuthInfo>() {
                         @Override
                         public void onChanged(AuthInfo authInfo) {
                             //if user is found saving token and login of user in SharedPreferences
                             SharedPreferencesRepository repository = new SharedPreferencesRepository(context);
                             repository.saveToken(authInfo.getToken());
+                            repository.saveId(authInfo.getId());
                             repository.saveLogin(login);
                             fragmentManagerSimplifier.addFragment(R.id.requestFingerPrintFragment);
 
