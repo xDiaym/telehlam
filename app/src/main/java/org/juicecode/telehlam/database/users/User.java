@@ -1,4 +1,4 @@
-package org.juicecode.telehlam.core.contacts;
+package org.juicecode.telehlam.database.users;
 
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;

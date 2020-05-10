@@ -3,8 +3,8 @@ package org.juicecode.telehlam.database;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
-import org.juicecode.telehlam.core.contacts.ContactDao;
-import org.juicecode.telehlam.core.contacts.User;
+import org.juicecode.telehlam.database.users.UserDao;
+import org.juicecode.telehlam.database.users.User;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.database.messages.MessageDao;
 
@@ -12,5 +12,5 @@ import org.juicecode.telehlam.database.messages.MessageDao;
 public abstract class AppDataBase extends RoomDatabase {
     public abstract MessageDao messageDao();
 
-    public abstract ContactDao contactDao();
+    public abstract UserDao contactDao();
 }

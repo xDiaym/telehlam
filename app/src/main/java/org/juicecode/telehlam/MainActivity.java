@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
@@ -23,6 +25,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.database.messages.Message;
+import org.juicecode.telehlam.database.messages.MessageViewModel;
 import org.juicecode.telehlam.rest.user.AuthInfo;
 import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.socketio.LoginEvent;
@@ -100,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         }  else if(repository.getFingerPrint()){
             addFragment(R.id.confirmScannerPrint);
         }
+
+
         socket = AppSocket.getInstance(Constant.baseUrl);
         socket.connect();
 
@@ -109,11 +114,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         new LoginEvent(socket).login(info);
         // TODO: login listener
 
-
+        final MessageViewModel viewModel = ViewModelProviders
+                .of(this)
+                .get(MessageViewModel.class);
         socket.addListener("message", new MessageEvent.MessageListener(this) {
             @Override
             public void onNewMessage(Message message) {
-                Log.e("AY", message.getText());
+                viewModel.insert(message);
             }
         });
     }

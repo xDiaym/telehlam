@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.JsonIOException;
 
-import org.juicecode.telehlam.core.contacts.User;
+import org.juicecode.telehlam.database.users.User;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 
 import java.util.List;

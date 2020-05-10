@@ -13,8 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.core.contacts.User;
-import org.juicecode.telehlam.database.AppDataBase;
+import org.juicecode.telehlam.database.users.User;
 import org.juicecode.telehlam.database.DataBaseTask;
 
 import java.util.List;

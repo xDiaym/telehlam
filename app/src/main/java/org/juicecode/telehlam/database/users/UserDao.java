@@ -1,17 +1,15 @@
-package org.juicecode.telehlam.core.contacts;
+package org.juicecode.telehlam.database.users;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Dao
-public interface ContactDao {
+public interface UserDao {
     @Query("SELECT * FROM contacts")
     LiveData<List<User>> getAll();
 
@@ -26,6 +24,7 @@ public interface ContactDao {
 
     @Query("DELETE FROM contacts")
     void deleteAll();
+
     @Update
     void update(User User);
 }

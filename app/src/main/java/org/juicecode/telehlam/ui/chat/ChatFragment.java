@@ -2,7 +2,6 @@ package org.juicecode.telehlam.ui.chat;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +10,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.core.contacts.User;
+import org.juicecode.telehlam.database.messages.MessageViewModel;
+import org.juicecode.telehlam.database.users.User;
 import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.socketio.AppSocket;
@@ -71,9 +72,17 @@ public class ChatFragment extends Fragment {
         nameOfContact.setText(receiverLogin);
         goBack = view.findViewById(R.id.go_back_button);
         nameOfContact.setText(user.getLogin());
-        //getting all messages for chat
-        DataBaseTask<List<Message>> getMessages = new DataBaseTask<>(getContext(), getViewLifecycleOwner(), messageChatAdapter, chat, receiverId, DataBaseTask.Task.GetAllMessages);
-        getMessages.execute();
+
+        // Getting all messages for chat
+        final MessageViewModel viewModel = ViewModelProviders
+                .of(this)
+                .get(MessageViewModel.class);
+        viewModel.getChatMessages(receiverId).observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
+            @Override
+            public void onChanged(List<Message> messages) {
+                messageChatAdapter.setMessages(messages);
+            }
+        });
 
 
         sendButton.setOnClickListener(new View.OnClickListener() {

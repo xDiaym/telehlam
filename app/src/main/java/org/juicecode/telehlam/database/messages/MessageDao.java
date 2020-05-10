@@ -9,6 +9,9 @@ package org.juicecode.telehlam.database.messages;
 
 @Dao
 public interface MessageDao {
+    @Query("SELECT * FROM messages")
+    LiveData<List<Message>> getAll();
+
     @Query("SELECT * FROM messages WHERE type=1 and receiverId=:userId OR type = 0 and authorId=:userId")
     LiveData<List<Message>> getAllById(long userId);
 

@@ -2,7 +2,6 @@ package org.juicecode.telehlam.ui.contacts;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.core.contacts.User;
+import org.juicecode.telehlam.database.users.User;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.UserRepository;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;

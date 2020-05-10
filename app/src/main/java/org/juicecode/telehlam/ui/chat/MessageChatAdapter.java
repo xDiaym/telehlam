@@ -25,12 +25,12 @@ public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> 
         this.messages = new ArrayList<>();
     }
 
-    public void addItem(Message message) {
-        messages.add(message);
+    public void addItems(List<Message> messages) {
+        this.messages = messages;
         notifyDataSetChanged();
     }
 
-    public void addItems(List<Message> messages) {
+    public void setMessages(List<Message> messages) {
         this.messages = messages;
         notifyDataSetChanged();
     }
@@ -58,17 +58,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull BaseMessageHolder holder, int position) {
-        switch (getItemViewType(position)) {
-            case Message.MESSAGE_INCOMING:
-
-            case Message.MESSAGE_OUTGOING:
-                holder.bind(messages.get(position));
-                break;
-
-            default:
-                // TODO(all): create custom class for error
-                throw new Error("Unknown message type");
-        }
+        holder.bind(messages.get(position));
     }
 
     @Override

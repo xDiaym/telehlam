@@ -15,7 +15,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
-import org.juicecode.telehlam.core.contacts.User;
+import org.juicecode.telehlam.database.users.User;
 import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 

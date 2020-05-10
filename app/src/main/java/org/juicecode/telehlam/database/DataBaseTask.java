@@ -8,8 +8,8 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.juicecode.telehlam.core.contacts.ContactDao;
-import org.juicecode.telehlam.core.contacts.User;
+import org.juicecode.telehlam.database.users.UserDao;
+import org.juicecode.telehlam.database.users.User;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.database.messages.MessageDao;
 import org.juicecode.telehlam.ui.chat.MessageChatAdapter;
@@ -23,7 +23,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
     private Task task;
     private User user;
     private AppDataBase appDataBase;
-    private ContactDao contactDao;
+    private UserDao userDao;
     private LifecycleOwner lifecycleOwner;
     private ChatListAdapter chatListAdapter;
     private RecyclerView chatList;
@@ -85,14 +85,14 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
     @Override
     protected T doInBackground(Void... voids) {
         appDataBase = DBClient.getInstance(context).getAppDataBase();
-        contactDao = appDataBase.contactDao();
+        userDao = appDataBase.contactDao();
         messageDao = appDataBase.messageDao();
         switch (task) {
             case InsertMessage:
-                if (contactDao.getNumberOfContactsById(user.getId()) > 0) {
+                if (userDao.getNumberOfContactsById(user.getId()) > 0) {
                     messageDao.insert(message);
                 } else {
-                    contactDao.insert(user);
+                    userDao.insert(user);
                     messageDao.insert(message);
                 }
                 break;
@@ -105,7 +105,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
                 break;
 
             case DeleteAllMessageHistory:
-                contactDao.deleteAll();
+                userDao.deleteAll();
                 messageDao.deleteAll();
                 break;
         }
@@ -117,7 +117,7 @@ public class DataBaseTask<T> extends AsyncTask<Void, Void, T> {
         super.onPostExecute(t);
         switch (task) {
             case GetAllContacts:
-                contactDao.getAll().observe(lifecycleOwner, new Observer<List<User>>() {
+                userDao.getAll().observe(lifecycleOwner, new Observer<List<User>>() {
                     @Override
                     public void onChanged(List<User> users) {
                         chatListAdapter = new ChatListAdapter(users,lifecycleOwner);

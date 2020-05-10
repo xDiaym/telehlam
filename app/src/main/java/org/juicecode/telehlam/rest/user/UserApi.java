@@ -1,6 +1,6 @@
 package org.juicecode.telehlam.rest.user;
 
-import org.juicecode.telehlam.core.contacts.User;
+import org.juicecode.telehlam.database.users.User;
 
 import java.util.List;
 
