@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> {
     private List<Message> messages;
@@ -46,7 +47,7 @@ public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> 
                 return new IncomingMessageHolder(view);
 
             case Message.MESSAGE_OUTGOING:
-                view = inflater.inflate(R.layout.outcoming_message, parent, false);
+                view = inflater.inflate(R.layout.outgoing_message, parent, false);
                 return new OutgoingMessageHolder(view);
 
             default:
@@ -82,19 +83,19 @@ public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> 
 
 
     static class OutgoingMessageHolder extends BaseMessageHolder {
-        TextView dataField;
-        public OutgoingMessageHolder(@NonNull View itemView) {
+        TextView date;
+
+        OutgoingMessageHolder(@NonNull View itemView) {
             super(itemView);
-            dataField = itemView.findViewById(R.id.dataField);
-            text = itemView.findViewById(R.id.outcoming_message_field);
+            date = itemView.findViewById(R.id.date);
+            text = itemView.findViewById(R.id.message_text);
         }
 
         @Override
         public void bind(Message message) {
             text.setText(message.getText());
-            long date = message.getTimestamp();
-            String dateValue = validateDate(date);
-            dataField.setText(dateValue);
+            String formatted = formatDate(message.getTimestamp());
+            date.setText(formatted);
         }
     }
 
@@ -110,15 +111,14 @@ public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> 
         @Override
         public void bind(Message message) {
             text.setText(message.getText());
-            long date = message.getTimestamp();
-            String dateValue = validateDate(date);
-            dataField.setText(dateValue);
+            String formatted = formatDate(message.getTimestamp());
+            dataField.setText(formatted);
         }
 
     }
-    public static String validateDate(long date){
-        Date dateObject = new Date(date);
-        String dateString= new SimpleDateFormat("HH:mm").format(dateObject);
-        return dateString;
+
+    public static String formatDate(long unixTime){
+        Date date = new Date(unixTime);
+        return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(date);
     }
 }

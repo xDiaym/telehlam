@@ -13,22 +13,23 @@
         <action
             android:id="@+id/action_nav_home_self"
             app:destination="@id/nav_home" />
+
         <action
             android:id="@+id/action_nav_home_to_authorisationFragment"
-            app:destination="@id/authorisationFragment"
-
-            />
+            app:destination="@id/authorisationFragment" />
 
         <action
             android:id="@+id/action_nav_home_to_contactsFragment"
             app:destination="@id/contactsFragment" />
+
         <action
             android:id="@+id/action_nav_home_to_chatFragment"
-            app:destination="@id/chatFragment"
-            />
+            app:destination="@id/chatFragment" />
+
         <action
             android:id="@+id/action_nav_home_to_logoutFragment2"
             app:destination="@id/nav_logout" />
+
         <action
             android:id="@+id/confirmScannerPrint"
             app:destination="@id/confirmScannerPrint" />
@@ -40,16 +41,16 @@
         android:label="Authorisation" >
         <action
             android:id="@+id/action_authorisationFragment_to_firstRegistrationFragment"
-            app:destination="@id/firstRegistrationFragment"
-            />/>
+            app:destination="@id/firstRegistrationFragment" />
+
         <action
             android:id="@+id/action_authorisationFragment_to_nav_home"
             app:destination="@id/nav_home"
              />
+
         <action
             android:id="@+id/action_authorisationFragment_to_requestFingerPrintFragment"
             app:destination="@id/requestFingerPrintFragment" />
-        />
     </fragment>
     <fragment
         android:id="@+id/firstRegistrationFragment"
@@ -57,9 +58,8 @@
         android:label="FirstRegistrationFragment" >
         <action
             android:id="@+id/action_firstRegistrationFragment_to_secondRegistrationFragment"
-            app:destination="@id/secondRegistrationFragment"
+            app:destination="@id/secondRegistrationFragment" />
 
-            />
         <action
             android:id="@+id/action_firstRegistrationFragment_to_requestFingerPrintFragment"
             app:destination="@id/requestFingerPrintFragment" />
@@ -70,9 +70,7 @@
         android:label="SecondRegistrationFragment" >
         <action
             android:id="@+id/action_secondRegistrationFragment_to_nav_home"
-            app:destination="@id/nav_home"
-
-            />
+            app:destination="@id/nav_home" />
     </fragment>
     <fragment
         android:id="@+id/contactsFragment"

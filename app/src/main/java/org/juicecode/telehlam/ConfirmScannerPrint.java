@@ -2,18 +2,13 @@ package org.juicecode.telehlam;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.biometric.BiometricPrompt;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
-import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.utils.FingerPrintChecker;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
@@ -23,7 +18,7 @@ public class ConfirmScannerPrint extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_confirm_scanner_print, container, false);
+        View view = inflater.inflate(R.layout.fragment_fingerprint_auth, container, false);
         login = view.findViewById(R.id.login);
         login.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -139,15 +139,23 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
     @Override
     public void onBackPressed() {
-        if (navController.getCurrentDestination().getId() == R.id.nav_home
-                ||navController.getCurrentDestination().getId() == R.id.nav_logout
-                ||navController.getCurrentDestination().getId() == R.id.authorisationFragment) {
-            KeyboardManager.hideKeyboard(this);
-        } else if (navController.getCurrentDestination().getId() == R.id.chatFragment) {
-            addFragment(R.id.nav_home);
-        } else {
-            super.onBackPressed();
-            KeyboardManager.hideKeyboard(this);
+        KeyboardManager.hideKeyboard(this);
+        // FIXME: при нажатии на home fragment назад, приложение не закрывается
+        switch (navController.getCurrentDestination().getId()) {
+            case R.id.nav_home:
+            case R.id.nav_logout:
+            case R.id.confirmScannerPrint:
+            case R.id.authorisationFragment:
+                // Do nothing
+                break;
+            case R.id.chatFragment:
+                // If user open chat from user search and pressed back
+                // we`ve show chat list, not user search
+                addFragment(R.id.nav_home);
+                break;
+            default:
+                super.onBackPressed();
+                break;
         }
 
     }
