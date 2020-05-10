@@ -45,8 +45,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-        // TODO(all): set real name
-        Log.e("TAG", Long.toString(contacts.get(position).getId()));
+        // TODO(all): name, not login
         holder.bind(contacts.get(position).getLogin(), position, contacts.get(position).getId());
     }
 

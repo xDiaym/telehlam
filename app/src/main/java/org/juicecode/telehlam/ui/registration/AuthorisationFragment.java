@@ -14,7 +14,6 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
-import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.AuthInfo;

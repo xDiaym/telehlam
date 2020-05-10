@@ -77,7 +77,7 @@ public class ChatFragment extends Fragment {
         final MessageViewModel viewModel = ViewModelProviders
                 .of(this)
                 .get(MessageViewModel.class);
-        viewModel.getMessages().observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
+        viewModel.getChatMessages(receiverId).observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
             @Override
             public void onChanged(List<Message> messages) {
                 messageChatAdapter.setMessages(messages);
