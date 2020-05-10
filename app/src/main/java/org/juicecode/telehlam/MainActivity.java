@@ -80,7 +80,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                     fab.setVisibility(View.VISIBLE);
                     toolbar.setVisibility(View.VISIBLE);
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                } else if (destination.getId() == R.id.nav_logout || destination.getId() == R.id.contactsFragment) {
+                } else if (destination.getId() == R.id.nav_logout
+                        || destination.getId() == R.id.contactsFragment
+                        || destination.getId() == R.id.requestFingerPrintFragment) {
                     toolbar.setVisibility(View.VISIBLE);
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                     fab.setVisibility(View.GONE);
