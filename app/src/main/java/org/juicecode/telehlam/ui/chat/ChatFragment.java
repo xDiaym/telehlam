@@ -77,7 +77,7 @@ public class ChatFragment extends Fragment {
         final MessageViewModel viewModel = ViewModelProviders
                 .of(this)
                 .get(MessageViewModel.class);
-        viewModel.getChatMessages(receiverId).observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
+        viewModel.getMessages().observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
             @Override
             public void onChanged(List<Message> messages) {
                 messageChatAdapter.setMessages(messages);
@@ -92,12 +92,11 @@ public class ChatFragment extends Fragment {
                 if (!messageText.isEmpty()) {
                     //TODO(all): delete test code
                     Message message = new Message(Message.MESSAGE_OUTGOING,messageText,userId, receiverId);
+                    //TODO delete this
                     DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, user, message, DataBaseTask.Task.InsertMessage);
                     dataBaseTask.execute();
-
                     messageField.setText("");
                     chat.scrollToPosition(messageChatAdapter.getItemCount() - 1);
-
                     new MessageEvent(socket).sendMessage(message);
                 }
             }
