@@ -25,7 +25,7 @@ public class ConfirmScannerPrint extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_confirm_scanner_print, container, false);
+        final View view = inflater.inflate(R.layout.fragment_fingerprint_auth, container, false);
         layout = view.findViewById(R.id.layout);
         login = view.findViewById(R.id.login);
         login.setOnClickListener(new View.OnClickListener() {
