@@ -8,6 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.database.messages.Message;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public abstract class BaseMessageHolder extends RecyclerView.ViewHolder {
     protected TextView text;
 
@@ -16,4 +20,9 @@ public abstract class BaseMessageHolder extends RecyclerView.ViewHolder {
     }
 
     public abstract void bind(Message message);
+
+    protected static String formatDate(long unixTime){
+        Date date = new Date(unixTime);
+        return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(date);
+    }
 }

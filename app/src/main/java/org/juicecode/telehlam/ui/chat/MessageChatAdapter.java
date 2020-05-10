@@ -100,25 +100,21 @@ public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> 
     }
 
     static class IncomingMessageHolder extends BaseMessageHolder {
+        TextView date;
 
-        TextView dataField;
         public IncomingMessageHolder(@NonNull View itemView) {
             super(itemView);
-            text = itemView.findViewById(R.id.incoming_message_field);
-            dataField = itemView.findViewById(R.id.dataField);
+            text = itemView.findViewById(R.id.message_text);
+            date = itemView.findViewById(R.id.date);
         }
 
         @Override
         public void bind(Message message) {
             text.setText(message.getText());
             String formatted = formatDate(message.getTimestamp());
-            dataField.setText(formatted);
+            date.setText(formatted);
         }
 
     }
 
-    public static String formatDate(long unixTime){
-        Date date = new Date(unixTime);
-        return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(date);
-    }
 }
