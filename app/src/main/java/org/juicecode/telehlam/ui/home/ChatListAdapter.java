@@ -1,9 +1,8 @@
 package org.juicecode.telehlam.ui.home;
 
 import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,26 +10,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
+import org.juicecode.telehlam.database.DBClient;
+import org.juicecode.telehlam.database.messages.Message;
+import org.juicecode.telehlam.database.messages.MessageViewModel;
 import org.juicecode.telehlam.database.users.User;
-import org.juicecode.telehlam.database.DataBaseTask;
+import org.juicecode.telehlam.database.users.UserViewModel;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatViewHolder> {
-    private List<User> contacts;
-    private Context context;
+    private List<User> users = new ArrayList<>();
     private LifecycleOwner lifecycleOwner;
-    public ChatListAdapter(List<User> contacts, LifecycleOwner lifecycleOwner) {
-        this.contacts = contacts;
-        this.lifecycleOwner = lifecycleOwner;
-    }
+    private MessageViewModel messageViewModel;
 
+    public ChatListAdapter(MessageViewModel viewModel, LifecycleOwner owner) {
+        messageViewModel = viewModel;
+        lifecycleOwner = owner;
+    }
 
     @NonNull
     @Override
@@ -38,31 +45,41 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.chat_list_item, parent, false);
-        context = view.getContext();
 
-        return new ChatViewHolder(view);
+        return new ChatViewHolder(view, messageViewModel, lifecycleOwner);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-        // TODO(all): name, not login
-        holder.bind(contacts.get(position).getLogin(), position, contacts.get(position).getId());
+        holder.bind(users.get(position));
+    }
+
+    public void setUsers(List<User> newUsers) {
+        users.clear();
+        users.addAll(newUsers);
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return contacts.size();
+        return users.size();
     }
 
-    class ChatViewHolder extends RecyclerView.ViewHolder {
+    static class ChatViewHolder extends RecyclerView.ViewHolder {
+        private ImageView chatAvatar;
         private TextView chatName;
         private TextView chatLastMessage;
-        private int pos;
-        private long id;
 
-        ChatViewHolder(@NonNull View itemView) {
+        private LifecycleOwner lifecycleOwner;
+        private MessageViewModel messageViewModel;
+        private User user;
+
+        ChatViewHolder(@NonNull View itemView, MessageViewModel model, LifecycleOwner owner) {
             super(itemView);
-            ImageView chatAvatar = itemView.findViewById(R.id.contact_avatar);
+
+            lifecycleOwner = owner;
+            messageViewModel = model;
+            chatAvatar = itemView.findViewById(R.id.contact_avatar);
             chatName = itemView.findViewById(R.id.chat_name);
             chatLastMessage = itemView.findViewById(R.id.chat_last_message);
 
@@ -72,20 +89,21 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
                 public void onClick(View v) {
                     FragmentManagerSimplifier simplifier = (FragmentManagerSimplifier) v.getContext();
                     Bundle sendingChatName = new Bundle();
-                    sendingChatName.putSerializable("user", contacts.get(pos));
+                    sendingChatName.putSerializable("user", user);
                     simplifier.addWithArguments(R.id.chatFragment, sendingChatName);
                 }
             });
-
         }
 
-        void bind(String login, int pos,long id) {
-            this.pos = pos;
-            this.id = id;
-            chatName.setText(login);
-            DataBaseTask<Message> dataBaseTask = new DataBaseTask<>(context,
-                    DataBaseTask.Task.GetLastMessage, id, chatLastMessage, lifecycleOwner);
-            dataBaseTask.execute();
+        void bind(User user) {
+            this.user = user;
+            chatName.setText(String.format("%s %s", user.getName(), user.getSurname()));
+            messageViewModel.getChatLastMessage(user.getId()).observe(lifecycleOwner, new Observer<Message>() {
+                @Override
+                public void onChanged(Message message) {
+                    chatLastMessage.setText(message.getText());
+                }
+            });
         }
     }
 }

@@ -12,5 +12,5 @@ import org.juicecode.telehlam.database.messages.MessageDao;
 public abstract class AppDataBase extends RoomDatabase {
     public abstract MessageDao messageDao();
 
-    public abstract UserDao contactDao();
+    public abstract UserDao userDao();
 }

@@ -15,15 +15,23 @@ public class MessageRepository {
 
     public MessageRepository(Application application) {
         dao = DBClient.getInstance(application).getAppDataBase().messageDao();
-        messages = dao.getAll();
+        // messages = dao.getAll();
     }
 
     public void insert(Message message) {
         new InsertAsyncTask(dao).execute(message);
     }
 
+    public void deleteAll() {
+        new DeleteAllAsyncTask(dao).execute();
+    }
+
     public LiveData<List<Message>> getChatMessages(long receiverId) {
-        return dao.getAllById(receiverId);
+        return dao.getChatMessages(receiverId);
+    }
+
+    public LiveData<Message> getChatLastMessage(long receiverId) {
+        return dao.getChatLastMessage(receiverId);
     }
 
     public LiveData<List<Message>> getMessages() {
@@ -42,6 +50,20 @@ public class MessageRepository {
             if (messages.length != 0) {
                 dao.insert(messages[0]);
             }
+            return null;
+        }
+    }
+
+    private static class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
+        private MessageDao dao;
+
+        DeleteAllAsyncTask(MessageDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            dao.deleteAll();
             return null;
         }
     }

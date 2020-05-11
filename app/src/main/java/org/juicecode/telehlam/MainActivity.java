@@ -1,9 +1,6 @@
 package org.juicecode.telehlam;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.JsonReader;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -12,8 +9,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
@@ -24,7 +19,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.database.messages.MessageViewModel;
 import org.juicecode.telehlam.rest.user.AuthInfo;
@@ -35,8 +29,6 @@ import org.juicecode.telehlam.utils.Constant;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
-
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier  {

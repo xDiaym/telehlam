@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,8 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.database.messages.MessageViewModel;
 import org.juicecode.telehlam.database.users.User;
-import org.juicecode.telehlam.database.DataBaseTask;
 import org.juicecode.telehlam.database.messages.Message;
+import org.juicecode.telehlam.database.users.UserViewModel;
 import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.socketio.MessageEvent;
 import org.juicecode.telehlam.utils.Constant;
@@ -51,6 +52,7 @@ public class ChatFragment extends Fragment {
         context = getContext();
 
         socket = AppSocket.getInstance(Constant.baseUrl);
+        final MessageViewModel messageViewModel = ViewModelProviders.of(this).get(MessageViewModel.class);
 
         //all variables get their values
         final Context context = getContext();
@@ -82,26 +84,22 @@ public class ChatFragment extends Fragment {
             @Override
             public void onChanged(List<Message> messages) {
                 messageChatAdapter.setMessages(messages);
-                chat.scrollToPosition(messageChatAdapter.getItemCount()-1);
+                chat.scrollToPosition(messageChatAdapter.getItemCount() - 1);
             }
         });
-
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String messageText = messageField.getText().toString().trim();
                 if (!messageText.isEmpty()) {
-                    //TODO(all): delete test code
                     Message message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId);
-                    //TODO delete this
-                    DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, user, message, DataBaseTask.Task.InsertMessage);
-                    dataBaseTask.execute();
+
+                    messageViewModel.insert(message);
+                    new MessageEvent(socket).sendMessage(message);
 
                     messageField.setText("");
                     chat.scrollToPosition(messageChatAdapter.getItemCount() - 1);
-
-                    new MessageEvent(socket).sendMessage(message);
                 }
             }
         });

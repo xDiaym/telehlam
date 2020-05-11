@@ -9,11 +9,10 @@ import java.util.List;
 
 @Dao
 public interface MessageDao {
-    @Query("SELECT * FROM messages")
-    LiveData<List<Message>> getAll();
-
-    @Query("SELECT * FROM messages WHERE (type = 1 AND receiverId = :userId) OR (type = 0 AND authorId = :userId)")
-    LiveData<List<Message>> getAllById(long userId);
+    @Query("SELECT * FROM messages " +
+            "WHERE (type = 1 AND receiverId = :userId) " +  // Outgoing and user is receiver
+            "OR (type = 0 AND authorId = :userId)")         // Incoming and user is author
+    LiveData<List<Message>> getChatMessages(long userId);
 
     @Insert
     void insert(Message message);
@@ -21,6 +20,6 @@ public interface MessageDao {
     @Query("DELETE FROM messages")
     void deleteAll();
 
-    @Query("SELECT * FROM messages WHERE (type=1 and receiverId=:user OR type = 0 and authorId=:user) ORDER BY id DESC LIMIT 1")
-    LiveData<Message> getLastMessage(long user);
+    @Query("SELECT * FROM messages WHERE (type=1 and receiverId=:user OR type = 0 and authorId=:user) ORDER BY timestamp DESC LIMIT 1")
+    LiveData<Message> getChatLastMessage(long user);
 }
