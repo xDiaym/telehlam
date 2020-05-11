@@ -26,6 +26,7 @@ public class FingerPrintChecker {
     private SharedPreferencesRepository classRepository;
     public static final int ADDING_FINGERPRINT = 0;
     public static final int IDENTIFYING_WITH_FINGERPRINT = 1;
+    public static final int DELETING_FINGERPRINT = 2;
     private int type;
     private Context context;
     private SnackbarShower snackbarShower;
@@ -36,7 +37,7 @@ public class FingerPrintChecker {
         this.snackbarShower = snackbarShower;
     }
 
-    public void checkAuth(SharedPreferencesRepository repository) {
+    public void checkAuth(final SharedPreferencesRepository repository) {
         executor = ContextCompat.getMainExecutor(context);
         fragmentManagerSimplifier = (FragmentManagerSimplifier) context;
         classRepository = repository;
@@ -56,11 +57,19 @@ public class FingerPrintChecker {
                     super.onAuthenticationSucceeded(result);
                     classRepository.saveFingerPrint();
                     fragmentManagerSimplifier.addFragment(R.id.nav_home);
-                    String text;
-                    if (type == ADDING_FINGERPRINT) {
-                        text = "You added fingerprint!";
+                    String text = "";
+                    switch (type){
+                        case ADDING_FINGERPRINT:
+                            text = "You added fingerprint!";
+                            break;
+                        case DELETING_FINGERPRINT:
+                            classRepository.deleteFingerPrint();
+                            text = "You deleted fingerprint";
+                    }
+                    if(!text.isEmpty()){
                         snackbarShower.showSnackbar(text);
                     }
+
 
                 }
 

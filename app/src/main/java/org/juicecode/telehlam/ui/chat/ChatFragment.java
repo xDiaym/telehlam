@@ -86,7 +86,6 @@ public class ChatFragment extends Fragment {
             }
         });
 
-
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

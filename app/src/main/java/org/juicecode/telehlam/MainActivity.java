@@ -45,12 +45,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private NavController navController;
     private NavigationView navigationView;
     private AppSocket socket;
+    private SharedPreferencesRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferencesRepository repository = new SharedPreferencesRepository(this);
+        repository = new SharedPreferencesRepository(this);
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -147,6 +148,14 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     public void addFragment(int id) {
         KeyboardManager.hideKeyboard(this);
         navController.navigate(id);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(repository.getFingerPrint()){
+            addFragment(R.id.confirmScannerPrint);
+        }
     }
 
     @Override
