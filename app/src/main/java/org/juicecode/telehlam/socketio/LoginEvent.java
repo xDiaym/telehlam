@@ -50,7 +50,7 @@ public class LoginEvent {
                 @Override
                 public void run() {
                     // TODO: Opening authorisation if user's token is wrong
-                    JSONObject json =(JSONObject) args[0];
+                    JSONObject json = (JSONObject) args[0];
                     fragmentManagerSimplifier.addFragment(R.id.authorisationFragment);
                 }
             });

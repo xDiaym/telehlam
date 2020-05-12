@@ -3,6 +3,7 @@ package org.juicecode.telehlam;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         repository = new SharedPreferencesRepository(this);
+        // Block screenshots
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -120,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             }
         });
     }
-//
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Hide keyboard while fragment changed
@@ -157,7 +160,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             case R.id.nav_home:
             case R.id.confirmScannerPrint:
             case R.id.authorisationFragment:
-                // Do nothing
+                // Exit from app
+                finish();
                 break;
             case R.id.chatFragment:
                 // If user open chat from user search and pressed back

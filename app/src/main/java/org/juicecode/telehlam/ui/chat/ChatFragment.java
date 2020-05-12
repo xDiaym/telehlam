@@ -11,16 +11,14 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
+import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.database.messages.MessageViewModel;
 import org.juicecode.telehlam.database.users.User;
-import org.juicecode.telehlam.database.messages.Message;
-import org.juicecode.telehlam.database.users.UserViewModel;
 import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.socketio.MessageEvent;
 import org.juicecode.telehlam.utils.Constant;
@@ -67,7 +65,7 @@ public class ChatFragment extends Fragment {
         chat.setAdapter(messageChatAdapter);
         chat.setHasFixedSize(false);
         chat.setNestedScrollingEnabled(false);
-        chat.scrollToPosition(messageChatAdapter.getItemCount()-1);
+        chat.scrollToPosition(messageChatAdapter.getItemCount() - 1);
         messageField = view.findViewById(R.id.message_field);
         messageList = new ArrayList<>();
         sendButton = view.findViewById(R.id.send_message_button);

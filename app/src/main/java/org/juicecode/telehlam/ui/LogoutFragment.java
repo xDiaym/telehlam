@@ -1,16 +1,15 @@
 package org.juicecode.telehlam.ui;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.database.messages.MessageViewModel;
@@ -41,15 +40,15 @@ public class LogoutFragment extends Fragment {
         return view;
     }
 
-   private void logout(){
-       SharedPreferencesRepository repository = new SharedPreferencesRepository(getContext());
-       repository.deleteInfo();
+    private void logout() {
+        SharedPreferencesRepository repository = new SharedPreferencesRepository(getContext());
+        repository.deleteInfo();
 
-       messageViewModel.deleteAll();
-       userViewModel.deleteAll();
+        messageViewModel.deleteAll();
+        userViewModel.deleteAll();
 
-       FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier)getActivity();
-       fragmentManagerSimplifier.addFragment(R.id.authorisationFragment);
-   }
+        FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier) getActivity();
+        fragmentManagerSimplifier.addFragment(R.id.authorisationFragment);
+    }
 
 }

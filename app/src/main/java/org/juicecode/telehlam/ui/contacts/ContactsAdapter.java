@@ -77,7 +77,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
         User contact = contacts.get(position);
-        holder.bind(contact.getLogin(),position);
+        holder.bind(contact.getLogin(), position);
     }
 
     @Override
@@ -93,6 +93,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     class ContactViewHolder extends RecyclerView.ViewHolder {
         TextView contactName;
         private int pos;
+
         ContactViewHolder(@NonNull final View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
