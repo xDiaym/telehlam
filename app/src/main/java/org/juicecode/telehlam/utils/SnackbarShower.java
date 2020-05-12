@@ -13,7 +13,7 @@ public class SnackbarShower {
         this.layout = layout;
     }
     public void showSnackbar(String text){
-        Snackbar snackbar = Snackbar.make(layout, text, BaseTransientBottomBar.LENGTH_SHORT).setDuration(3000);
+        Snackbar snackbar = Snackbar.make(layout, text, Snackbar.LENGTH_SHORT).setDuration(3000);
         snackbar.show();
     }
 }
