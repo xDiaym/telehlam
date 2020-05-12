@@ -24,10 +24,10 @@ public interface MessageDao {
 
     @Query("SELECT  * FROM messages WHERE (type=1 and receiverId=:user OR type = 0 and authorId=:user) ORDER BY timestamp DESC LIMIT 1")
     LiveData<Message> getChatLastMessage(long user);
-    @Query("SELECT COUNT(*) FROM messages WHERE ((type = 1 and receiverId =:userId)) OR (type = 0 and authorId=:userId) AND hasRead =:bol")
+    @Query("SELECT COUNT(*) FROM messages WHERE (type = 0 and authorId=:userId) AND hasRead =:bol")
     LiveData<Integer> getUnReadMessagesNumber(long userId, boolean bol);
     @Update
     void updateMessage(Message message);
-    @Query("SELECT * FROM messages WHERE ((type = 1 and receiverId =:userId)) OR (type = 0 and authorId=:userId) AND hasRead =:bol")
+    @Query("SELECT * FROM messages WHERE (type = 0 and authorId=:userId) AND hasRead =:bol")
     LiveData<List<Message>> getUnReadMessages(long userId, boolean bol);
 }

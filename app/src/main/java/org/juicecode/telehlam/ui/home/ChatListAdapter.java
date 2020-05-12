@@ -101,7 +101,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
             messageViewModel.getUnReadMessagesNumber(user.getId(), false).observe(lifecycleOwner, new Observer<Integer>() {
                 @Override
                 public void onChanged(Integer integer) {
-                    numberOfUnreadMessages.setText(integer.toString());
+                    if (integer!=0){
+                        numberOfUnreadMessages.setText(integer.toString());
+                    } else {
+                        numberOfUnreadMessages.setVisibility(View.GONE);
+                    }
+
                 }
             });
         }
