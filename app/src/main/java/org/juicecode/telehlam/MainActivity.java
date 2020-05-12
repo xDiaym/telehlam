@@ -1,5 +1,6 @@
 package org.juicecode.telehlam;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private NavigationView navigationView;
     private AppSocket socket;
     private SharedPreferencesRepository repository;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,30 +128,28 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         final UserViewModel userViewModel = ViewModelProviders
                 .of(this)
                 .get(UserViewModel.class);
+        final Activity activity = this;
         socket.addListener("message", new MessageEvent.MessageListener(this) {
             @Override
             public void onNewMessage(final Message message) {
                 if(userViewModel.findByNick(message.getAuthorLogin())==1){
                     viewModel.insert(message);
                 } else {
-                        LiveData<List<User>> users = null;
-                        UserRepository api = new UserRepository(new RetrofitBuilder());
-                        users = api.byLogin(message.getAuthorLogin());
-                        users.observe((LifecycleOwner) getLifecycle(), new Observer<List<User>>() {
-                            @Override
-                            public void onChanged(List<User> users) {
-                                for(User u: users){
-                                    if(u.getLogin().equals(message.getAuthorLogin())){
-                                        userViewModel.insert(u);
-                                    }
+                    UserRepository api = new UserRepository(new RetrofitBuilder());
+                    api.byLogin(message.getAuthorLogin()).observe((LifecycleOwner) activity, new Observer<List<User>>() {
+                        @Override
+                        public void onChanged(List<User> users) {
+                            for(User u: users){
+                                if(u.getLogin().equals(message.getAuthorLogin())){
+                                    userViewModel.insert(u);
                                 }
                             }
-                        });
-
+                        }
+                    });
                 }
-
             }
         });
+
     }
 
     @Override
