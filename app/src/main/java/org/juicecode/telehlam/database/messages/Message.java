@@ -20,6 +20,7 @@ public class Message {
     private long timestamp;
     private long authorId;
     private long receiverId;
+    private boolean hasRead;
     @TypeConverters(Status.class)
     private Status status;
 
@@ -28,23 +29,33 @@ public class Message {
     }
 
     @Ignore
-    public Message(int type, String text, long authorId, long receiverId) {
+    public Message(int type, String text, long authorId, long receiverId, boolean hasRead) {
         this.type = type;
         this.authorId = authorId;
         this.receiverId = receiverId;
         this.text = text;
         this.timestamp = (new Date().getTime());
         this.status = Status.NONE;
+        this.hasRead = hasRead;
     }
 
     @Ignore
-    public Message(int type, String text, long authorId, long receiverId, long timestamp) {
+    public Message(int type, String text, long authorId, long receiverId, long timestamp ,boolean hasRead) {
         this.type = type;
         this.authorId = authorId;
         this.receiverId = receiverId;
         this.text = text;
         this.timestamp = timestamp;
         this.status = Status.NONE;
+        this.hasRead = hasRead;
+    }
+
+    public boolean isHasRead() {
+        return hasRead;
+    }
+
+    public void setHasRead(boolean hasRead) {
+        this.hasRead = hasRead;
     }
 
     public long getAuthorId() {
@@ -106,7 +117,7 @@ public class Message {
     public void setId(int id) {
         this.id = id;
     }
-
+//coming soon
     public enum Status {
         NONE(0), SENT(1), READ(2), ERROR(-1);
 

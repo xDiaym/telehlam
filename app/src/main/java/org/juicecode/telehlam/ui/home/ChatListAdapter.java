@@ -33,10 +33,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
     private List<User> users = new ArrayList<>();
     private LifecycleOwner lifecycleOwner;
     private MessageViewModel messageViewModel;
-
     public ChatListAdapter(MessageViewModel viewModel, LifecycleOwner owner) {
         messageViewModel = viewModel;
         lifecycleOwner = owner;
+
     }
 
     @NonNull
@@ -69,14 +69,14 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         private ImageView chatAvatar;
         private TextView chatName;
         private TextView chatLastMessage;
-
+        private TextView numberOfUnreadMessages;
         private LifecycleOwner lifecycleOwner;
         private MessageViewModel messageViewModel;
         private User user;
 
         ChatViewHolder(@NonNull View itemView, MessageViewModel model, LifecycleOwner owner) {
             super(itemView);
-
+            numberOfUnreadMessages = itemView.findViewById(R.id.numberOfUnReadMessages);
             lifecycleOwner = owner;
             messageViewModel = model;
             chatAvatar = itemView.findViewById(R.id.contact_avatar);
@@ -102,6 +102,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
                 @Override
                 public void onChanged(Message message) {
                     chatLastMessage.setText(message.getText());
+                }
+            });
+            messageViewModel.getUnReadMessagesNumber(user.getId(), false).observe(lifecycleOwner, new Observer<Integer>() {
+                @Override
+                public void onChanged(Integer integer) {
+                    numberOfUnreadMessages.setText(integer.toString());
                 }
             });
         }

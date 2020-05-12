@@ -63,8 +63,10 @@ public class MessageEvent {
                         object.getString("text"),
                         object.getLong("authorId"),
                         object.getLong("receiverId"),
-                        object.getLong("timestamp")
+                        object.getLong("timestamp"),
+                                false
                 );
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

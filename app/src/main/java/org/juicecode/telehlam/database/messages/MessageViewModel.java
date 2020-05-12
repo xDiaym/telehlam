@@ -16,7 +16,7 @@ public class MessageViewModel extends AndroidViewModel {
         super(application);
         repository = new MessageRepository(application);
     }
-
+    public void update(Message message){repository.update(message);}
     public void insert(Message message) {
         repository.insert(message);
     }
@@ -28,7 +28,12 @@ public class MessageViewModel extends AndroidViewModel {
     public LiveData<List<Message>> getChatMessages(long receiverId) {
         return repository.getChatMessages(receiverId);
     }
-
+    public LiveData<Integer> getUnReadMessagesNumber(long receiverId, boolean bol){
+        return repository.getUnReadMessagesNumber(receiverId, bol);
+    }
+    public LiveData<List<Message>> getUnReadMessages(long receiverId, boolean bol){
+        return repository.getUnReadMessages(receiverId, bol);
+    }
     public LiveData<Message> getChatLastMessage(long receiverId) {
         return repository.getChatLastMessage(receiverId);
     }

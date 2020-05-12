@@ -87,13 +87,22 @@ public class ChatFragment extends Fragment {
                 chat.scrollToPosition(messageChatAdapter.getItemCount() - 1);
             }
         });
+        viewModel.getUnReadMessages(receiverId, false).observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
+            @Override
+            public void onChanged(List<Message> messages) {
+                for(Message m:messages) {
+                    m.setHasRead(true);
+                    viewModel.update(m);
+                }
+            }
+        });
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String messageText = messageField.getText().toString().trim();
                 if (!messageText.isEmpty()) {
-                    Message message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId);
+                    Message message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId, false);
 
                     messageViewModel.insert(message);
                     new MessageEvent(socket).sendMessage(message);

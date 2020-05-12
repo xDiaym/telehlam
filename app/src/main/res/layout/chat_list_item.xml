@@ -5,7 +5,8 @@
     android:background="@color/textOrIcons"
     android:orientation="horizontal"
     android:padding="11dp"
-    android:stateListAnimator="@null">
+    android:stateListAnimator="@null"
+    android:gravity="center_vertical">
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/contact_avatar"
@@ -16,7 +17,7 @@
         app:civ_border_width="0dp" />
 
     <FrameLayout
-        android:layout_width="match_parent"
+        android:layout_width="278dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
@@ -29,7 +30,7 @@
             android:layout_marginLeft="11dp"
             android:layout_marginTop="0dp"
             android:textColor="@color/primaryText"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/chat_last_message"
@@ -43,5 +44,12 @@
             android:textColor="@color/secondaryText" />
 
     </FrameLayout>
+    <TextView
+        android:id="@+id/numberOfUnReadMessages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textOrIcons"
+        android:background="@drawable/unread_messages_background"
+        android:layout_marginLeft="20dp"></TextView>
 
 </LinearLayout>
