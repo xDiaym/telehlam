@@ -15,7 +15,7 @@
         android:padding="30dp"
         android:text="@string/logout_warning"
         android:textColor="@color/primaryText"
-
+        android:textSize="20sp"
         ></TextView>
 
     <Button

@@ -59,7 +59,6 @@ public class SecondRegistrationFragment extends Fragment {
             private String name = values[0];
             private String surname = values[1];
             private String login;
-            private String phone = values[2];
             private String password;
             private String repeatedPassword;
 

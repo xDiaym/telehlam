@@ -22,10 +22,9 @@ public class FirstRegistrationFragment extends Fragment {
     private Button floatingActionButton;
     private EditText nameField;
     private EditText surnameField;
-    private EditText phoneField;
     private TextView nameError;
     private TextView surnameError;
-    private TextView phoneError;
+
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,10 +37,9 @@ public class FirstRegistrationFragment extends Fragment {
         floatingActionButton = view.findViewById(R.id.next_button);
         nameField = view.findViewById(R.id.nameField);
         surnameField = view.findViewById(R.id.surnameField);
-        phoneField = view.findViewById(R.id.phoneField);
         nameError = view.findViewById(R.id.nameError);
         surnameError = view.findViewById(R.id.surnameError);
-        phoneError = view.findViewById(R.id.phoneError);
+
 
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -50,25 +48,18 @@ public class FirstRegistrationFragment extends Fragment {
             public void onClick(View v) {
                 String name = nameField.getText().toString();
                 String surname = surnameField.getText().toString();
-                String phone = phoneField.getText().toString();
 
                 //checking if user wrote the whole info
                 if (name.isEmpty()) {
                     nameError.setText(R.string.nameError);
                     surnameError.setText("");
-                    phoneError.setText("");
                 } else if (surname.isEmpty()) {
                     surnameError.setText(R.string.surnameError);
-                    phoneError.setText("");
-                    nameError.setText("");
-                } else if (phone.isEmpty()) {
-                    phoneError.setText(R.string.phoneError);
-                    surnameError.setText("");
                     nameError.setText("");
                 } else {
                     //sending arguments and open second fragment
                     Bundle arguments = new Bundle();
-                    arguments.putStringArray("argumentsFromFirstRegistration", new String[]{name, surname, phone});
+                    arguments.putStringArray("argumentsFromFirstRegistration", new String[]{name, surname});
                     fragmentManagerSimplifier.addWithArguments(R.id.secondRegistrationFragment, arguments);
                 }
             }
