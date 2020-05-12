@@ -156,7 +156,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             case R.id.nav_logout:
             case R.id.confirmScannerPrint:
             case R.id.authorisationFragment:
-                // Do nothing
+                // Exit from app
+                finish();
                 break;
             case R.id.chatFragment:
                 // If user open chat from user search and pressed back
