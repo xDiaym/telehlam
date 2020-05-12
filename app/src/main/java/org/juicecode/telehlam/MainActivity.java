@@ -144,10 +144,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     @Override
     public void onBackPressed() {
         KeyboardManager.hideKeyboard(this);
-        // FIXME: при нажатии на home fragment назад, приложение не закрывается
         switch (navController.getCurrentDestination().getId()) {
             case R.id.nav_home:
-            case R.id.nav_logout:
             case R.id.confirmScannerPrint:
             case R.id.authorisationFragment:
                 // Do nothing
