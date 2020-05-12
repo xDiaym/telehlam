@@ -105,6 +105,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
                 @Override
                 public void onChanged(Integer integer) {
                     if (integer!=0){
+                        numberOfUnreadMessages.setVisibility(View.VISIBLE);
                         numberOfUnreadMessages.setText(integer.toString());
                     } else {
                         numberOfUnreadMessages.setVisibility(View.GONE);
