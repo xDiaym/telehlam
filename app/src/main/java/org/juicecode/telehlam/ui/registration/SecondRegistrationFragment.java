@@ -98,6 +98,7 @@ public class SecondRegistrationFragment extends Fragment {
                             SharedPreferencesRepository repository = new SharedPreferencesRepository(getContext());
                             repository.saveToken(authInfo.getToken());
                             repository.saveId(authInfo.getId());
+                            repository.saveLogin(login);
                             fragmentManagerSimplifier.addFragment(R.id.requestFingerPrintFragment);
                         }
                     });

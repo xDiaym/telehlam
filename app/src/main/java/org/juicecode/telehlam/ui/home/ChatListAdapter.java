@@ -95,7 +95,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
             messageViewModel.getChatLastMessage(user.getId()).observe(lifecycleOwner, new Observer<Message>() {
                 @Override
                 public void onChanged(Message message) {
-                    chatLastMessage.setText(message.getText());
+                    if(message!=null){
+                        chatLastMessage.setText(message.getText());
+                    }
+
                 }
             });
             messageViewModel.getUnReadMessagesNumber(user.getId(), false).observe(lifecycleOwner, new Observer<Integer>() {

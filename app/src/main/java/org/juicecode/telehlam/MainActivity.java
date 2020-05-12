@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                             for(User u: users){
                                 if(u.getLogin().equals(message.getAuthorLogin())){
                                     userViewModel.insert(u);
+                                    viewModel.insert(message);
                                 }
                             }
                         }
