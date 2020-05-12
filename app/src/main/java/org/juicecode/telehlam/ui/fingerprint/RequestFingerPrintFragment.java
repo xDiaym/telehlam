@@ -1,4 +1,4 @@
-package org.juicecode.telehlam;
+package org.juicecode.telehlam.ui.fingerprint;
 
 
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.utils.FingerPrintChecker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
@@ -28,6 +29,7 @@ import java.util.concurrent.Executor;
 public class RequestFingerPrintFragment extends Fragment {
     private Button yesButton;
     private Button noButton;
+    private Button deleteFingerPrint;
     private FragmentManagerSimplifier fragmentManagerSimplifier;
     private TextView warning;
     private LinearLayout layout;
@@ -43,6 +45,15 @@ public class RequestFingerPrintFragment extends Fragment {
         layout = view.findViewById(R.id.layout);
         yesButton = view.findViewById(R.id.yesButton);
         noButton = view.findViewById(R.id.noButton);
+        deleteFingerPrint = view.findViewById(R.id.deleteFingerPrint);
+        deleteFingerPrint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FingerPrintChecker checker = new FingerPrintChecker(FingerPrintChecker.DELETING_FINGERPRINT, getContext(), new SnackbarShower(layout));
+                checker.checkAuth(repository);
+            }
+        });
+        deleteFingerPrint.setVisibility(View.GONE);
         warning = view.findViewById(R.id.warning);
         fragmentManagerSimplifier = (FragmentManagerSimplifier)view.getContext();
         repository = new SharedPreferencesRepository(getContext());
@@ -50,6 +61,8 @@ public class RequestFingerPrintFragment extends Fragment {
             warning.setText(R.string.hasFingerprint);
             yesButton.setVisibility(View.GONE);
             noButton.setVisibility(View.GONE);
+            deleteFingerPrint.setVisibility(View.VISIBLE);
+
         }
 
         yesButton.setOnClickListener(new View.OnClickListener() {

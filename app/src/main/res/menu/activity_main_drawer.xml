@@ -15,7 +15,7 @@
         <item
             android:id="@+id/requestFingerPrintFragment"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="fingerPrint" />
+            android:title="Biometric Protection" />
 
 </group>
 

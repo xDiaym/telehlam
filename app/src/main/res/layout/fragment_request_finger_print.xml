@@ -47,7 +47,18 @@
             android:textColor="@color/textOrIcons"
 
             ></Button>
+
     </LinearLayout>
+    <Button
+        android:id="@+id/deleteFingerPrint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_background"
+        android:text="@string/delete_fingerprint"
+        android:textColor="@color/textOrIcons"
+
+        ></Button>
+    B
 
 
 </LinearLayout>
