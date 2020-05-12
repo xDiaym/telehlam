@@ -90,7 +90,7 @@
     </fragment>
     <fragment
         android:id="@+id/requestFingerPrintFragment"
-        android:name="org.juicecode.telehlam.RequestFingerPrintFragment"
+        android:name="org.juicecode.telehlam.ui.fingerprint.RequestFingerPrintFragment"
         android:label="Adding fingerprint">
         <action
             android:id="@+id/action_requestFingerPrintFragment_to_nav_home"
@@ -98,7 +98,7 @@
     </fragment>
     <fragment
         android:id="@+id/confirmScannerPrint"
-        android:name="org.juicecode.telehlam.ConfirmScannerPrint"
+        android:name="org.juicecode.telehlam.ui.fingerprint.ConfirmScannerPrint"
         android:label="Identifying" />
 
 </navigation>
