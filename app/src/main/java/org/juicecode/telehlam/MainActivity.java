@@ -10,6 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
@@ -22,7 +25,11 @@ import com.google.android.material.navigation.NavigationView;
 
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.database.messages.MessageViewModel;
+import org.juicecode.telehlam.database.users.User;
+import org.juicecode.telehlam.database.users.UserViewModel;
+import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.AuthInfo;
+import org.juicecode.telehlam.rest.user.UserRepository;
 import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.socketio.LoginEvent;
 import org.juicecode.telehlam.socketio.MessageEvent;
@@ -30,6 +37,8 @@ import org.juicecode.telehlam.utils.Constant;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier  {
@@ -116,10 +125,31 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         final MessageViewModel viewModel = ViewModelProviders
                 .of(this)
                 .get(MessageViewModel.class);
+        final UserViewModel userViewModel = ViewModelProviders
+                .of(this)
+                .get(UserViewModel.class);
         socket.addListener("message", new MessageEvent.MessageListener(this) {
             @Override
-            public void onNewMessage(Message message) {
-                viewModel.insert(message);
+            public void onNewMessage(final Message message) {
+                if(userViewModel.findByNick(message.getAuthorLogin())==1){
+                    viewModel.insert(message);
+                } else {
+                        LiveData<List<User>> users = null;
+                        UserRepository api = new UserRepository(new RetrofitBuilder());
+                        users = api.byLogin(message.getAuthorLogin());
+                        users.observe((LifecycleOwner) getLifecycle(), new Observer<List<User>>() {
+                            @Override
+                            public void onChanged(List<User> users) {
+                                for(User u: users){
+                                    if(u.getLogin().equals(message.getAuthorLogin())){
+                                        userViewModel.insert(u);
+                                    }
+                                }
+                            }
+                        });
+
+                }
+
             }
         });
     }
@@ -178,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     @Override
     public void addWithArguments(int id, Bundle bundle) {
         navController.navigate(id, bundle);
+
     }
 
     @Override

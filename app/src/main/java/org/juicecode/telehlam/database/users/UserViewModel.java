@@ -17,7 +17,7 @@ public class UserViewModel extends AndroidViewModel {
         repository = new UserRepository(application);
         allUsers = repository.getAllUsers();
     }
-
+    public int findByNick(String login){return repository.findByLogin(login);}
     public LiveData<List<User>> getAll() {
         return allUsers;
     }

@@ -29,4 +29,6 @@ public interface UserDao {
 
     @Update
     void update(User User);
+    @Query("SELECT COUNT(*) FROM contacts WHERE login=:login")
+    Integer findByLogin(String login);
 }

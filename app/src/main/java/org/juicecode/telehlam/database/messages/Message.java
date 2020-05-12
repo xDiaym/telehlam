@@ -21,6 +21,16 @@ public class Message {
     private long authorId;
     private long receiverId;
     private boolean hasRead;
+
+    public String getAuthorLogin() {
+        return authorLogin;
+    }
+
+    public void setAuthorLogin(String authorLogin) {
+        this.authorLogin = authorLogin;
+    }
+
+    private String authorLogin;
     @TypeConverters(Status.class)
     private Status status;
 
@@ -29,7 +39,7 @@ public class Message {
     }
 
     @Ignore
-    public Message(int type, String text, long authorId, long receiverId, boolean hasRead) {
+    public Message(int type, String text, long authorId, long receiverId,boolean hasRead, String authorLogin) {
         this.type = type;
         this.authorId = authorId;
         this.receiverId = receiverId;
@@ -37,10 +47,11 @@ public class Message {
         this.timestamp = (new Date().getTime());
         this.status = Status.NONE;
         this.hasRead = hasRead;
+        this.authorLogin = authorLogin;
     }
 
     @Ignore
-    public Message(int type, String text, long authorId, long receiverId, long timestamp ,boolean hasRead) {
+    public Message(int type, String text, long authorId, long receiverId, long timestamp ,boolean hasRead,  String authorLogin) {
         this.type = type;
         this.authorId = authorId;
         this.receiverId = receiverId;
@@ -48,6 +59,7 @@ public class Message {
         this.timestamp = timestamp;
         this.status = Status.NONE;
         this.hasRead = hasRead;
+        this.authorLogin = authorLogin;
     }
 
     public boolean isHasRead() {

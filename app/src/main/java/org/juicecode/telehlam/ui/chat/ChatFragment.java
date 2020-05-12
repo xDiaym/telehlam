@@ -38,6 +38,7 @@ public class ChatFragment extends Fragment {
     User user;
     long userId;
     long receiverId;
+    String userLogin;
     MessageChatAdapter messageChatAdapter;
     List<Message> messageList;
     AppSocket socket;
@@ -62,7 +63,10 @@ public class ChatFragment extends Fragment {
         Bundle arguments = getArguments();
         user = (User) arguments.getSerializable("user");
         receiverId = user.getId();
-        userId = new SharedPreferencesRepository(context).getId();
+
+        SharedPreferencesRepository repository = new SharedPreferencesRepository(context);
+        userLogin = repository.getLogin();
+        userId = repository.getId();
         chat.setAdapter(messageChatAdapter);
         chat.setHasFixedSize(false);
         chat.setNestedScrollingEnabled(false);
@@ -93,7 +97,7 @@ public class ChatFragment extends Fragment {
         viewModel.getUnReadMessages(receiverId, false).observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
             @Override
             public void onChanged(List<Message> messages) {
-                for(Message m:messages) {
+                for (Message m : messages) {
                     m.setHasRead(true);
                     viewModel.update(m);
                 }
@@ -105,7 +109,7 @@ public class ChatFragment extends Fragment {
             public void onClick(View v) {
                 String messageText = messageField.getText().toString().trim();
                 if (!messageText.isEmpty()) {
-                    Message message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId, false);
+                    Message message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId, false, userLogin);
                     userViewModel.insert(user);
                     messageViewModel.insert(message);
                     new MessageEvent(socket).sendMessage(message);

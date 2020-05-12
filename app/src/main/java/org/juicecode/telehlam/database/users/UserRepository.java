@@ -11,7 +11,7 @@ import java.util.List;
 
 public class UserRepository {
     private UserDao dao;
-
+    private int numberOfUsers;
     public UserRepository(Application application) {
         dao = DBClient.getInstance(application).getAppDataBase().userDao();
     }
@@ -26,6 +26,11 @@ public class UserRepository {
 
     public void deleteAll() {
         new DeleteAllAsyncTask(dao).execute();
+    }
+
+    public int findByLogin(String login) {
+        new FindByLoginTask(dao).execute(login);
+        return numberOfUsers;
     }
 
     private static class InsertAsyncTask extends AsyncTask<User, Void, Void> {
@@ -47,6 +52,17 @@ public class UserRepository {
         }
     }
 
+    private class FindByLoginTask extends AsyncTask<String ,Void, Void>{
+        private UserDao userDao;
+        public FindByLoginTask(UserDao userDao){
+            this.userDao = userDao;
+        }
+        @Override
+        protected Void doInBackground(String... strings) {
+            numberOfUsers = userDao.findByLogin(strings[0]);
+            return null;
+        }
+    }
     private static class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
         private UserDao dao;
 
