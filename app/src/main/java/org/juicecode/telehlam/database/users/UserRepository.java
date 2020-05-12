@@ -38,7 +38,10 @@ public class UserRepository {
         @Override
         protected Void doInBackground(User... users) {
             if (users.length != 0) {
-                dao.insert(users[0]);
+                if (dao.isInBase(users[0].getId()) == 0) {
+                    dao.insert(users[0]);
+                }
+
             }
             return null;
         }

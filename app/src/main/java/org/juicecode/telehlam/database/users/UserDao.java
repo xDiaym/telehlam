@@ -24,6 +24,8 @@ public interface UserDao {
 
     @Query("DELETE FROM contacts")
     void deleteAll();
+    @Query("SELECT COUNT(*) FROM contacts WHERE id=:id")
+    int isInBase(long id);
 
     @Update
     void update(User User);
