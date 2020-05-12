@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 addFragment(R.id.contactsFragment);
             }
         });
-        //all drawer stuff
+        // All drawer stuff
         drawer = findViewById(R.id.drawer_layout);
 
         // Passing each menu ID as a set of Ids because each
