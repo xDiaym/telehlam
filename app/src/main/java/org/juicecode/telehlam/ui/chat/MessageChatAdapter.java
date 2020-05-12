@@ -1,7 +1,6 @@
 package org.juicecode.telehlam.ui.chat;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.database.messages.Message;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> {
     private List<Message> messages;

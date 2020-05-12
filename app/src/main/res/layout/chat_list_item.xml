@@ -29,7 +29,7 @@
             android:layout_marginLeft="11dp"
             android:layout_marginTop="0dp"
             android:textColor="@color/primaryText"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/chat_last_message"

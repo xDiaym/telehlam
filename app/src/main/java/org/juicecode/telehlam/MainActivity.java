@@ -3,6 +3,7 @@ package org.juicecode.telehlam;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,7 +32,7 @@ import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
 
-public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier  {
+public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier {
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
     private NavController navController;
@@ -42,7 +43,12 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Block screenshots
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+
         SharedPreferencesRepository repository = new SharedPreferencesRepository(this);
+
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -95,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
         if (repository.getToken() == null) {
             addFragment(R.id.authorisationFragment);
-        }  else if(repository.getFingerPrint()){
+        } else if (repository.getFingerPrint()) {
             addFragment(R.id.confirmScannerPrint);
         }
 

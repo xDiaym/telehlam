@@ -18,10 +18,6 @@ public class MessageEvent {
         this.socket = socket;
     }
 
-    public void sendMessage(Message message) {
-        socket.emit("message", toObject(message));
-    }
-
     @Nullable
     private static JSONObject toObject(Message message) {
         JSONObject object = null;
@@ -31,6 +27,10 @@ public class MessageEvent {
             e.printStackTrace();
         }
         return object;
+    }
+
+    public void sendMessage(Message message) {
+        socket.emit("message", toObject(message));
     }
 
     public abstract static class MessageListener implements Emitter.Listener {

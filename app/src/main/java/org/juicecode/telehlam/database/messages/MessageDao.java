@@ -11,7 +11,8 @@ import java.util.List;
 public interface MessageDao {
     @Query("SELECT * FROM messages " +
             "WHERE (type = 1 AND receiverId = :userId) " +  // Outgoing and user is receiver
-            "OR (type = 0 AND authorId = :userId)")         // Incoming and user is author
+            "OR (type = 0 AND authorId = :userId)")
+        // Incoming and user is author
     LiveData<List<Message>> getChatMessages(long userId);
 
     @Insert

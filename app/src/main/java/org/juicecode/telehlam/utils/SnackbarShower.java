@@ -6,13 +6,14 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 
-
 public class SnackbarShower {
     private LinearLayout layout;
-    public SnackbarShower(LinearLayout layout){
+
+    public SnackbarShower(LinearLayout layout) {
         this.layout = layout;
     }
-    public void showSnackbar(String text){
+
+    public void showSnackbar(String text) {
         Snackbar snackbar = Snackbar.make(layout, text, BaseTransientBottomBar.LENGTH_INDEFINITE);
         snackbar.show();
     }

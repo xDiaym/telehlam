@@ -2,27 +2,19 @@ package org.juicecode.telehlam;
 
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.biometric.BiometricManager;
-import androidx.biometric.BiometricPrompt;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import org.juicecode.telehlam.utils.FingerPrintChecker;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 import org.juicecode.telehlam.utils.SnackbarShower;
-import org.w3c.dom.Text;
-
-import java.util.concurrent.Executor;
 
 
 public class RequestFingerPrintFragment extends Fragment {
@@ -32,6 +24,7 @@ public class RequestFingerPrintFragment extends Fragment {
     private TextView warning;
     private LinearLayout layout;
     private SharedPreferencesRepository repository;
+
     public RequestFingerPrintFragment() {
         // Required empty public constructor
     }
@@ -44,9 +37,9 @@ public class RequestFingerPrintFragment extends Fragment {
         yesButton = view.findViewById(R.id.yesButton);
         noButton = view.findViewById(R.id.noButton);
         warning = view.findViewById(R.id.warning);
-        fragmentManagerSimplifier = (FragmentManagerSimplifier)view.getContext();
+        fragmentManagerSimplifier = (FragmentManagerSimplifier) view.getContext();
         repository = new SharedPreferencesRepository(getContext());
-        if(repository.getFingerPrint()){
+        if (repository.getFingerPrint()) {
             warning.setText(R.string.hasFingerprint);
             yesButton.setVisibility(View.GONE);
             noButton.setVisibility(View.GONE);
@@ -67,8 +60,6 @@ public class RequestFingerPrintFragment extends Fragment {
                 fragmentManagerSimplifier.addFragment(R.id.nav_home);
             }
         });
-
-
 
 
         return view;

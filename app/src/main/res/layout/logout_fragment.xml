@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:background="@color/textOrIcons"
-    android:orientation="vertical"
     android:layout_gravity="center_horizontal"
-    android:gravity="center">
+    android:background="@color/textOrIcons"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/logout_warning_text"
@@ -18,14 +17,14 @@
         android:textColor="@color/primaryText"
 
         ></TextView>
+
     <Button
         android:id="@+id/logout_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:padding="10dp"
         android:text="@string/logout"
-        android:textColor="@color/textOrIcons"
-        android:layout_marginTop="20dp">
-    </Button>
+        android:textColor="@color/textOrIcons"></Button>
 
 </LinearLayout>

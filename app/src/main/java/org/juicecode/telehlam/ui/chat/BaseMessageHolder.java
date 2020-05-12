@@ -19,10 +19,10 @@ public abstract class BaseMessageHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    public abstract void bind(Message message);
-
-    protected static String formatDate(long unixTime){
+    protected static String formatDate(long unixTime) {
         Date date = new Date(unixTime);
         return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(date);
     }
+
+    public abstract void bind(Message message);
 }

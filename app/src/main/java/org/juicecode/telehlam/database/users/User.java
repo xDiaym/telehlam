@@ -21,8 +21,10 @@ public class User implements Serializable {
     @Nullable
     private String surname;
 
-    public User(){}
-    public User(String login,long userId,String name, String surname) {
+    public User() {
+    }
+
+    public User(String login, long userId, String name, String surname) {
         this.login = login;
         this.id = userId;
         this.name = name;
