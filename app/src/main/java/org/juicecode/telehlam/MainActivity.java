@@ -150,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 }
             }
         });
-
     }
 
     @Override
@@ -215,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         super.onDestroy();
         if (socket != null) {
             socket.disconnect();
+            socket.off("message");
         }
     }
 }

@@ -44,5 +44,8 @@ public class AppSocket {
     public void addListener(String event, Emitter.Listener listener) {
         socket.on(event, listener);
     }
+    public void off(String event) {
+        socket.off(event);
+    }
 
 }

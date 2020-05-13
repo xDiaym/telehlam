@@ -1,6 +1,7 @@
 package org.juicecode.telehlam.socketio;
 
 import android.app.Activity;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -10,6 +11,8 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.juicecode.telehlam.database.messages.Message;
+
+import java.net.Socket;
 
 public class MessageEvent {
     private AppSocket socket;
@@ -42,11 +45,13 @@ public class MessageEvent {
 
         @Override
         public void call(final Object... args) {
+            Log.e("MessageEvent", String.valueOf(args.length));
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     for (Object object : args) {
-                        onNewMessage(buildMessage((JSONObject) object));
+                        Message message = buildMessage((JSONObject) object);
+                        onNewMessage(message);
                     }
                 }
             });
