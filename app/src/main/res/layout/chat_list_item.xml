@@ -18,6 +18,7 @@
 
     <FrameLayout
         android:layout_width="wrap_content"
+        android:minWidth="230dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
@@ -51,7 +52,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/textOrIcons"
         android:background="@drawable/unread_messages_background"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="10dp"
         android:text=""></TextView>
 
 </LinearLayout>

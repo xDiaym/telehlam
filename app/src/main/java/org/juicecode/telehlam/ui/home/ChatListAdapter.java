@@ -89,14 +89,19 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
             });
         }
 
-        void bind(User user) {
+        void bind(final User user) {
             this.user = user;
             chatName.setText(String.format("%s %s", user.getName(), user.getSurname()));
             messageViewModel.getChatLastMessage(user.getId()).observe(lifecycleOwner, new Observer<Message>() {
                 @Override
                 public void onChanged(Message message) {
                     if(message!=null){
-                        chatLastMessage.setText(message.getText());
+                        if(message.getAuthorId()==user.getId()){
+                            chatLastMessage.setText(message.getText());
+                        } else {
+                            chatLastMessage.setText("You: " + message.getText());
+                        }
+
                     }
 
                 }
@@ -108,7 +113,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
                         numberOfUnreadMessages.setVisibility(View.VISIBLE);
                         numberOfUnreadMessages.setText(integer.toString());
                     } else {
-                        numberOfUnreadMessages.setVisibility(View.GONE);
+                       numberOfUnreadMessages.setVisibility(View.GONE);
                     }
 
                 }
