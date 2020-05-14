@@ -83,9 +83,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
         navigationView = findViewById(R.id.nav_view);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
@@ -108,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 }
             }
         });
+
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
 
         socket = AppSocket.getInstance(Constant.baseUrl);
         socket.connect();
