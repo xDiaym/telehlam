@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
+import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.AuthInfo;
@@ -59,7 +60,6 @@ public class SecondRegistrationFragment extends Fragment {
             private String name = values[0];
             private String surname = values[1];
             private String login;
-            private String phone = values[2];
             private String password;
             private String repeatedPassword;
 
@@ -99,6 +99,8 @@ public class SecondRegistrationFragment extends Fragment {
                             SharedPreferencesRepository repository = new SharedPreferencesRepository(getContext());
                             repository.saveToken(authInfo.getToken());
                             repository.saveId(authInfo.getId());
+                            repository.saveLogin(login);
+                            ((MainActivity) getActivity()).login();
                             fragmentManagerSimplifier.addFragment(R.id.requestFingerPrintFragment);
                         }
                     });

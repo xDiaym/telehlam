@@ -2,7 +2,6 @@ package org.juicecode.telehlam.socketio;
 
 import androidx.annotation.Nullable;
 
-import com.github.nkzawa.emitter.Emitter;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -11,6 +10,8 @@ import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.user.AuthInfo;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
+
+import io.socket.emitter.Emitter;
 
 public class LoginEvent {
 
@@ -50,7 +51,7 @@ public class LoginEvent {
                 @Override
                 public void run() {
                     // TODO: Opening authorisation if user's token is wrong
-                    JSONObject json =(JSONObject) args[0];
+                    JSONObject json = (JSONObject) args[0];
                     fragmentManagerSimplifier.addFragment(R.id.authorisationFragment);
                 }
             });

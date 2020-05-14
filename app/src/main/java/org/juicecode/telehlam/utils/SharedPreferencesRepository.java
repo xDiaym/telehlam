@@ -11,8 +11,9 @@ public class SharedPreferencesRepository {
     private static final String TOKEN = "token";
     private static final String LOGIN = "userLogin";
     private static final String ID = "userId";
+    private static final String hasFingerPrint = "fingerPrint";
     private SharedPreferences preferences;
-    private String hasFingerPrint = "fingerPrint";
+
 
     public SharedPreferencesRepository(@NonNull Context context) {
         preferences = context.getSharedPreferences(NAME, Context.MODE_PRIVATE);
@@ -24,12 +25,14 @@ public class SharedPreferencesRepository {
                 .putString(TOKEN, token)
                 .apply();
     }
-    public void saveFingerPrint(){
+
+    public void saveFingerPrint() {
         preferences
                 .edit()
                 .putBoolean(hasFingerPrint, true)
                 .apply();
     }
+
     public void saveLogin(@NonNull String login) {
         preferences
                 .edit()
@@ -37,9 +40,9 @@ public class SharedPreferencesRepository {
                 .apply();
     }
 
-    public boolean getFingerPrint(){
+    public boolean getFingerPrint() {
         return preferences
-                .getBoolean(hasFingerPrint,false);
+                .getBoolean(hasFingerPrint, false);
     }
 
     public void saveId(@NonNull long id) {
@@ -48,7 +51,12 @@ public class SharedPreferencesRepository {
                 .putLong(ID, id)
                 .apply();
     }
-
+    public void deleteFingerPrint(){
+        preferences
+                .edit()
+                .remove(hasFingerPrint)
+                .apply();
+    }
     public long getId() {
         return preferences.getLong(ID, 0);
     }
@@ -61,7 +69,8 @@ public class SharedPreferencesRepository {
     String getToken() {
         return preferences.getString(TOKEN, null);
     }
-    public void deleteInfo(){
+
+    public void deleteInfo() {
         preferences.edit().remove(TOKEN).remove(LOGIN).remove(ID).remove(hasFingerPrint).apply();
     }
 }

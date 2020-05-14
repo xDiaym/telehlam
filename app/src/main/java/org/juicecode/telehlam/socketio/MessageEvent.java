@@ -4,22 +4,20 @@ import android.app.Activity;
 
 import androidx.annotation.Nullable;
 
-import com.github.nkzawa.emitter.Emitter;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.juicecode.telehlam.database.messages.Message;
 
+import io.socket.emitter.Emitter;
+
+
 public class MessageEvent {
     private AppSocket socket;
 
     public MessageEvent(AppSocket socket) {
         this.socket = socket;
-    }
-
-    public void sendMessage(Message message) {
-        socket.emit("message", toObject(message));
     }
 
     @Nullable
@@ -31,6 +29,10 @@ public class MessageEvent {
             e.printStackTrace();
         }
         return object;
+    }
+
+    public void sendMessage(Message message) {
+        socket.emit("message", toObject(message));
     }
 
     public abstract static class MessageListener implements Emitter.Listener {
@@ -46,7 +48,8 @@ public class MessageEvent {
                 @Override
                 public void run() {
                     for (Object object : args) {
-                        onNewMessage(buildMessage((JSONObject) object));
+                        Message message = buildMessage((JSONObject) object);
+                        onNewMessage(message);
                     }
                 }
             });
@@ -63,8 +66,10 @@ public class MessageEvent {
                         object.getString("text"),
                         object.getLong("authorId"),
                         object.getLong("receiverId"),
-                        object.getLong("timestamp")
+                        object.getLong("timestamp"),
+                        false
                 );
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

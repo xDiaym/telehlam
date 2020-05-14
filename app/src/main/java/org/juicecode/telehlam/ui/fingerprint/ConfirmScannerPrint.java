@@ -1,4 +1,4 @@
-package org.juicecode.telehlam;
+package org.juicecode.telehlam.ui.fingerprint;
 
 import android.os.Bundle;
 
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.utils.FingerPrintChecker;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 import org.juicecode.telehlam.utils.SnackbarShower;

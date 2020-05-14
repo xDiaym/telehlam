@@ -16,10 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.R;
+import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.database.messages.MessageViewModel;
 import org.juicecode.telehlam.database.users.User;
-import org.juicecode.telehlam.database.DataBaseTask;
-import org.juicecode.telehlam.database.messages.Message;
+import org.juicecode.telehlam.database.users.UserViewModel;
 import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.socketio.MessageEvent;
 import org.juicecode.telehlam.utils.Constant;
@@ -30,20 +30,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatFragment extends Fragment {
-    RecyclerView chat;
-    TextView nameOfContact;
-    EditText messageField;
-    ImageButton sendButton;
-    ImageButton goBack;
-    User user;
-    long userId;
-    long receiverId;
-    MessageChatAdapter messageChatAdapter;
-    List<Message> messageList;
-    AppSocket socket;
-    Context context;
-    String receiverLogin;
-
+    private RecyclerView chat;
+    private EditText messageField;
+    private long userId;
+    private long receiverId;
+    private MessageChatAdapter messageChatAdapter;
+    private AppSocket socket;
+    private Context context;
+    private String receiverLogin;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,6 +45,7 @@ public class ChatFragment extends Fragment {
         context = getContext();
 
         socket = AppSocket.getInstance(Constant.baseUrl);
+        final MessageViewModel messageViewModel = ViewModelProviders.of(this).get(MessageViewModel.class);
 
         //all variables get their values
         final Context context = getContext();
@@ -59,19 +54,22 @@ public class ChatFragment extends Fragment {
         chat.setLayoutManager(linearLayout);
         messageChatAdapter = new MessageChatAdapter();
         Bundle arguments = getArguments();
-        user = (User) arguments.getSerializable("user");
+        User user = (User) arguments.getSerializable("user");
         receiverId = user.getId();
-        userId = new SharedPreferencesRepository(context).getId();
+
+        SharedPreferencesRepository repository = new SharedPreferencesRepository(context);
+        String userLogin = repository.getLogin();
+        userId = repository.getId();
         chat.setAdapter(messageChatAdapter);
         chat.setHasFixedSize(false);
         chat.setNestedScrollingEnabled(false);
-        chat.scrollToPosition(messageChatAdapter.getItemCount()-1);
+        chat.scrollToPosition(messageChatAdapter.getItemCount() - 1);
         messageField = view.findViewById(R.id.message_field);
-        messageList = new ArrayList<>();
-        sendButton = view.findViewById(R.id.send_message_button);
-        nameOfContact = view.findViewById(R.id.chat_name);
+        List<Message> messageList = new ArrayList<>();
+        ImageButton sendButton = view.findViewById(R.id.send_message_button);
+        TextView nameOfContact = view.findViewById(R.id.chat_name);
         nameOfContact.setText(receiverLogin);
-        goBack = view.findViewById(R.id.go_back_button);
+        ImageButton goBack = view.findViewById(R.id.go_back_button);
         nameOfContact.setText(user.getLogin());
 
         // Getting all messages for chat
@@ -82,26 +80,36 @@ public class ChatFragment extends Fragment {
             @Override
             public void onChanged(List<Message> messages) {
                 messageChatAdapter.setMessages(messages);
-                chat.scrollToPosition(messageChatAdapter.getItemCount()-1);
+                chat.scrollToPosition(messageChatAdapter.getItemCount() - 1);
             }
         });
 
+        final UserViewModel userViewModel = ViewModelProviders
+                .of(this)
+                .get(UserViewModel.class);
+
+        viewModel.getUnreadMessages(receiverId).observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
+            @Override
+            public void onChanged(List<Message> messages) {
+                for (Message message : messages) {
+                    message.setRead(true);
+                    viewModel.update(message);
+                }
+            }
+        });
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String messageText = messageField.getText().toString().trim();
                 if (!messageText.isEmpty()) {
-                    //TODO(all): delete test code
                     Message message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId);
-                    //TODO delete this
-                    DataBaseTask<Void> dataBaseTask = new DataBaseTask<>(context, user, message, DataBaseTask.Task.InsertMessage);
-                    dataBaseTask.execute();
+                    messageViewModel.insert(message);
+
+                    new MessageEvent(socket).sendMessage(message);
 
                     messageField.setText("");
                     chat.scrollToPosition(messageChatAdapter.getItemCount() - 1);
-
-                    new MessageEvent(socket).sendMessage(message);
                 }
             }
         });

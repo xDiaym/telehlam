@@ -47,4 +47,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="rejectFingerPrint">I do not want to add fingerprint</string>
     <string name="hasFingerprint">You already have fingerprint</string>
+    <string name="drawer_add_fingerprint">Fingerprint</string>
+    <string name="delete_fingerprint">Delete fingerprint</string>
+    <string name="you_en">You</string>
 </resources>

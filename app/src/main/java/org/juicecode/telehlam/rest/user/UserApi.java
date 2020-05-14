@@ -18,7 +18,10 @@ public interface UserApi {
     @POST("/user/signIn")
     Call<AuthInfo> signIn(@Body LoginInfo loginInfo);
 
+    // TODO(matthew.nekirov@gmail.com): add method with offset
     @GET("/user/byLogin")
     Call<List<User>> byLogin(@Query("login") String login);
-    // TODO(matthew.nekirov@gmail.com): add methods
+
+    @GET("user/byId")
+    Call<User> byId(@Query("id") long id);
 }

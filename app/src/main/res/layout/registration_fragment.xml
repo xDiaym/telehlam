@@ -50,7 +50,7 @@
             android:layout_height="45dp"
             android:layout_gravity="left"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="55dp"
             android:layout_marginRight="40dp"
             android:background="@drawable/bottom_border"
             android:hint="@string/name"
@@ -73,7 +73,7 @@
             android:layout_height="45dp"
             android:layout_gravity="left"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="55dp"
             android:layout_marginRight="40dp"
             android:background="@drawable/bottom_border"
             android:hint="@string/surname"
@@ -89,30 +89,6 @@
             android:layout_marginTop="10dp"
             android:text=""
             android:textSize="15sp"></TextView>
-
-        <EditText
-            android:id="@+id/phoneField"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_gravity="left"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="40dp"
-            android:background="@drawable/bottom_border"
-            android:hint="@string/phoneNumber"
-            android:textColor="@color/textOrIcons"
-            android:textColorHint="@color/secondaryText"></EditText>
-
-        <TextView
-            android:id="@+id/phoneError"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginLeft="45dp"
-            android:layout_marginTop="10dp"
-            android:text=""
-            android:textSize="15sp"></TextView>
-
 
         <Button
             android:id="@+id/next_button"

@@ -13,11 +13,8 @@ public interface UserDao {
     @Query("SELECT * FROM contacts")
     LiveData<List<User>> getAll();
 
-    @Query("SELECT * FROM contacts WHERE id = :id")
-    User getById(long id);
-
-    @Query("SELECT COUNT(*) FROM contacts WHERE id = :id")
-    int getNumberOfContactsById(long id);
+    @Query("SELECT id FROM contacts")
+    LiveData<List<Long>> getUsersIds();
 
     @Insert
     void insert(User User);
@@ -25,6 +22,6 @@ public interface UserDao {
     @Query("DELETE FROM contacts")
     void deleteAll();
 
-    @Update
-    void update(User User);
+    @Query("SELECT COUNT(*) FROM contacts WHERE login = :login")
+    Integer findByLogin(String login);
 }

@@ -20,6 +20,7 @@ import javax.crypto.SecretKey;
 
 public class FingerprintCryptographer {
     private static final String KEY_NAME = "cryptoKey";
+
     private void generateSecretKey(KeyGenParameterSpec keyGenParameterSpec) {
         KeyGenerator keyGenerator = null;
         try {
@@ -59,7 +60,7 @@ public class FingerprintCryptographer {
             e.printStackTrace();
         }
         try {
-            return ((SecretKey)keyStore.getKey(KEY_NAME, null));
+            return ((SecretKey) keyStore.getKey(KEY_NAME, null));
         } catch (KeyStoreException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {

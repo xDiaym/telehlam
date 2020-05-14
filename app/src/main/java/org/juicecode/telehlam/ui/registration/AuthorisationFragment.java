@@ -2,7 +2,6 @@ package org.juicecode.telehlam.ui.registration;
 
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
+import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.AuthInfo;
@@ -24,20 +24,18 @@ import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
 
 public class AuthorisationFragment extends Fragment {
-    Button goToRegistrationFragment;
-    Button loginButton;
-    EditText loginField;
-    EditText passwordField;
-    TextView loginError;
-    TextView passwordError;
-    FragmentManagerSimplifier fragmentManagerSimplifier;
-    Context context;
+    private EditText loginField;
+    private EditText passwordField;
+    private TextView loginError;
+    private TextView passwordError;
+    private FragmentManagerSimplifier fragmentManagerSimplifier;
+    private Context context;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.authorisation_fragment, container, false);
         context = getContext();
-        loginButton = view.findViewById(R.id.login_authorisation);
+        Button loginButton = view.findViewById(R.id.login_authorisation);
         loginField = view.findViewById(R.id.loginField);
         loginError = view.findViewById(R.id.loginError);
         passwordField = view.findViewById(R.id.passwordField);
@@ -61,6 +59,7 @@ public class AuthorisationFragment extends Fragment {
                             repository.saveToken(authInfo.getToken());
                             repository.saveId(authInfo.getId());
                             repository.saveLogin(login);
+                            ((MainActivity) getActivity()).login();
                             fragmentManagerSimplifier.addFragment(R.id.requestFingerPrintFragment);
 
                         }
@@ -69,13 +68,14 @@ public class AuthorisationFragment extends Fragment {
             }
         });
 
-        goToRegistrationFragment = view.findViewById(R.id.registration_button);
+        Button goToRegistrationFragment = view.findViewById(R.id.registration_button);
         goToRegistrationFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((FragmentManagerSimplifier) getContext()).addFragment(R.id.firstRegistrationFragment);
             }
         });
+
         return view;
     }
 
