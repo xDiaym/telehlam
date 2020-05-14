@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         final UserViewModel userViewModel = ViewModelProviders
                 .of(this)
                 .get(UserViewModel.class);
+
         final Activity activity = this;
         socket.addListener("message", new MessageEvent.MessageListener(this) {
             @Override

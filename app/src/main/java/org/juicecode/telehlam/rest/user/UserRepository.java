@@ -115,4 +115,29 @@ public class UserRepository {
         return users;
     }
 
+    public LiveData<User> byId(long id) {
+        Call<User> call = userApi.byId(id);
+        final MutableLiveData<User> user = new MutableLiveData<>();
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    user.setValue(response.body());
+                } else {
+                    //TODO error handling
+                    Log.e(TAG, "Unsuccessful response at signIn");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.e(TAG, String.format("Failure while sending response\n" +
+                                "Error: %s",
+                        t.getMessage()));
+            }
+        });
+
+        return user;
+    }
+
 }
