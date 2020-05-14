@@ -100,7 +100,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
                         if(message.getAuthorId() == user.getId()){
                             chatLastMessage.setText(message.getText());
                         } else {
-                            chatLastMessage.setText(String.format("%s: %s", R.string.you_en, message.getText()));
+                            // FIXME: get string from resources
+                            chatLastMessage.setText(String.format("%s: %s", "You", message.getText()));
                         }
 
                     }
@@ -117,7 +118,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
                     } else {
                        numberOfUnreadMessages.setVisibility(View.GONE);
                     }
-
                 }
             });
         }
