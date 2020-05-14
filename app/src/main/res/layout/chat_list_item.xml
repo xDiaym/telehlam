@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/textOrIcons"
     android:orientation="horizontal"
-    android:padding="11dp"
-    android:stateListAnimator="@null"
+    android:padding="8dp"
     android:gravity="center_vertical">
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -43,16 +42,14 @@
             android:layout_marginTop="3dp"
             android:layout_marginBottom="5dp"
             android:textColor="@color/secondaryText" />
-
-
     </FrameLayout>
+
     <TextView
         android:id="@+id/numberOfUnReadMessages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/textOrIcons"
         android:background="@drawable/unread_messages_background"
-        android:layout_marginLeft="10dp"
-        android:text=""></TextView>
+        android:text=""
+        android:textColor="@color/textOrIcons" />
 
 </LinearLayout>

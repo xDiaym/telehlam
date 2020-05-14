@@ -49,4 +49,5 @@
     <string name="hasFingerprint">You already have fingerprint</string>
     <string name="drawer_add_fingerprint">Fingerprint</string>
     <string name="delete_fingerprint">Delete fingerprint</string>
+    <string name="you_en">You</string>
 </resources>

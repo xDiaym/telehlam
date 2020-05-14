@@ -22,5 +22,6 @@ public interface UserApi {
     @GET("/user/byLogin")
     Call<List<User>> byLogin(@Query("login") String login);
 
+    @GET("user/byId")
     Call<User> byId(@Query("id") long id);
 }

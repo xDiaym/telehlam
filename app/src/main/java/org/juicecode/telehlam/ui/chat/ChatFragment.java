@@ -94,12 +94,12 @@ public class ChatFragment extends Fragment {
                 .of(this)
                 .get(UserViewModel.class);
 
-        viewModel.getUnReadMessages(receiverId, false).observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
+        viewModel.getUnreadMessages(receiverId).observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
             @Override
             public void onChanged(List<Message> messages) {
-                for (Message m : messages) {
-                    m.setHasRead(true);
-                    viewModel.update(m);
+                for (Message message : messages) {
+                    message.setRead(true);
+                    viewModel.update(message);
                 }
             }
         });
@@ -109,10 +109,11 @@ public class ChatFragment extends Fragment {
             public void onClick(View v) {
                 String messageText = messageField.getText().toString().trim();
                 if (!messageText.isEmpty()) {
-                    Message message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId, false, userLogin);
-                    userViewModel.insert(user);
+                    Message message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId);
                     messageViewModel.insert(message);
+
                     new MessageEvent(socket).sendMessage(message);
+
                     messageField.setText("");
                     chat.scrollToPosition(messageChatAdapter.getItemCount() - 1);
                 }

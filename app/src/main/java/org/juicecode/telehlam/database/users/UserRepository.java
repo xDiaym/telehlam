@@ -11,7 +11,7 @@ import java.util.List;
 
 public class UserRepository {
     private UserDao dao;
-    private int numberOfUsers;
+
     public UserRepository(Application application) {
         dao = DBClient.getInstance(application).getAppDataBase().userDao();
     }
@@ -24,14 +24,14 @@ public class UserRepository {
         new InsertAsyncTask(dao).execute(user);
     }
 
+    public LiveData<List<Long>> getUsersIds() {
+        return dao.getUsersIds();
+    }
+
     public void deleteAll() {
         new DeleteAllAsyncTask(dao).execute();
     }
 
-    public int findByLogin(String login) {
-        new FindByLoginTask(dao).execute(login);
-        return numberOfUsers;
-    }
 
     private static class InsertAsyncTask extends AsyncTask<User, Void, Void> {
         private UserDao dao;
@@ -42,27 +42,13 @@ public class UserRepository {
 
         @Override
         protected Void doInBackground(User... users) {
-            if (users.length != 0) {
-                if (dao.isInBase(users[0].getId()) == 0) {
-                    dao.insert(users[0]);
-                }
-
+            if (users.length == 1) {
+                dao.insert(users[0]);
             }
             return null;
         }
     }
 
-    private class FindByLoginTask extends AsyncTask<String ,Void, Void>{
-        private UserDao userDao;
-        public FindByLoginTask(UserDao userDao){
-            this.userDao = userDao;
-        }
-        @Override
-        protected Void doInBackground(String... strings) {
-            numberOfUsers = userDao.findByLogin(strings[0]);
-            return null;
-        }
-    }
     private static class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
         private UserDao dao;
 

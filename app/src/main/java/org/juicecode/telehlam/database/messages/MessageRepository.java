@@ -22,6 +22,7 @@ public class MessageRepository {
     public void insert(Message message) {
         new InsertAsyncTask(dao).execute(message);
     }
+
     public void update(Message message){ new UpdateAllAsyncTask(dao).execute(message);}
 
     public void deleteAll() {
@@ -35,12 +36,15 @@ public class MessageRepository {
     public LiveData<Message> getChatLastMessage(long receiverId) {
         return dao.getChatLastMessage(receiverId);
     }
-    public LiveData<Integer> getUnReadMessagesNumber(long receiverId, boolean bol){
-        return dao.getUnReadMessagesNumber(receiverId, bol);
+
+    public LiveData<List<Message>> getUnreadMessages(long receiverId){
+        return dao.getUnreadMessages(receiverId);
     }
-    public LiveData<List<Message>> getUnReadMessages(long receiverId, boolean bol){
-        return dao.getUnReadMessages(receiverId, bol);
+
+    public LiveData<Integer> getUnreadMessagesCount(long receiverId){
+        return dao.getUnreadMessagesCount(receiverId);
     }
+
     public LiveData<List<Message>> getMessages() {
         return messages;
     }
@@ -76,6 +80,7 @@ public class MessageRepository {
     }
     private static class UpdateAllAsyncTask extends AsyncTask<Message, Void, Void> {
         private MessageDao dao;
+
         UpdateAllAsyncTask(MessageDao dao){
             this.dao = dao;
         }

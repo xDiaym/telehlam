@@ -40,6 +40,8 @@ import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -50,13 +52,17 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private NavigationView navigationView;
     private AppSocket socket;
     private SharedPreferencesRepository repository;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         repository = new SharedPreferencesRepository(this);
+
         // Block screenshots
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -123,33 +129,37 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         new LoginEvent(socket).login(info);
         // TODO: login listener
 
-        final MessageViewModel viewModel = ViewModelProviders
+        final MessageViewModel messageViewModel = ViewModelProviders
                 .of(this)
                 .get(MessageViewModel.class);
         final UserViewModel userViewModel = ViewModelProviders
                 .of(this)
                 .get(UserViewModel.class);
 
-        final Activity activity = this;
+        final ArrayList<Long> usersId = new ArrayList<>();
+        userViewModel.getUsersIds().observe(this, new Observer<List<Long>>() {
+            @Override
+            public void onChanged(List<Long> ids) {
+                usersId.clear();
+                usersId.addAll(ids);
+            }
+        });
+
         socket.addListener("message", new MessageEvent.MessageListener(this) {
             @Override
             public void onNewMessage(final Message message) {
-                Log.e("T", message.getText());
-                if(userViewModel.findByNick(message.getAuthorLogin())==1){
-                    viewModel.insert(message);
-                } else {
-                    UserRepository api = new UserRepository(new RetrofitBuilder());
-                    api.byLogin(message.getAuthorLogin()).observe((LifecycleOwner) activity, new Observer<List<User>>() {
+                long authorId = message.getAuthorId();
+                if (!usersId.contains(authorId)){
+                    new UserRepository(new RetrofitBuilder()).byId(authorId).observe(MainActivity.this, new Observer<User>() {
                         @Override
-                        public void onChanged(List<User> users) {
-                            for(User u: users){
-                                if(u.getLogin().equals(message.getAuthorLogin())){
-                                    userViewModel.insert(u);
-                                    viewModel.insert(message);
-                                }
-                            }
+                        public void onChanged(User user) {
+                            userViewModel.insert(user);
+                            // We insert message here, cuz get user byId execute in other thread
+                            messageViewModel.insert(message);
                         }
                     });
+                } else {
+                    messageViewModel.insert(message);
                 }
             }
         });

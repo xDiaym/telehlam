@@ -12,8 +12,8 @@ import java.util.List;
 public interface MessageDao {
     @Query("SELECT * FROM messages " +
             "WHERE (type = 1 AND receiverId = :userId) " +  // Outgoing and user is receiver
-            "OR (type = 0 AND authorId = :userId)")
-        // Incoming and user is author
+            "OR (type = 0 AND authorId = :userId)"  // Incoming and user is author
+    )
     LiveData<List<Message>> getChatMessages(long userId);
 
     @Insert
@@ -24,10 +24,13 @@ public interface MessageDao {
 
     @Query("SELECT  * FROM messages WHERE (type=1 and receiverId=:user OR type = 0 and authorId=:user) ORDER BY timestamp DESC LIMIT 1")
     LiveData<Message> getChatLastMessage(long user);
-    @Query("SELECT COUNT(*) FROM messages WHERE (type = 0 and authorId=:userId) AND hasRead =:bol")
-    LiveData<Integer> getUnReadMessagesNumber(long userId, boolean bol);
+
     @Update
     void updateMessage(Message message);
-    @Query("SELECT * FROM messages WHERE (type = 0 and authorId=:userId) AND hasRead =:bol")
-    LiveData<List<Message>> getUnReadMessages(long userId, boolean bol);
+
+    @Query("SELECT * FROM messages WHERE (type = 0 and authorId = :userId) AND isRead = 0")
+    LiveData<List<Message>> getUnreadMessages(long userId);
+
+    @Query("SELECT COUNT(*) FROM messages WHERE (type = 0 and authorId = :userId) AND isRead = 0")
+    LiveData<Integer> getUnreadMessagesCount(long userId);
 }

@@ -21,6 +21,7 @@ import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatViewHolder> {
@@ -95,23 +96,24 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
             messageViewModel.getChatLastMessage(user.getId()).observe(lifecycleOwner, new Observer<Message>() {
                 @Override
                 public void onChanged(Message message) {
-                    if(message!=null){
-                        if(message.getAuthorId()==user.getId()){
+                    if(message != null){
+                        if(message.getAuthorId() == user.getId()){
                             chatLastMessage.setText(message.getText());
                         } else {
-                            chatLastMessage.setText("You: " + message.getText());
+                            chatLastMessage.setText(String.format("%s: %s", R.string.you_en, message.getText()));
                         }
 
                     }
 
                 }
             });
-            messageViewModel.getUnReadMessagesNumber(user.getId(), false).observe(lifecycleOwner, new Observer<Integer>() {
+
+            messageViewModel.getUnreadMessagesCount(user.getId()).observe(lifecycleOwner, new Observer<Integer>() {
                 @Override
                 public void onChanged(Integer integer) {
-                    if (integer!=0){
+                    if (integer != 0){
                         numberOfUnreadMessages.setVisibility(View.VISIBLE);
-                        numberOfUnreadMessages.setText(integer.toString());
+                        numberOfUnreadMessages.setText(String.format(Locale.getDefault(), "%d", integer));
                     } else {
                        numberOfUnreadMessages.setVisibility(View.GONE);
                     }

@@ -20,17 +20,7 @@ public class Message {
     private long timestamp;
     private long authorId;
     private long receiverId;
-    private boolean hasRead;
-
-    public String getAuthorLogin() {
-        return authorLogin;
-    }
-
-    public void setAuthorLogin(String authorLogin) {
-        this.authorLogin = authorLogin;
-    }
-
-    private String authorLogin;
+    private boolean isRead;
     @TypeConverters(Status.class)
     private Status status;
 
@@ -39,35 +29,33 @@ public class Message {
     }
 
     @Ignore
-    public Message(int type, String text, long authorId, long receiverId,boolean hasRead, String authorLogin) {
+    public Message(int type, String text, long authorId, long receiverId) {
         this.type = type;
         this.authorId = authorId;
         this.receiverId = receiverId;
         this.text = text;
         this.timestamp = (new Date().getTime());
         this.status = Status.NONE;
-        this.hasRead = hasRead;
-        this.authorLogin = authorLogin;
+        this.isRead = true;
     }
 
     @Ignore
-    public Message(int type, String text, long authorId, long receiverId, long timestamp ,boolean hasRead,  String authorLogin) {
+    public Message(int type, String text, long authorId, long receiverId, long timestamp, boolean isRead) {
         this.type = type;
         this.authorId = authorId;
         this.receiverId = receiverId;
         this.text = text;
         this.timestamp = timestamp;
         this.status = Status.NONE;
-        this.hasRead = hasRead;
-        this.authorLogin = authorLogin;
+        this.isRead = isRead;
     }
 
-    public boolean isHasRead() {
-        return hasRead;
+    public boolean isRead() {
+        return isRead;
     }
 
-    public void setHasRead(boolean hasRead) {
-        this.hasRead = hasRead;
+    public void setRead(boolean read) {
+        isRead = read;
     }
 
     public long getAuthorId() {
@@ -129,7 +117,7 @@ public class Message {
     public void setId(int id) {
         this.id = id;
     }
-//coming soon
+
     public enum Status {
         NONE(0), SENT(1), READ(2), ERROR(-1);
 

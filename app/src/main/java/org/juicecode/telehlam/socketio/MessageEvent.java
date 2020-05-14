@@ -67,8 +67,7 @@ public class MessageEvent {
                         object.getLong("authorId"),
                         object.getLong("receiverId"),
                         object.getLong("timestamp"),
-                                false,
-                        object.getString("authorLogin")
+                        false
                 );
 
             } catch (JSONException e) {
