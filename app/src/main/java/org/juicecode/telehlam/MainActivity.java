@@ -2,6 +2,7 @@ package org.juicecode.telehlam;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
@@ -132,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         socket.addListener("message", new MessageEvent.MessageListener(this) {
             @Override
             public void onNewMessage(final Message message) {
+                Log.e("T", message.getText());
                 if(userViewModel.findByNick(message.getAuthorLogin())==1){
                     viewModel.insert(message);
                 } else {

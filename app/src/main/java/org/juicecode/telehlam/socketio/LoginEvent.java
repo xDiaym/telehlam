@@ -2,7 +2,6 @@ package org.juicecode.telehlam.socketio;
 
 import androidx.annotation.Nullable;
 
-import com.github.nkzawa.emitter.Emitter;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -11,6 +10,8 @@ import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.rest.user.AuthInfo;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
+
+import io.socket.emitter.Emitter;
 
 public class LoginEvent {
 
