@@ -30,21 +30,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatFragment extends Fragment {
-    RecyclerView chat;
-    TextView nameOfContact;
-    EditText messageField;
-    ImageButton sendButton;
-    ImageButton goBack;
-    User user;
-    long userId;
-    long receiverId;
-    String userLogin;
-    MessageChatAdapter messageChatAdapter;
-    List<Message> messageList;
-    AppSocket socket;
-    Context context;
-    String receiverLogin;
-
+    private RecyclerView chat;
+    private EditText messageField;
+    private long userId;
+    private long receiverId;
+    private MessageChatAdapter messageChatAdapter;
+    private AppSocket socket;
+    private Context context;
+    private String receiverLogin;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,22 +54,22 @@ public class ChatFragment extends Fragment {
         chat.setLayoutManager(linearLayout);
         messageChatAdapter = new MessageChatAdapter();
         Bundle arguments = getArguments();
-        user = (User) arguments.getSerializable("user");
+        User user = (User) arguments.getSerializable("user");
         receiverId = user.getId();
 
         SharedPreferencesRepository repository = new SharedPreferencesRepository(context);
-        userLogin = repository.getLogin();
+        String userLogin = repository.getLogin();
         userId = repository.getId();
         chat.setAdapter(messageChatAdapter);
         chat.setHasFixedSize(false);
         chat.setNestedScrollingEnabled(false);
         chat.scrollToPosition(messageChatAdapter.getItemCount() - 1);
         messageField = view.findViewById(R.id.message_field);
-        messageList = new ArrayList<>();
-        sendButton = view.findViewById(R.id.send_message_button);
-        nameOfContact = view.findViewById(R.id.chat_name);
+        List<Message> messageList = new ArrayList<>();
+        ImageButton sendButton = view.findViewById(R.id.send_message_button);
+        TextView nameOfContact = view.findViewById(R.id.chat_name);
         nameOfContact.setText(receiverLogin);
-        goBack = view.findViewById(R.id.go_back_button);
+        ImageButton goBack = view.findViewById(R.id.go_back_button);
         nameOfContact.setText(user.getLogin());
 
         // Getting all messages for chat
@@ -90,6 +83,7 @@ public class ChatFragment extends Fragment {
                 chat.scrollToPosition(messageChatAdapter.getItemCount() - 1);
             }
         });
+
         final UserViewModel userViewModel = ViewModelProviders
                 .of(this)
                 .get(UserViewModel.class);

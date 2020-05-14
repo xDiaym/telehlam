@@ -1,8 +1,6 @@
 package org.juicecode.telehlam;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
@@ -12,8 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
@@ -41,7 +37,6 @@ import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 
@@ -66,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Checking permission if user tapped
+        // Checking permission if user tapped
         final FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 addFragment(R.id.contactsFragment);
             }
         });
-        //all drawer stuff
+        // All drawer stuff
         drawer = findViewById(R.id.drawer_layout);
 
         // Passing each menu ID as a set of Ids because each
@@ -94,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                // FIXME: add switch case
                 if (destination.getId() == R.id.nav_home) {
                     fab.setVisibility(View.VISIBLE);
                     toolbar.setVisibility(View.VISIBLE);
@@ -113,21 +109,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             }
         });
 
-        if (repository.getToken() == null) {
-            addFragment(R.id.authorisationFragment);
-        }  else if(repository.getFingerPrint()){
-            addFragment(R.id.confirmScannerPrint);
-        }
-
-
         socket = AppSocket.getInstance(Constant.baseUrl);
         socket.connect();
-
-        // Login
-        AuthInfo info = new AuthInfo(0,
-                new SharedPreferencesRepository(this).getToken());
-        new LoginEvent(socket).login(info);
-        // TODO: login listener
 
         final MessageViewModel messageViewModel = ViewModelProviders
                 .of(this)
@@ -163,6 +146,14 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 }
             }
         });
+
+        if (repository.getToken() == null) {
+            addFragment(R.id.authorisationFragment);
+        }  else if(repository.getFingerPrint()){
+            addFragment(R.id.confirmScannerPrint);
+        }
+
+        login();
     }
 
     @Override
@@ -184,6 +175,12 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     public void addFragment(int id) {
         KeyboardManager.hideKeyboard(this);
         navController.navigate(id);
+    }
+
+    @Override
+    public void addWithArguments(int id, Bundle bundle) {
+        KeyboardManager.hideKeyboard(this);
+        navController.navigate(id, bundle);
     }
 
     @Override
@@ -213,13 +210,12 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 super.onBackPressed();
                 break;
         }
-
     }
 
-    @Override
-    public void addWithArguments(int id, Bundle bundle) {
-        navController.navigate(id, bundle);
-
+    public void login() {
+        AuthInfo info = new AuthInfo(-1,
+                new SharedPreferencesRepository(this).getToken());
+        new LoginEvent(socket).login(info);
     }
 
     @Override
