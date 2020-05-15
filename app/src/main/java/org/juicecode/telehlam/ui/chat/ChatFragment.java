@@ -15,11 +15,15 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
+import org.juicecode.telehlam.database.UserIds;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.database.messages.MessageViewModel;
 import org.juicecode.telehlam.database.users.User;
 import org.juicecode.telehlam.database.users.UserViewModel;
+import org.juicecode.telehlam.rest.RetrofitBuilder;
+import org.juicecode.telehlam.rest.user.UserRepository;
 import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.socketio.MessageEvent;
 import org.juicecode.telehlam.utils.Constant;
@@ -103,10 +107,23 @@ public class ChatFragment extends Fragment {
             public void onClick(View v) {
                 String messageText = messageField.getText().toString().trim();
                 if (!messageText.isEmpty()) {
-                    Message message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId);
-                    messageViewModel.insert(message);
+                    final Message message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId);
 
                     new MessageEvent(socket).sendMessage(message);
+
+                    UserIds ids = UserIds.getInstance(ChatFragment.this, getViewLifecycleOwner());
+                    if (!ids.contains(receiverId)) {
+                        new UserRepository(new RetrofitBuilder()).byId(receiverId).observe(getViewLifecycleOwner(), new Observer<User>() {
+                            @Override
+                            public void onChanged(User user) {
+                                userViewModel.insert(user);
+                                // We insert message here, cuz get user byId execute in other thread
+                                messageViewModel.insert(message);
+                            }
+                        });
+                    } else {
+                        messageViewModel.insert(message);
+                    }
 
                     messageField.setText("");
                     chat.scrollToPosition(messageChatAdapter.getItemCount() - 1);

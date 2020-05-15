@@ -19,11 +19,7 @@ import org.juicecode.telehlam.utils.SnackbarShower;
 
 
 public class RequestFingerPrintFragment extends Fragment {
-    private Button yesButton;
-    private Button noButton;
-    private Button deleteFingerPrint;
     private FragmentManagerSimplifier fragmentManagerSimplifier;
-    private TextView warning;
     private LinearLayout layout;
     private SharedPreferencesRepository repository;
 
@@ -35,10 +31,12 @@ public class RequestFingerPrintFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_request_finger_print, container, false);
+
         layout = view.findViewById(R.id.layout);
-        yesButton = view.findViewById(R.id.yesButton);
-        noButton = view.findViewById(R.id.noButton);
-        deleteFingerPrint = view.findViewById(R.id.deleteFingerPrint);
+        Button yesButton = view.findViewById(R.id.yesButton);
+        Button noButton = view.findViewById(R.id.noButton);
+
+        Button deleteFingerPrint = view.findViewById(R.id.deleteFingerPrint);
         deleteFingerPrint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,16 +44,17 @@ public class RequestFingerPrintFragment extends Fragment {
                 checker.checkAuth(repository);
             }
         });
+
         deleteFingerPrint.setVisibility(View.GONE);
-        warning = view.findViewById(R.id.warning);
+        TextView warning = view.findViewById(R.id.warning);
         fragmentManagerSimplifier = (FragmentManagerSimplifier) view.getContext();
         repository = new SharedPreferencesRepository(getContext());
+
         if (repository.getFingerPrint()) {
             warning.setText(R.string.hasFingerprint);
             yesButton.setVisibility(View.GONE);
             noButton.setVisibility(View.GONE);
             deleteFingerPrint.setVisibility(View.VISIBLE);
-
         }
 
         yesButton.setOnClickListener(new View.OnClickListener() {
@@ -69,11 +68,9 @@ public class RequestFingerPrintFragment extends Fragment {
         noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 fragmentManagerSimplifier.addFragment(R.id.nav_home);
             }
         });
-
 
         return view;
     }

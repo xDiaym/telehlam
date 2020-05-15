@@ -21,6 +21,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import org.juicecode.telehlam.database.UserIds;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.database.messages.MessageViewModel;
 import org.juicecode.telehlam.database.users.User;
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                // FIXME: add switch case
+                // TODO: add switch case
                 if (destination.getId() == R.id.nav_home) {
                     fab.setVisibility(View.VISIBLE);
                     toolbar.setVisibility(View.VISIBLE);
@@ -119,20 +120,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 .of(this)
                 .get(UserViewModel.class);
 
-        final ArrayList<Long> usersId = new ArrayList<>();
-        userViewModel.getUsersIds().observe(this, new Observer<List<Long>>() {
-            @Override
-            public void onChanged(List<Long> ids) {
-                usersId.clear();
-                usersId.addAll(ids);
-            }
-        });
+        final UserIds userId = UserIds.getInstance(this, this);
 
         socket.addListener("message", new MessageEvent.MessageListener(this) {
             @Override
             public void onNewMessage(final Message message) {
                 long authorId = message.getAuthorId();
-                if (!usersId.contains(authorId)){
+                if (!userId.contains(authorId)){
                     new UserRepository(new RetrofitBuilder()).byId(authorId).observe(MainActivity.this, new Observer<User>() {
                         @Override
                         public void onChanged(User user) {
