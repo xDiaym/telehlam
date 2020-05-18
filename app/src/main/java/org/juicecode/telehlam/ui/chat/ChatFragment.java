@@ -105,7 +105,6 @@ public class ChatFragment extends Fragment {
                 if (!messageText.isEmpty()) {
                     Message message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId);
                     messageViewModel.insert(message);
-
                     new MessageEvent(socket).sendMessage(message);
 
                     messageField.setText("");
