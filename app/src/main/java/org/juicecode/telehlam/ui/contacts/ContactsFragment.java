@@ -1,5 +1,6 @@
 package org.juicecode.telehlam.ui.contacts;
 
+import androidx.appcompat.widget.SearchView;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -7,7 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -40,8 +40,8 @@ public class ContactsFragment extends Fragment
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.serach_menu, menu);
-
         MenuItem item = menu.findItem(R.id.action_search);
+
         SearchView view = (SearchView) item.getActionView();
 
         view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
