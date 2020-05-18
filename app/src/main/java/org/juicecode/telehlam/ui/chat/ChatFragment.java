@@ -42,6 +42,7 @@ public class ChatFragment extends Fragment {
     private AppSocket socket;
     private Context context;
     private String receiverLogin;
+    private User user;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class ChatFragment extends Fragment {
         chat.setLayoutManager(linearLayout);
         messageChatAdapter = new MessageChatAdapter();
         Bundle arguments = getArguments();
-        User user = (User) arguments.getSerializable("user");
+        user = (User) arguments.getSerializable("user");
         receiverId = user.getId();
 
         SharedPreferencesRepository repository = new SharedPreferencesRepository(context);
@@ -113,14 +114,9 @@ public class ChatFragment extends Fragment {
 
                     UserIds ids = UserIds.getInstance(ChatFragment.this, getViewLifecycleOwner());
                     if (!ids.contains(receiverId)) {
-                        new UserRepository(new RetrofitBuilder()).byId(receiverId).observe(getViewLifecycleOwner(), new Observer<User>() {
-                            @Override
-                            public void onChanged(User user) {
                                 userViewModel.insert(user);
                                 // We insert message here, cuz get user byId execute in other thread
                                 messageViewModel.insert(message);
-                            }
-                        });
                     } else {
                         messageViewModel.insert(message);
                     }
