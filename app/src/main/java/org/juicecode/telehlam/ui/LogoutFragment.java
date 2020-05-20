@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.database.messages.MessageViewModel;
 import org.juicecode.telehlam.database.users.UserViewModel;
@@ -20,6 +21,7 @@ import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 public class LogoutFragment extends Fragment {
     private MessageViewModel messageViewModel;
     private UserViewModel userViewModel;
+    private MainActivity activity;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -28,7 +30,7 @@ public class LogoutFragment extends Fragment {
 
         messageViewModel = ViewModelProviders.of(this).get(MessageViewModel.class);
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-
+        activity = (MainActivity) getActivity();
         Button logout = view.findViewById(R.id.logout_button);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,10 +45,9 @@ public class LogoutFragment extends Fragment {
     private void logout() {
         SharedPreferencesRepository repository = new SharedPreferencesRepository(getContext());
         repository.deleteInfo();
-
+        activity.logOut();
         messageViewModel.deleteAll();
         userViewModel.deleteAll();
-
         FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier) getActivity();
         fragmentManagerSimplifier.addFragment(R.id.authorisationFragment);
     }

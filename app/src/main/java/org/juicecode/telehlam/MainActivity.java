@@ -211,14 +211,16 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 new SharedPreferencesRepository(this).getToken());
         new LoginEvent(socket).login(info);
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void logOut(){
         if (socket != null) {
             socket.disconnect();
             socket.off("message");
         }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        logOut();
     }
 }
 
