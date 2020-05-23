@@ -51,12 +51,14 @@ public class SharedPreferencesRepository {
                 .putLong(ID, id)
                 .apply();
     }
-    public void deleteFingerPrint(){
+
+    public void deleteFingerPrint() {
         preferences
                 .edit()
                 .remove(hasFingerPrint)
                 .apply();
     }
+
     public long getId() {
         return preferences.getLong(ID, 0);
     }

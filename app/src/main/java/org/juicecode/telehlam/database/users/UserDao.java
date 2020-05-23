@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import java.util.List;
 
@@ -22,6 +21,6 @@ public interface UserDao {
     @Query("DELETE FROM contacts")
     void deleteAll();
 
-    @Query("SELECT COUNT(*) FROM contacts WHERE login = :login")
-    Integer findByLogin(String login);
+    @Query("SELECT COUNT(*) FROM contacts WHERE id = :id")
+    Integer findById(long id);
 }

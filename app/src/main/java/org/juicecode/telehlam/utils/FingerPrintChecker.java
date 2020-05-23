@@ -1,10 +1,6 @@
 package org.juicecode.telehlam.utils;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.biometric.BiometricManager;
@@ -12,21 +8,19 @@ import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import org.juicecode.telehlam.R;
 
 import java.util.concurrent.Executor;
 
 public class FingerPrintChecker {
+    public static final int ADDING_FINGERPRINT = 0;
+    public static final int IDENTIFYING_WITH_FINGERPRINT = 1;
+    public static final int DELETING_FINGERPRINT = 2;
     private FragmentManagerSimplifier fragmentManagerSimplifier;
     private Executor executor;
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
     private SharedPreferencesRepository classRepository;
-    public static final int ADDING_FINGERPRINT = 0;
-    public static final int IDENTIFYING_WITH_FINGERPRINT = 1;
-    public static final int DELETING_FINGERPRINT = 2;
     private int type;
     private Context context;
     private SnackbarShower snackbarShower;
@@ -58,7 +52,7 @@ public class FingerPrintChecker {
                     classRepository.saveFingerPrint();
                     fragmentManagerSimplifier.addFragment(R.id.nav_home);
                     String text = "";
-                    switch (type){
+                    switch (type) {
                         case ADDING_FINGERPRINT:
                             text = "You added fingerprint!";
                             break;
@@ -66,7 +60,7 @@ public class FingerPrintChecker {
                             classRepository.deleteFingerPrint();
                             text = "You deleted fingerprint";
                     }
-                    if(!text.isEmpty()){
+                    if (!text.isEmpty()) {
                         snackbarShower.showSnackbar(text);
                     }
 

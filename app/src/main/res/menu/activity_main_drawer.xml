@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:id="@+id/top_menu"
+    <group
+        android:id="@+id/top_menu"
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
@@ -14,7 +15,8 @@
             android:icon="@drawable/ic_fingerprint_black_24dp"
             android:title="@string/drawer_add_fingerprint" />
     </group>
-    <group android:id="@+id/bottom_menu"
+    <group
+        android:id="@+id/bottom_menu"
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_logout"

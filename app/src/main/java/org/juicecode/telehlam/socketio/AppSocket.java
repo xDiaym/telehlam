@@ -2,7 +2,6 @@ package org.juicecode.telehlam.socketio;
 
 import android.util.Log;
 
-
 import java.net.URISyntaxException;
 
 import io.socket.client.IO;
@@ -45,6 +44,7 @@ public class AppSocket {
     public void addListener(String event, Emitter.Listener listener) {
         socket.on(event, listener);
     }
+
     public void off(String event) {
         socket.off(event);
     }

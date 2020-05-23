@@ -41,7 +41,6 @@ public class FirstRegistrationFragment extends Fragment {
         surnameError = view.findViewById(R.id.surnameError);
 
 
-
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
 
             @Override

@@ -15,22 +15,18 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.database.UserIds;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.database.messages.MessageViewModel;
 import org.juicecode.telehlam.database.users.User;
 import org.juicecode.telehlam.database.users.UserViewModel;
-import org.juicecode.telehlam.rest.RetrofitBuilder;
-import org.juicecode.telehlam.rest.user.UserRepository;
 import org.juicecode.telehlam.socketio.AppSocket;
 import org.juicecode.telehlam.socketio.MessageEvent;
 import org.juicecode.telehlam.utils.Constant;
 import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChatFragment extends Fragment {
@@ -61,16 +57,13 @@ public class ChatFragment extends Fragment {
         Bundle arguments = getArguments();
         user = (User) arguments.getSerializable("user");
         receiverId = user.getId();
-
         SharedPreferencesRepository repository = new SharedPreferencesRepository(context);
-        String userLogin = repository.getLogin();
         userId = repository.getId();
         chat.setAdapter(messageChatAdapter);
         chat.setHasFixedSize(false);
         chat.setNestedScrollingEnabled(false);
         chat.scrollToPosition(messageChatAdapter.getItemCount() - 1);
         messageField = view.findViewById(R.id.message_field);
-        List<Message> messageList = new ArrayList<>();
         ImageButton sendButton = view.findViewById(R.id.send_message_button);
         TextView nameOfContact = view.findViewById(R.id.chat_name);
         nameOfContact.setText(receiverLogin);
@@ -114,9 +107,10 @@ public class ChatFragment extends Fragment {
 
                     UserIds ids = UserIds.getInstance(ChatFragment.this, getViewLifecycleOwner());
                     if (!ids.contains(receiverId)) {
-                                userViewModel.insert(user);
-                                // We insert message here, cuz get user byId execute in other thread
-                                messageViewModel.insert(message);
+
+                        userViewModel.insert(user);
+                        // We insert message here, cuz get user byId execute in other thread
+                        messageViewModel.insert(message);
                     } else {
                         messageViewModel.insert(message);
                     }

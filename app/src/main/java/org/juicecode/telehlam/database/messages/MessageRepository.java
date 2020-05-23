@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import org.juicecode.telehlam.database.DBClient;
-import org.juicecode.telehlam.socketio.MessageEvent;
 
 import java.util.List;
 
@@ -23,7 +22,9 @@ public class MessageRepository {
         new InsertAsyncTask(dao).execute(message);
     }
 
-    public void update(Message message){ new UpdateAllAsyncTask(dao).execute(message);}
+    public void update(Message message) {
+        new UpdateAllAsyncTask(dao).execute(message);
+    }
 
     public void deleteAll() {
         new DeleteAllAsyncTask(dao).execute();
@@ -37,11 +38,11 @@ public class MessageRepository {
         return dao.getChatLastMessage(receiverId);
     }
 
-    public LiveData<List<Message>> getUnreadMessages(long receiverId){
+    public LiveData<List<Message>> getUnreadMessages(long receiverId) {
         return dao.getUnreadMessages(receiverId);
     }
 
-    public LiveData<Integer> getUnreadMessagesCount(long receiverId){
+    public LiveData<Integer> getUnreadMessagesCount(long receiverId) {
         return dao.getUnreadMessagesCount(receiverId);
     }
 
@@ -78,16 +79,17 @@ public class MessageRepository {
             return null;
         }
     }
+
     private static class UpdateAllAsyncTask extends AsyncTask<Message, Void, Void> {
         private MessageDao dao;
 
-        UpdateAllAsyncTask(MessageDao dao){
+        UpdateAllAsyncTask(MessageDao dao) {
             this.dao = dao;
         }
 
         @Override
         protected Void doInBackground(Message... messages) {
-            if(messages.length!=0){
+            if (messages.length != 0) {
                 dao.updateMessage(messages[0]);
             }
             return null;

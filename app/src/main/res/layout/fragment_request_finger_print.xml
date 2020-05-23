@@ -47,6 +47,7 @@
             ></Button>
 
     </LinearLayout>
+
     <Button
         android:id="@+id/deleteFingerPrint"
         android:layout_width="wrap_content"

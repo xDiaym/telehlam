@@ -12,12 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserIds {
+    private static UserIds instance;
     private final ArrayList<Long> usersId = new ArrayList<>();
     private UserViewModel userViewModel;
-    private static UserIds instance;
 
     private UserIds(FragmentActivity fragmentActivity, LifecycleOwner owner) {
         userViewModel = ViewModelProviders.of(fragmentActivity).get(UserViewModel.class);
+        init(owner);
+    }
+
+    private UserIds(Fragment fragment, LifecycleOwner owner) {
+        userViewModel = ViewModelProviders.of(fragment).get(UserViewModel.class);
         init(owner);
     }
 
@@ -26,11 +31,6 @@ public class UserIds {
             instance = new UserIds(fragmentActivity, owner);
         }
         return instance;
-    }
-
-    private UserIds(Fragment fragment, LifecycleOwner owner) {
-        userViewModel = ViewModelProviders.of(fragment).get(UserViewModel.class);
-        init(owner);
     }
 
     public static UserIds getInstance(Fragment fragment, LifecycleOwner owner) {

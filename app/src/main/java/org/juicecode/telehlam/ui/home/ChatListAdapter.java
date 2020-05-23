@@ -28,6 +28,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
     private List<User> users = new ArrayList<>();
     private LifecycleOwner lifecycleOwner;
     private MessageViewModel messageViewModel;
+
     public ChatListAdapter(MessageViewModel viewModel, LifecycleOwner owner) {
         messageViewModel = viewModel;
         lifecycleOwner = owner;
@@ -96,8 +97,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
             messageViewModel.getChatLastMessage(user.getId()).observe(lifecycleOwner, new Observer<Message>() {
                 @Override
                 public void onChanged(Message message) {
-                    if(message != null){
-                        if(message.getAuthorId() == user.getId()){
+                    if (message != null) {
+                        if (message.getAuthorId() == user.getId()) {
                             chatLastMessage.setText(message.getText());
                         } else {
                             // FIXME: get string from resources
@@ -112,11 +113,11 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
             messageViewModel.getUnreadMessagesCount(user.getId()).observe(lifecycleOwner, new Observer<Integer>() {
                 @Override
                 public void onChanged(Integer integer) {
-                    if (integer != 0){
+                    if (integer != 0) {
                         numberOfUnreadMessages.setVisibility(View.VISIBLE);
                         numberOfUnreadMessages.setText(String.format(Locale.getDefault(), "%d", integer));
                     } else {
-                       numberOfUnreadMessages.setVisibility(View.GONE);
+                        numberOfUnreadMessages.setVisibility(View.GONE);
                     }
                 }
             });

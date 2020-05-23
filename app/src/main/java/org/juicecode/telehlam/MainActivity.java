@@ -37,11 +37,8 @@ import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.KeyboardManager;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 
-
-public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier  {
+public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier {
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
     private NavController navController;
@@ -126,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             @Override
             public void onNewMessage(final Message message) {
                 long authorId = message.getAuthorId();
-                if (!userId.contains(authorId)){
+                if (!userId.contains(authorId)) {
                     new UserRepository(new RetrofitBuilder()).byId(authorId).observe(MainActivity.this, new Observer<User>() {
                         @Override
                         public void onChanged(User user) {
@@ -143,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
         if (repository.getToken() == null) {
             addFragment(R.id.authorisationFragment);
-        }  else if(repository.getFingerPrint()){
+        } else if (repository.getFingerPrint()) {
             addFragment(R.id.confirmScannerPrint);
         }
 
@@ -180,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     @Override
     protected void onPause() {
         super.onPause();
-        if(repository.getFingerPrint()){
+        if (repository.getFingerPrint()) {
             addFragment(R.id.confirmScannerPrint);
         }
     }
@@ -211,12 +208,14 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                 new SharedPreferencesRepository(this).getToken());
         new LoginEvent(socket).login(info);
     }
-    public void logOut(){
+
+    public void logOut() {
         if (socket != null) {
             socket.disconnect();
             socket.off("message");
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

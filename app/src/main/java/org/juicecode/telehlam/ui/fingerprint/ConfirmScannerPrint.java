@@ -1,15 +1,13 @@
 package org.juicecode.telehlam.ui.fingerprint;
 
 import android.os.Bundle;
-
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
+import androidx.fragment.app.Fragment;
 
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.utils.FingerPrintChecker;
