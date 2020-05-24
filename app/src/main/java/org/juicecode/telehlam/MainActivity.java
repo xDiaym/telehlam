@@ -1,7 +1,9 @@
 package org.juicecode.telehlam;
 
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -47,12 +49,12 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private NavigationView navigationView;
     private AppSocket socket;
     private SharedPreferencesRepository repository;
-
+    private boolean isActive;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        isActive = true;
         repository = new SharedPreferencesRepository(this);
 
         // Block screenshots
@@ -86,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                // TODO: add switch case
                 switch (destination.getId()){
                     case R.id.nav_home:
                         fab.setVisibility(View.VISIBLE);
@@ -139,10 +140,12 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                             userViewModel.insert(user);
                             // We insert message here, cuz get user byId execute in other thread
                             messageViewModel.insert(message);
+
                         }
                     });
                 } else {
                     messageViewModel.insert(message);
+                    startService(message, isActive);
                 }
             }
         });
@@ -155,7 +158,16 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
         login();
     }
-
+    public void startService(Message message, boolean isActive){
+        Intent createService =  new Intent(this, NotificationService.class);
+        createService.putExtra("message", message);
+        createService.putExtra("isActive",isActive);
+        startService(createService);
+    }
+    public void destroyService(){
+        Intent destroyService = new Intent(this, NotificationService.class);
+        stopService(destroyService);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Hide keyboard while fragment changed
@@ -189,6 +201,15 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         if (repository.getFingerPrint()) {
             addFragment(R.id.confirmScannerPrint);
         }
+
+        isActive = false;
+    }
+
+    @Override
+    protected void onResume() {
+        isActive = true;
+        super.onResume();
+
     }
 
     @Override
@@ -228,7 +249,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        destroyService();
         logOut();
+
     }
 }
 

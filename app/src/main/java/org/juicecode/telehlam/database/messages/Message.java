@@ -6,10 +6,11 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity(tableName = "messages")
-public class Message {
+public class Message implements Serializable {
     public static final int MESSAGE_INCOMING = 0;
     public static final int MESSAGE_OUTGOING = 1;
 
