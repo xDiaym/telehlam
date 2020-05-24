@@ -1,6 +1,8 @@
 package org.juicecode.telehlam;
 
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
@@ -85,22 +87,29 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
                 // TODO: add switch case
-                if (destination.getId() == R.id.nav_home) {
-                    fab.setVisibility(View.VISIBLE);
-                    toolbar.setVisibility(View.VISIBLE);
-                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                } else if (destination.getId() == R.id.nav_logout
-                        || destination.getId() == R.id.contactsFragment
-                        || destination.getId() == R.id.requestFingerPrintFragment) {
-                    toolbar.setVisibility(View.VISIBLE);
-                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                    fab.setVisibility(View.GONE);
-                } else {
-                    fab.setVisibility(View.GONE);
-                    toolbar.setVisibility(View.GONE);
-                    navigationView.setVisibility(View.GONE);
-                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                switch (destination.getId()){
+                    case R.id.nav_home:
+                        fab.setVisibility(View.VISIBLE);
+                        toolbar.setVisibility(View.VISIBLE);
+                        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                        break;
+                    case R.id.nav_logout:
+                    case R.id.requestFingerPrintFragment:
+                        toolbar.setVisibility(View.VISIBLE);
+                        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                        fab.setVisibility(View.GONE);
+                        break;
+                    case R.id.contactsFragment :
+                        toolbar.setVisibility(View.VISIBLE);
+                        fab.setVisibility(View.GONE);
+                        break;
+                    default:
+                        fab.setVisibility(View.GONE);
+                        toolbar.setVisibility(View.GONE);
+                        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                        break;
                 }
+
             }
         });
 
