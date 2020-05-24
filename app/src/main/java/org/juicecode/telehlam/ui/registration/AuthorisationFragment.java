@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -30,6 +31,7 @@ public class AuthorisationFragment extends Fragment {
     private TextView passwordError;
     private FragmentManagerSimplifier fragmentManagerSimplifier;
     private Context context;
+    private LinearLayout layout;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class AuthorisationFragment extends Fragment {
         loginError = view.findViewById(R.id.loginError);
         passwordField = view.findViewById(R.id.passwordField);
         passwordError = view.findViewById(R.id.passwordError);
-
+        layout = view.findViewById(R.id.authorisation_layout);
         fragmentManagerSimplifier = (FragmentManagerSimplifier) view.getContext();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +52,7 @@ public class AuthorisationFragment extends Fragment {
                 String password = passwordField.getText().toString().trim();
 
                 if (checkFields(login, password)) {
-                    final UserRepository api = new UserRepository(new RetrofitBuilder());
+                    final UserRepository api = new UserRepository(new RetrofitBuilder(),layout);
                     api.signIn(new LoginInfo(login, password)).observe(getViewLifecycleOwner(), new Observer<AuthInfo>() {
                         @Override
                         public void onChanged(AuthInfo authInfo) {

@@ -1,6 +1,7 @@
 package org.juicecode.telehlam.rest.user;
 
 import android.util.Log;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -10,6 +11,7 @@ import com.google.gson.JsonIOException;
 
 import org.juicecode.telehlam.database.users.User;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
+import org.juicecode.telehlam.utils.SnackbarShower;
 
 import java.util.List;
 
@@ -20,9 +22,13 @@ import retrofit2.Response;
 
 public class UserRepository {
     private static final String TAG = UserRepository.class.getCanonicalName();
-
+    private LinearLayout layout;
     private static UserApi userApi;
 
+    public UserRepository(@NonNull RetrofitBuilder retrofitBuilder, LinearLayout layout) {
+        userApi = retrofitBuilder.getUserApi();
+        this.layout = layout;
+    }
     public UserRepository(@NonNull RetrofitBuilder retrofitBuilder) {
         userApi = retrofitBuilder.getUserApi();
     }
@@ -42,7 +48,6 @@ public class UserRepository {
                     info.setValue(response.body());
                     Log.i(TAG, "User successfully registered");
                 } else {
-                    //TODO make error handling
                     Log.e(TAG, "Unsuccessful response at registerUser");
                 }
             }
@@ -50,9 +55,12 @@ public class UserRepository {
             @Override
             public void onFailure(Call call, Throwable t) {
                 Log.e(TAG, String.format("Failure while sending response\n" +
-                                "Error: %s",
-                        t.getMessage()));
+                                "Error: %s", t.getMessage()));
+
+                SnackbarShower snackbarShower = new SnackbarShower(layout);
+                snackbarShower.showSnackbar("Make sure you have an Internet connection");
             }
+
         });
 
         return info;
@@ -75,6 +83,8 @@ public class UserRepository {
                     }
                 } else {
                     //TODO error handling
+                    SnackbarShower snackbarShower = new SnackbarShower(layout);
+                    snackbarShower.showSnackbar("Wrong user login or password");
                     Log.e(TAG, "Unsuccessful response at signIn");
                 }
             }
@@ -84,6 +94,8 @@ public class UserRepository {
                 Log.e(TAG, String.format("Failure while sending response\n" +
                                 "Error: %s",
                         t.getMessage()));
+                SnackbarShower snackbarShower = new SnackbarShower(layout);
+                snackbarShower.showSnackbar("Make sure you have an Internet connection");
             }
         });
 

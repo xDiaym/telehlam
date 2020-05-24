@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         repository = new SharedPreferencesRepository(this);
 
         // Block screenshots
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -34,6 +35,7 @@ public class SecondRegistrationFragment extends Fragment {
     private TextView loginError;
     private TextView passwordError;
     private TextView repeatPasswordError;
+    private LinearLayout layout;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class SecondRegistrationFragment extends Fragment {
         loginError = view.findViewById(R.id.loginError);
         passwordError = view.findViewById(R.id.passwordError);
         repeatPasswordError = view.findViewById(R.id.repeatPasswordError);
-
+        layout = view.findViewById(R.id.second_registration_layout);
         //arguments from first fragment
         gettingArguments = getArguments();
         final String[] values = gettingArguments.getStringArray("argumentsFromFirstRegistration");
@@ -92,7 +94,7 @@ public class SecondRegistrationFragment extends Fragment {
                     passwordError.setText("");
                 } else {
                     final LoginInfo loginInfo = new LoginInfo(login, password, name, surname);
-                    UserRepository registerUser = new UserRepository(new RetrofitBuilder());
+                    UserRepository registerUser = new UserRepository(new RetrofitBuilder(), layout);
                     registerUser.registerUser(loginInfo).observe(getViewLifecycleOwner(), new Observer<AuthInfo>() {
                         @Override
                         public void onChanged(AuthInfo authInfo) {
