@@ -22,6 +22,7 @@ public class Message implements Serializable {
     private long authorId;
     private long receiverId;
     private boolean isRead;
+
     @TypeConverters(Status.class)
     private Status status;
 

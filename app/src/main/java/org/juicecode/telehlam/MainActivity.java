@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             @Override
             public void onNewMessage(final Message message) {
                 long authorId = message.getAuthorId();
-                startService(message, isActive);
+
                 if (!userId.contains(authorId)) {
                     new UserRepository(new RetrofitBuilder()).byId(authorId).observe(MainActivity.this, new Observer<User>() {
                         @Override
@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                     messageViewModel.insert(message);
 
                 }
+                startService(message, isActive);
             }
         });
 
