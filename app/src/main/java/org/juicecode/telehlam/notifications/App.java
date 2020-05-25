@@ -1,4 +1,4 @@
-package org.juicecode.telehlam;
+package org.juicecode.telehlam.notifications;
 
 import android.app.Application;
 import android.app.NotificationChannel;
