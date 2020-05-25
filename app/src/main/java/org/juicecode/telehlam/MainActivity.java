@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             @Override
             public void onNewMessage(final Message message) {
                 long authorId = message.getAuthorId();
+                startService(message, isActive);
                 if (!userId.contains(authorId)) {
                     new UserRepository(new RetrofitBuilder()).byId(authorId).observe(MainActivity.this, new Observer<User>() {
                         @Override
@@ -141,11 +142,12 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                             // We insert message here, cuz get user byId execute in other thread
                             messageViewModel.insert(message);
 
+
                         }
                     });
                 } else {
                     messageViewModel.insert(message);
-                    startService(message, isActive);
+
                 }
             }
         });
@@ -195,22 +197,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         navController.navigate(id, bundle);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (repository.getFingerPrint()) {
-            addFragment(R.id.confirmScannerPrint);
-        }
 
-        isActive = false;
-    }
 
-    @Override
-    protected void onResume() {
-        isActive = true;
-        super.onResume();
 
-    }
 
     @Override
     public void onBackPressed() {
@@ -244,6 +233,27 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             socket.disconnect();
             socket.off("message");
         }
+    }
+    @Override
+    protected void onResume() {
+        isActive = true;
+        super.onResume();
+        destroyService();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (repository.getFingerPrint()) {
+            addFragment(R.id.confirmScannerPrint);
+        }
+
+        isActive = false;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isActive = false;
     }
 
     @Override

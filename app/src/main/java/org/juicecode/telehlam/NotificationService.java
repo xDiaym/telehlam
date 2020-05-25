@@ -8,18 +8,13 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import org.juicecode.telehlam.database.messages.Message;
+
+import static org.juicecode.telehlam.App.CHANNEL_ID;
 
 public class NotificationService extends Service {
-    private static boolean isActive;
-
-    public static void setIsActive(boolean isActive) {
-        NotificationService.isActive = isActive;
-    }
-
-    public static boolean isIsActive() {
-        return isActive;
-    }
-
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -33,14 +28,14 @@ public class NotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(!intent.getBooleanExtra("isActive",true)){
+        boolean isActive = intent.getBooleanExtra("isActive",true);
+        Log.i("bool", String.valueOf(isActive));
+        if(!(intent.getBooleanExtra("isActive",true))){
             //sending notification
-            Notification customNotification = new NotificationCompat.Builder(this, App.CHANNEL_ID)
-                    .setSmallIcon(R.drawable.notification_icon)
-                    .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
-                    .build();
-            Log.i("notification","this is future notification" );
-            startForeground(1, customNotification);
+            Message message = (Message) intent.getSerializableExtra("message");
+            Log.i("messageText", message.getText());
+            createNotification(message);
+
         }
         stopSelf();
         return START_NOT_STICKY;
@@ -49,5 +44,15 @@ public class NotificationService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+    public void createNotification(Message message){
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.notification_icon)
+                .setContentTitle("New message")
+                .setContentText(message.getText())
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(1, builder.build());
+        stopSelf();
     }
 }
