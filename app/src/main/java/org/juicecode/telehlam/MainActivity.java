@@ -27,8 +27,10 @@ import com.google.android.material.navigation.NavigationView;
 
 import org.juicecode.telehlam.database.UserIds;
 import org.juicecode.telehlam.database.messages.Message;
+import org.juicecode.telehlam.database.messages.MessageRepository;
 import org.juicecode.telehlam.database.messages.MessageViewModel;
 import org.juicecode.telehlam.database.users.User;
+import org.juicecode.telehlam.database.users.UserRepositoryDatabase;
 import org.juicecode.telehlam.database.users.UserViewModel;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.AuthInfo;
@@ -120,13 +122,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         socket = AppSocket.getInstance(Constant.baseUrl);
         socket.connect();
 
-        final MessageViewModel messageViewModel = ViewModelProviders
-                .of(this)
-                .get(MessageViewModel.class);
-        final UserViewModel userViewModel = ViewModelProviders
-                .of(this)
-                .get(UserViewModel.class);
-
+       final UserRepositoryDatabase userRepositoryDatabase = new UserRepositoryDatabase(getApplication());
+       final MessageRepository messageRepository = new MessageRepository(getApplication());
         final UserIds userId = UserIds.getInstance(this, this);
 
         socket.addListener("message", new MessageEvent.MessageListener(this) {
@@ -138,18 +135,21 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                     new UserRepository(new RetrofitBuilder()).byId(authorId).observe(MainActivity.this, new Observer<User>() {
                         @Override
                         public void onChanged(User user) {
-                            userViewModel.insert(user);
+                            userRepositoryDatabase.insert(user);
                             // We insert message here, cuz get user byId execute in other thread
-                            messageViewModel.insert(message);
+                            messageRepository.insert(message);
 
 
                         }
                     });
                 } else {
-                    messageViewModel.insert(message);
+                    messageRepository.insert(message);
 
                 }
-                startService(message, isActive);
+                if(!isActive){
+                    startService(message);
+                }
+
             }
         });
 
@@ -161,10 +161,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
         login();
     }
-    public void startService(Message message, boolean isActive){
+    public void startService(Message message){
         Intent createService =  new Intent(this, NotificationService.class);
         createService.putExtra("message", message);
-        createService.putExtra("isActive",isActive);
         startService(createService);
     }
     public void destroyService(){
@@ -224,6 +223,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     }
 
     public void login() {
+        if (socket != null) {
+            socket.connect();
+
+        }
         AuthInfo info = new AuthInfo(-1,
                 new SharedPreferencesRepository(this).getToken());
         new LoginEvent(socket).login(info);
@@ -232,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     public void logOut() {
         if (socket != null) {
             socket.disconnect();
-            socket.off("message");
+
         }
     }
     @Override

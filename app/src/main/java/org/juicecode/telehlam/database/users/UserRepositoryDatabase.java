@@ -9,10 +9,10 @@ import org.juicecode.telehlam.database.DBClient;
 
 import java.util.List;
 
-public class UserRepository {
+public class UserRepositoryDatabase {
     private UserDao dao;
 
-    public UserRepository(Application application) {
+    public UserRepositoryDatabase(Application application) {
         dao = DBClient.getInstance(application).getAppDataBase().userDao();
     }
 

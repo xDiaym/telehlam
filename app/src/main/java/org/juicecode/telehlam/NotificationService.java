@@ -32,12 +32,10 @@ public class NotificationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         boolean isActive = intent.getBooleanExtra("isActive",true);
-        if(!(intent.getBooleanExtra("isActive",true))){
+
             //sending notification
             Message message = (Message) intent.getSerializableExtra("message");
             createNotification(message);
-
-        }
         stopSelf();
         return START_NOT_STICKY;
     }
@@ -56,7 +54,11 @@ public class NotificationService extends Service {
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentIntent(pendingIntent);
         } else {
-
+            builder.setContentTitle("John Daun")
+                    .setContentText(message.getText())
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(message.getText()))
+                    .setContentIntent(pendingIntent);
         }
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(1, builder.build());
