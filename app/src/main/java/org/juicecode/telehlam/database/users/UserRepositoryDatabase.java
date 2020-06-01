@@ -43,7 +43,7 @@ public class UserRepositoryDatabase {
         @Override
         protected Void doInBackground(User... users) {
             if (users.length == 1) {
-                if(dao.findById(users[0].getId())==0){
+                if(dao.findById(users[0].getId())==null){
                     dao.insert(users[0]);
                 }
 

@@ -21,6 +21,6 @@ public interface UserDao {
     @Query("DELETE FROM contacts")
     void deleteAll();
 
-    @Query("SELECT COUNT(*) FROM contacts WHERE id = :id")
-    Integer findById(long id);
+    @Query("SELECT * FROM contacts WHERE id = :id")
+    User findById(long id);
 }
