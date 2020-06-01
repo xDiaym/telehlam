@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -52,13 +53,16 @@ public class NotificationService extends Service {
                     builder.setContentTitle("New message")
                     .setContentText("Go to app to check message")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setContentIntent(pendingIntent);
+                    .setContentIntent(pendingIntent)
+                    .setColor(Color.BLUE);
         } else {
             builder.setContentTitle("John Daun")
                     .setContentText(message.getText())
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(message.getText()))
-                    .setContentIntent(pendingIntent);
+                    .setContentIntent(pendingIntent)
+                    .setColor(Color.BLUE);
+
         }
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(1, builder.build());
