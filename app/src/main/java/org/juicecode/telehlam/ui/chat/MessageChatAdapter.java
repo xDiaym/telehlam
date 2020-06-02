@@ -22,10 +22,6 @@ public class MessageChatAdapter extends RecyclerView.Adapter<BaseMessageHolder> 
         this.messages = new ArrayList<>();
     }
 
-    public void addItems(List<Message> messages) {
-        this.messages.addAll(messages);
-        notifyDataSetChanged();
-    }
 
     public void setMessages(List<Message> messages) {
         this.messages = messages;

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:background="@drawable/side_nav_bar"
+    android:background="@color/textOrIcons"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:maxWidth="250dp"
+        android:textColor="@color/primaryText"
         android:text="@string/fingerPrintWarning"
         android:textSize="20sp" />
 

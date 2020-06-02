@@ -50,4 +50,5 @@
     <string name="drawer_add_fingerprint">Fingerprint</string>
     <string name="delete_fingerprint">Delete fingerprint</string>
     <string name="you_en">You</string>
+    <string name="settings">Settings</string>
 </resources>

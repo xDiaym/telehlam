@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
                 R.id.nav_logout,
-                R.id.requestFingerPrintFragment)
+                R.id.settingsFragment)
                 .setDrawerLayout(drawer)
                 .build();
 
@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                         break;
                     case R.id.nav_logout:
                     case R.id.requestFingerPrintFragment:
+                    case R.id.settingsFragment:
                         toolbar.setVisibility(View.VISIBLE);
                         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                         fab.setVisibility(View.GONE);

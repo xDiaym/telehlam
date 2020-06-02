@@ -32,8 +32,6 @@ public class NotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        boolean isActive = intent.getBooleanExtra("isActive",true);
-
             //sending notification
             Message message = (Message) intent.getSerializableExtra("message");
             createNotification(message);

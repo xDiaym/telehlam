@@ -12,6 +12,7 @@ public class SharedPreferencesRepository {
     private static final String LOGIN = "userLogin";
     private static final String ID = "userId";
     private static final String hasFingerPrint = "fingerPrint";
+    private static final String cameraInChat = "camera_in_chat";
     private SharedPreferences preferences;
 
 
@@ -39,12 +40,26 @@ public class SharedPreferencesRepository {
                 .putString(LOGIN, login)
                 .apply();
     }
-
+    public void saveCamera(@NonNull boolean camera) {
+        preferences
+                .edit()
+                .putBoolean(cameraInChat, camera)
+                .apply();
+    }
+    public void deleteCamera() {
+        preferences
+                .edit()
+                .remove(cameraInChat)
+                .apply();
+    }
     public boolean getFingerPrint() {
         return preferences
                 .getBoolean(hasFingerPrint, false);
     }
-
+    public boolean getCamera() {
+        return preferences
+                .getBoolean(cameraInChat, false);
+    }
     public void saveId(@NonNull long id) {
         preferences
                 .edit()

@@ -11,9 +11,9 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/requestFingerPrintFragment"
-            android:icon="@drawable/ic_fingerprint_black_24dp"
-            android:title="@string/drawer_add_fingerprint" />
+            android:id="@+id/settingsFragment"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/settings" />
     </group>
     <group
         android:id="@+id/bottom_menu"

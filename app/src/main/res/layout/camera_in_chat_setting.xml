@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="70dp"
+    android:maxHeight="90dp"
+    android:background="@color/textOrIcons"
+    android:gravity="center_vertical">
+
+<!--   android:background="@android:color/transparent"-->
+
+    <ImageView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_camera"
+        android:layout_marginLeft="20dp"></ImageView>
+    <TextView android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Camera view in chat"
+        android:textColor="@color/primaryText"
+        android:textSize="20sp"
+        android:layout_marginLeft="20dp"></TextView>
+
+    <Switch
+        android:id="@+id/switchButton"
+        android:layout_width="wrap_content"
+        android:maxWidth="50dp"
+        android:maxHeight="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_height="wrap_content"
+        android:text="Switch" />
+
+</LinearLayout>
