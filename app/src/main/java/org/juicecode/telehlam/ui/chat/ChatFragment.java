@@ -1,12 +1,16 @@
 package org.juicecode.telehlam.ui.chat;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -39,15 +43,16 @@ public class ChatFragment extends Fragment {
     private Context context;
     private String receiverLogin;
     private User user;
+    private FrameLayout cameraView;
+    private Camera camera;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
         context = getContext();
-
+        cameraView = view.findViewById(R.id.cameraView);
         socket = AppSocket.getInstance(Constant.baseUrl);
         final MessageViewModel messageViewModel = ViewModelProviders.of(this).get(MessageViewModel.class);
-
         //all variables get their values
         final Context context = getContext();
         chat = view.findViewById(R.id.chat);
@@ -69,6 +74,12 @@ public class ChatFragment extends Fragment {
         nameOfContact.setText(receiverLogin);
         ImageButton goBack = view.findViewById(R.id.go_back_button);
         nameOfContact.setText(user.getLogin());
+        if(repository.getCamera()){
+            camera = CameraInstance.getCameraInstance();
+            CameraView cameraPreview = new CameraView(getContext(), camera);
+            cameraView.addView(cameraPreview);
+        }
+
 
         // Getting all messages for chat
         final MessageViewModel viewModel = ViewModelProviders
@@ -131,4 +142,5 @@ public class ChatFragment extends Fragment {
 
         return view;
     }
+
 }

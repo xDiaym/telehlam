@@ -54,17 +54,25 @@
 
     </LinearLayout>
 
-
-    <!--TODO(all): исправтье палитру. BackgroundPrimaryDark вообще нет -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chat"
+    <FrameLayout
+        android:id="@+id/cameraView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="100"
-        android:background="@color/textOrIcons"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chat_header"
-        tools:itemCount="0" />
+        android:layout_weight="1"
+        android:orientation="vertical"
+      >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chat"
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chat_header"
+            tools:itemCount="0" />
+    </FrameLayout>
+    <!--TODO(all): исправтье палитру. BackgroundPrimaryDark вообще нет -->
+
 
     <LinearLayout
         android:layout_width="match_parent"

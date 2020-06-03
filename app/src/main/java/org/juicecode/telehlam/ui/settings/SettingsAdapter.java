@@ -79,12 +79,13 @@ class SettingsAdapter extends RecyclerView.Adapter<BaseSettingsViewHolder>{
 
         public CameraInChatHolder(@NonNull final View itemView) {
             super(itemView);
-
+            final SharedPreferencesRepository repository = new SharedPreferencesRepository(itemView.getContext());
             checker = itemView.findViewById(R.id.switchButton);
+            checker.setChecked(repository.getCamera());
             checker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SharedPreferencesRepository repository = new SharedPreferencesRepository(itemView.getContext());
+
                     if(isChecked){
                         ((MainActivity)itemView.getContext()).checkPermission(Manifest.permission.CAMERA,CAMERA,checker);
                     }
