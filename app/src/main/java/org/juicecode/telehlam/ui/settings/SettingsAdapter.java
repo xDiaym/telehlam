@@ -2,8 +2,6 @@ package org.juicecode.telehlam.ui.settings;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.juicecode.telehlam.MainActivity;
@@ -28,7 +24,7 @@ import java.util.List;
 import static org.juicecode.telehlam.MainActivity.CAMERA;
 
 
-class SettingsAdapter extends RecyclerView.Adapter<BaseSettingsViewHolder>{
+class SettingsAdapter extends RecyclerView.Adapter<BaseSettingsViewHolder> {
     private List<SettingsItem> settingsList;
 
     public SettingsAdapter() {
@@ -45,7 +41,7 @@ class SettingsAdapter extends RecyclerView.Adapter<BaseSettingsViewHolder>{
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view;
-        switch (viewType){
+        switch (viewType) {
             case SettingsItem.CAMERA_IN_CHAT_SETTING:
                 view = inflater.inflate(R.layout.camera_in_chat_setting, parent, false);
                 return new CameraInChatHolder(view);
@@ -60,7 +56,7 @@ class SettingsAdapter extends RecyclerView.Adapter<BaseSettingsViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull BaseSettingsViewHolder holder, int position) {
-    holder.bind(settingsList.get(position));
+        holder.bind(settingsList.get(position));
     }
 
     @Override
@@ -74,7 +70,7 @@ class SettingsAdapter extends RecyclerView.Adapter<BaseSettingsViewHolder>{
     }
 
     //places for different holders for different settings
-    static class CameraInChatHolder extends BaseSettingsViewHolder{
+    static class CameraInChatHolder extends BaseSettingsViewHolder {
         Switch checker;
 
         public CameraInChatHolder(@NonNull final View itemView) {
@@ -86,12 +82,12 @@ class SettingsAdapter extends RecyclerView.Adapter<BaseSettingsViewHolder>{
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                    if(isChecked){
-                        ((MainActivity)itemView.getContext()).checkPermission(Manifest.permission.CAMERA,CAMERA,checker);
+                    if (isChecked) {
+                        ((MainActivity) itemView.getContext()).checkPermission(Manifest.permission.CAMERA, CAMERA, checker);
                     }
                     repository.deleteCamera();
                     repository.saveCamera(isChecked);
-                    Log.i("camera", repository.getCamera()+"");
+                    Log.i("camera", repository.getCamera() + "");
 
                 }
             });
@@ -102,11 +98,13 @@ class SettingsAdapter extends RecyclerView.Adapter<BaseSettingsViewHolder>{
 
         }
     }
-    static class FingerPrintHolder extends BaseSettingsViewHolder{
+
+    static class FingerPrintHolder extends BaseSettingsViewHolder {
         LinearLayout layout;
+
         public FingerPrintHolder(@NonNull final View itemView) {
             super(itemView);
-            final FragmentManagerSimplifier simplifier = (FragmentManagerSimplifier)itemView.getContext();
+            final FragmentManagerSimplifier simplifier = (FragmentManagerSimplifier) itemView.getContext();
             layout = itemView.findViewById(R.id.fingerprint_setting_parent);
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override

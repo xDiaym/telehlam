@@ -12,6 +12,7 @@ import java.io.IOException;
 public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
     private Camera camera;
     private SurfaceHolder holder;
+
     public CameraView(Context context, Camera camera) {
         super(context);
         this.camera = camera;
@@ -37,13 +38,13 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
             camera.setPreviewDisplay(holder);
             camera.startPreview();
         } catch (IOException e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        if (holder.getSurface() == null){
+        if (holder.getSurface() == null) {
             // preview surface does not exist
             return;
         }
@@ -51,7 +52,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         // stop preview before making changes
         try {
             camera.stopPreview();
-        } catch (Exception e){
+        } catch (Exception e) {
             // ignore: tried to stop a non-existent preview
         }
 
@@ -63,17 +64,17 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
             camera.setPreviewDisplay(holder);
             camera.startPreview();
 
-        } catch (Exception e){
+        } catch (Exception e) {
 
 
-    }
+        }
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         try {
             camera.stopPreview();
-        } catch (Exception e){
+        } catch (Exception e) {
             // ignore: tried to stop a non-existent preview
         }
     }

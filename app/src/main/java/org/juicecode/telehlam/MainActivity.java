@@ -2,15 +2,10 @@ package org.juicecode.telehlam;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +15,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
@@ -33,10 +27,8 @@ import com.google.android.material.navigation.NavigationView;
 import org.juicecode.telehlam.database.UserIds;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.database.messages.MessageRepository;
-import org.juicecode.telehlam.database.messages.MessageViewModel;
 import org.juicecode.telehlam.database.users.User;
 import org.juicecode.telehlam.database.users.UserRepositoryDatabase;
-import org.juicecode.telehlam.database.users.UserViewModel;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.AuthInfo;
 import org.juicecode.telehlam.rest.user.UserRepository;
@@ -50,6 +42,8 @@ import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentManagerSimplifier {
+    public static final int CAMERA = 1;
+    Switch checker;
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
     private NavController navController;
@@ -57,8 +51,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private AppSocket socket;
     private SharedPreferencesRepository repository;
     private boolean isActive;
-    public static final int CAMERA = 1;
-    Switch checker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                switch (destination.getId()){
+                switch (destination.getId()) {
                     case R.id.nav_home:
                         fab.setVisibility(View.VISIBLE);
                         toolbar.setVisibility(View.VISIBLE);
@@ -110,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                         fab.setVisibility(View.GONE);
                         break;
-                    case R.id.contactsFragment :
+                    case R.id.contactsFragment:
                         toolbar.setVisibility(View.VISIBLE);
                         fab.setVisibility(View.GONE);
                         break;
@@ -130,8 +123,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         socket = AppSocket.getInstance(Constant.baseUrl);
         socket.connect();
 
-       final UserRepositoryDatabase userRepositoryDatabase = new UserRepositoryDatabase(getApplication());
-       final MessageRepository messageRepository = new MessageRepository(getApplication());
+        final UserRepositoryDatabase userRepositoryDatabase = new UserRepositoryDatabase(getApplication());
+        final MessageRepository messageRepository = new MessageRepository(getApplication());
         final UserIds userId = UserIds.getInstance(this, this);
 
         socket.addListener("message", new MessageEvent.MessageListener(this) {
@@ -154,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                     messageRepository.insert(message);
 
                 }
-                if(!isActive){
+                if (!isActive) {
                     startService(message);
                 }
 
@@ -169,15 +162,18 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
         login();
     }
-    public void startService(Message message){
-        Intent createService =  new Intent(this, NotificationService.class);
+
+    public void startService(Message message) {
+        Intent createService = new Intent(this, NotificationService.class);
         createService.putExtra("message", message);
         startService(createService);
     }
-    public void destroyService(){
+
+    public void destroyService() {
         Intent destroyService = new Intent(this, NotificationService.class);
         stopService(destroyService);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Hide keyboard while fragment changed
@@ -220,15 +216,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
             } else {
-               repository.deleteCamera();
-               repository.saveCamera(false);
-               checker.setChecked(false);
+                repository.deleteCamera();
+                repository.saveCamera(false);
+                checker.setChecked(false);
 
             }
         }
     }
-
-
 
 
     @Override
@@ -268,12 +262,14 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
 
         }
     }
+
     @Override
     protected void onResume() {
         isActive = true;
         super.onResume();
         destroyService();
     }
+
     @Override
     protected void onPause() {
         super.onPause();

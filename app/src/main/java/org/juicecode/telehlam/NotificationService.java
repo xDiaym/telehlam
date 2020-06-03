@@ -1,13 +1,10 @@
 package org.juicecode.telehlam;
 
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -32,9 +29,9 @@ public class NotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-            //sending notification
-            Message message = (Message) intent.getSerializableExtra("message");
-            createNotification(message);
+        //sending notification
+        Message message = (Message) intent.getSerializableExtra("message");
+        createNotification(message);
         stopSelf();
         return START_NOT_STICKY;
     }
@@ -43,12 +40,13 @@ public class NotificationService extends Service {
     public void onDestroy() {
         super.onDestroy();
     }
-    public void createNotification(Message message){
+
+    public void createNotification(Message message) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_icon);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
-        if(new SharedPreferencesRepository(this).getFingerPrint()){
-                    builder.setContentTitle("New message")
+        if (new SharedPreferencesRepository(this).getFingerPrint()) {
+            builder.setContentTitle("New message")
                     .setContentText("Go to app to check message")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentIntent(pendingIntent)
