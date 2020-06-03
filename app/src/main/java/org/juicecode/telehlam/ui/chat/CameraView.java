@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.io.IOException;
 
 public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
+    private static final String TAG = CameraView.class.getName();
+
     private Camera camera;
     private SurfaceHolder holder;
 
@@ -53,6 +56,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         try {
             camera.stopPreview();
         } catch (Exception e) {
+            Log.e(TAG, e.toString());
             // ignore: tried to stop a non-existent preview
         }
 
@@ -63,10 +67,8 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         try {
             camera.setPreviewDisplay(holder);
             camera.startPreview();
-
         } catch (Exception e) {
-
-
+            Log.e(TAG, e.toString());
         }
     }
 
@@ -75,6 +77,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         try {
             camera.stopPreview();
         } catch (Exception e) {
+            Log.e(TAG, e.toString());
             // ignore: tried to stop a non-existent preview
         }
     }

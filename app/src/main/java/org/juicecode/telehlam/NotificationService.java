@@ -44,7 +44,9 @@ public class NotificationService extends Service {
     public void createNotification(Message message) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_icon);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         if (new SharedPreferencesRepository(this).getFingerPrint()) {
             builder.setContentTitle("New message")
                     .setContentText("Go to app to check message")
