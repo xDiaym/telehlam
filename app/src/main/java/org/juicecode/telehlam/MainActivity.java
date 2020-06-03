@@ -1,6 +1,7 @@
 package org.juicecode.telehlam;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,11 +9,15 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -52,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     private AppSocket socket;
     private SharedPreferencesRepository repository;
     private boolean isActive;
+    public static final int CAMERA = 1;
+    Switch checker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -198,6 +205,28 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         navController.navigate(id, bundle);
     }
 
+    public void checkPermission(String permission, int requestCode, Switch checker) {
+        this.checker = checker;
+        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
+        } else {
+
+        }
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CAMERA) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+               repository.deleteCamera();
+               repository.saveCamera(false);
+               checker.setChecked(false);
+
+            }
+        }
+    }
 
 
 

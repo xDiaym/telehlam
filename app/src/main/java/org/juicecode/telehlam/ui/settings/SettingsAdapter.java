@@ -1,7 +1,10 @@
 package org.juicecode.telehlam.ui.settings;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.juicecode.telehlam.MainActivity;
 import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.utils.FragmentManagerSimplifier;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
@@ -19,6 +25,7 @@ import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.juicecode.telehlam.MainActivity.CAMERA;
 
 
 class SettingsAdapter extends RecyclerView.Adapter<BaseSettingsViewHolder>{
@@ -78,8 +85,12 @@ class SettingsAdapter extends RecyclerView.Adapter<BaseSettingsViewHolder>{
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SharedPreferencesRepository repository = new SharedPreferencesRepository(itemView.getContext());
+                    if(isChecked){
+                        ((MainActivity)itemView.getContext()).checkPermission(Manifest.permission.CAMERA,CAMERA,checker);
+                    }
                     repository.deleteCamera();
                     repository.saveCamera(isChecked);
+                    Log.i("camera", repository.getCamera()+"");
 
                 }
             });
