@@ -52,7 +52,7 @@ public class AuthorisationFragment extends Fragment {
                 String password = passwordField.getText().toString().trim();
 
                 if (checkFields(login, password)) {
-                    final UserRepository api = new UserRepository(new RetrofitBuilder(),layout);
+                    final UserRepository api = new UserRepository(new RetrofitBuilder(), layout);
                     api.signIn(new LoginInfo(login, password)).observe(getViewLifecycleOwner(), new Observer<AuthInfo>() {
                         @Override
                         public void onChanged(AuthInfo authInfo) {

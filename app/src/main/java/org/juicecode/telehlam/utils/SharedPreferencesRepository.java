@@ -40,26 +40,31 @@ public class SharedPreferencesRepository {
                 .putString(LOGIN, login)
                 .apply();
     }
+
     public void saveCamera(@NonNull boolean camera) {
         preferences
                 .edit()
                 .putBoolean(cameraInChat, camera)
                 .apply();
     }
+
     public void deleteCamera() {
         preferences
                 .edit()
                 .remove(cameraInChat)
                 .apply();
     }
+
     public boolean getFingerPrint() {
         return preferences
                 .getBoolean(hasFingerPrint, false);
     }
+
     public boolean getCamera() {
         return preferences
                 .getBoolean(cameraInChat, false);
     }
+
     public void saveId(@NonNull long id) {
         preferences
                 .edit()

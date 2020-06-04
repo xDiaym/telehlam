@@ -4,24 +4,24 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.FrameLayout;
 
 import java.io.IOException;
 
 public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
+    private static final String TAG = CameraView.class.getName();
+
     private Camera camera;
     private SurfaceHolder holder;
-    private FrameLayout layout;
-    public CameraView(Context context, Camera camera, FrameLayout layout) {
+
+    public CameraView(Context context, Camera camera) {
         super(context);
-        this.layout = layout;
         this.camera = camera;
         holder = getHolder();
         holder.addCallback(this);
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        layout.addView(this);
     }
 
     @Override
@@ -41,13 +41,13 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
             camera.setPreviewDisplay(holder);
             camera.startPreview();
         } catch (IOException e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        if (holder.getSurface() == null){
+        if (holder.getSurface() == null) {
             // preview surface does not exist
             return;
         }
@@ -55,7 +55,8 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         // stop preview before making changes
         try {
             camera.stopPreview();
-        } catch (Exception e){
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
             // ignore: tried to stop a non-existent preview
         }
 
@@ -66,18 +67,17 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         try {
             camera.setPreviewDisplay(holder);
             camera.startPreview();
-
-        } catch (Exception e){
-
-
-    }
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         try {
             camera.stopPreview();
-        } catch (Exception e){
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
             // ignore: tried to stop a non-existent preview
         }
     }

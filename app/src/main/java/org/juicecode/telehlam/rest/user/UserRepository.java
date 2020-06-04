@@ -22,13 +22,14 @@ import retrofit2.Response;
 
 public class UserRepository {
     private static final String TAG = UserRepository.class.getCanonicalName();
-    private LinearLayout layout;
     private static UserApi userApi;
+    private LinearLayout layout;
 
     public UserRepository(@NonNull RetrofitBuilder retrofitBuilder, LinearLayout layout) {
         userApi = retrofitBuilder.getUserApi();
         this.layout = layout;
     }
+
     public UserRepository(@NonNull RetrofitBuilder retrofitBuilder) {
         userApi = retrofitBuilder.getUserApi();
     }
@@ -55,7 +56,7 @@ public class UserRepository {
             @Override
             public void onFailure(Call call, Throwable t) {
                 Log.e(TAG, String.format("Failure while sending response\n" +
-                                "Error: %s", t.getMessage()));
+                        "Error: %s", t.getMessage()));
 
                 SnackbarShower snackbarShower = new SnackbarShower(layout);
                 snackbarShower.showSnackbar("Make sure you have an Internet connection");

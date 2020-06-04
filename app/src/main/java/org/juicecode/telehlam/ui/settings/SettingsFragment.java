@@ -18,6 +18,7 @@ public class SettingsFragment extends Fragment {
     private RecyclerView settingsView;
     private SettingsAdapter adapter;
     private LinearLayoutManager layoutManager;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
