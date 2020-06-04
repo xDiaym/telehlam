@@ -61,6 +61,7 @@
         android:layout_weight="1"
         android:orientation="vertical"
       >
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chat"
             android:layout_weight="2"

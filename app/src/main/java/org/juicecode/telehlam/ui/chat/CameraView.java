@@ -6,18 +6,22 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.FrameLayout;
 
 import java.io.IOException;
 
 public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
     private Camera camera;
     private SurfaceHolder holder;
-    public CameraView(Context context, Camera camera) {
+    private FrameLayout layout;
+    public CameraView(Context context, Camera camera, FrameLayout layout) {
         super(context);
+        this.layout = layout;
         this.camera = camera;
         holder = getHolder();
         holder.addCallback(this);
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        layout.addView(this);
     }
 
     @Override
