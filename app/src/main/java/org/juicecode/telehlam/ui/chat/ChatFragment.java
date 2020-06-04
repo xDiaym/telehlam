@@ -74,8 +74,8 @@ public class ChatFragment extends Fragment {
         nameOfContact.setText(user.getLogin());
         if (repository.getCamera()) {
             camera = CameraInstance.getCameraInstance();
-            CameraView cameraPreview = new CameraView(getContext(), camera , cameraView);
-            //cameraView.addView(cameraPreview);
+            CameraView cameraPreview = new CameraView(getContext(), camera);
+            cameraView.addView(cameraPreview);
         }
 
 

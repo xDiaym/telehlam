@@ -31,7 +31,8 @@ public class NotificationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         //sending notification
         Message message = (Message) intent.getSerializableExtra("message");
-        createNotification(message);
+        String fullName = intent.getStringExtra("fullName");
+        createNotification(message, fullName);
         stopSelf();
         return START_NOT_STICKY;
     }
@@ -41,7 +42,7 @@ public class NotificationService extends Service {
         super.onDestroy();
     }
 
-    public void createNotification(Message message) {
+    public void createNotification(Message message, String fullName) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_icon);
 
@@ -54,7 +55,7 @@ public class NotificationService extends Service {
                     .setContentIntent(pendingIntent)
                     .setColor(Color.BLUE);
         } else {
-            builder.setContentTitle("John Daun")
+            builder.setContentTitle(fullName)
                     .setContentText(message.getText())
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(message.getText()))

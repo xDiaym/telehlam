@@ -19,7 +19,7 @@ public class UserRepositoryDatabase {
     public LiveData<List<User>> getAllUsers() {
         return dao.getAll();
     }
-
+    public LiveData<User> findById(long id){ return dao.findById(id);}
     public void insert(User user) {
         new InsertAsyncTask(dao).execute(user);
     }
@@ -31,6 +31,7 @@ public class UserRepositoryDatabase {
     public void deleteAll() {
         new DeleteAllAsyncTask(dao).execute();
     }
+
 
 
     private static class InsertAsyncTask extends AsyncTask<User, Void, Void> {

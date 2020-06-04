@@ -22,5 +22,5 @@ public interface UserDao {
     void deleteAll();
 
     @Query("SELECT * FROM contacts WHERE id = :id")
-    User findById(long id);
+    LiveData<User> findById(long id);
 }

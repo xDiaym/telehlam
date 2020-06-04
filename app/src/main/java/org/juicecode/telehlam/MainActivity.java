@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         final UserIds userId = UserIds.getInstance(this, this);
 
         socket.addListener("message", new MessageEvent.MessageListener(this) {
+           String fullName="Pidaras";
             @Override
             public void onNewMessage(final Message message) {
                 long authorId = message.getAuthorId();
@@ -137,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                         @Override
                         public void onChanged(User user) {
                             userRepositoryDatabase.insert(user);
+                            //fullName = user.getSurname()+" "+user.getName();
                             // We insert message here, cuz get user byId execute in other thread
                             messageRepository.insert(message);
 
@@ -145,10 +147,17 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                     });
                 } else {
                     messageRepository.insert(message);
+                    userRepositoryDatabase.findById(message.getAuthorId()).observe(MainActivity.this, new Observer<User>() {
+                        @Override
+                        public void onChanged(User user) {
+                           fullName = user.getSurname()+" "+user.getName();
+                        }
+                    });
 
                 }
                 if (!isActive) {
-                    startService(message);
+
+                     startService(message,fullName);
                 }
 
             }
@@ -163,9 +172,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         login();
     }
 
-    public void startService(Message message) {
+    public void startService(Message message, String fullname) {
         Intent createService = new Intent(this, NotificationService.class);
         createService.putExtra("message", message);
+        createService.putExtra("fullName", fullname);
         startService(createService);
     }
 
