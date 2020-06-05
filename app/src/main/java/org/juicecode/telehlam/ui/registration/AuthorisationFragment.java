@@ -62,6 +62,7 @@ public class AuthorisationFragment extends Fragment {
                             repository.saveId(authInfo.getId());
                             repository.saveLogin(login);
                             ((MainActivity) getActivity()).login();
+                            ((FragmentManagerSimplifier)getContext()).addFragment(R.id.nav_home);
 
                         }
                     });

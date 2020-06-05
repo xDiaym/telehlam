@@ -269,7 +269,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     public void logOut() {
         if (socket != null) {
             socket.disconnect();
-
         }
     }
 
