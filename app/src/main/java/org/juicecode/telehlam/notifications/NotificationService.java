@@ -56,7 +56,7 @@ public class NotificationService extends Service {
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentIntent(pendingIntent);
         } else {
-            builder.setContentTitle("John Daun")
+            builder.setContentTitle(message.getAuthorLogin())
                     .setContentText(message.getText())
                     .setStyle(new NotificationCompat.BigTextStyle()
                     .bigText(message.getText()))

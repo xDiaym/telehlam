@@ -57,7 +57,7 @@ public class ChatFragment extends Fragment {
         Bundle arguments = getArguments();
         user = (User) arguments.getSerializable("user");
         receiverId = user.getId();
-        SharedPreferencesRepository repository = new SharedPreferencesRepository(context);
+        final SharedPreferencesRepository repository = new SharedPreferencesRepository(context);
         userId = repository.getId();
         chat.setAdapter(messageChatAdapter);
         chat.setHasFixedSize(false);
@@ -101,7 +101,7 @@ public class ChatFragment extends Fragment {
             public void onClick(View v) {
                 String messageText = messageField.getText().toString().trim();
                 if (!messageText.isEmpty()) {
-                    final Message message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId);
+                    final Message message = new Message(Message.MESSAGE_OUTGOING, messageText, userId, receiverId,repository.getLogin());
 
                     new MessageEvent(socket).sendMessage(message);
 
