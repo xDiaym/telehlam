@@ -40,7 +40,7 @@ public class SecondRegistrationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.second_registration_fragment, container, false);
-
+//
         floatingActionButton = view.findViewById(R.id.login_registration);
         final FragmentManagerSimplifier fragmentManagerSimplifier = (FragmentManagerSimplifier) view.getContext();
 
