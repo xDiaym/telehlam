@@ -29,6 +29,7 @@ import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.database.messages.MessageRepository;
 import org.juicecode.telehlam.database.users.User;
 import org.juicecode.telehlam.database.users.UserRepositoryDatabase;
+import org.juicecode.telehlam.notifications.NotificationService;
 import org.juicecode.telehlam.rest.RetrofitBuilder;
 import org.juicecode.telehlam.rest.user.AuthInfo;
 import org.juicecode.telehlam.rest.user.UserRepository;
@@ -128,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         final UserIds userId = UserIds.getInstance(this, this);
 
         socket.addListener("message", new MessageEvent.MessageListener(this) {
-           String fullName="Pidaras";
             @Override
             public void onNewMessage(final Message message) {
                 long authorId = message.getAuthorId();
@@ -147,17 +147,12 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                     });
                 } else {
                     messageRepository.insert(message);
-                    userRepositoryDatabase.findById(message.getAuthorId()).observe(MainActivity.this, new Observer<User>() {
-                        @Override
-                        public void onChanged(User user) {
-                           fullName = user.getSurname()+" "+user.getName();
-                        }
-                    });
+
 
                 }
                 if (!isActive) {
 
-                     startService(message,fullName);
+                     startService(message);
                 }
 
             }
@@ -172,10 +167,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         login();
     }
 
-    public void startService(Message message, String fullname) {
+    public void startService(Message message) {
         Intent createService = new Intent(this, NotificationService.class);
         createService.putExtra("message", message);
-        createService.putExtra("fullName", fullname);
         startService(createService);
     }
 

@@ -31,13 +31,10 @@ public class NotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        boolean isActive = intent.getBooleanExtra("isActive",true);
-        if(!(intent.getBooleanExtra("isActive",true))){
+
             //sending notification
             Message message = (Message) intent.getSerializableExtra("message");
             createNotification(message);
-
-        }
         stopSelf();
         return START_NOT_STICKY;
     }
@@ -51,7 +48,7 @@ public class NotificationService extends Service {
                 .setSmallIcon(R.drawable.notification_icon);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
         if(new SharedPreferencesRepository(this).getFingerPrint()){
-                    builder.setContentTitle("New message from JOhn DAun")
+                    builder.setContentTitle("New message")
                     .setContentText("Go to app to check message")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentIntent(pendingIntent);
