@@ -22,7 +22,7 @@ public class Message implements Serializable {
     private long authorId;
     private long receiverId;
     private boolean isRead;
-
+    private String authorLogin;
     public String getAuthorLogin() {
         return authorLogin;
     }
@@ -31,7 +31,7 @@ public class Message implements Serializable {
         this.authorLogin = authorLogin;
     }
 
-    private String authorLogin;
+
 
     @TypeConverters(Status.class)
     private Status status;
