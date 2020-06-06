@@ -1,4 +1,4 @@
-package org.juicecode.telehlam;
+package org.juicecode.telehlam.notifications;
 
 import android.app.PendingIntent;
 import android.app.Service;
@@ -10,10 +10,12 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import org.juicecode.telehlam.MainActivity;
+import org.juicecode.telehlam.R;
 import org.juicecode.telehlam.database.messages.Message;
 import org.juicecode.telehlam.utils.SharedPreferencesRepository;
 
-import static org.juicecode.telehlam.App.CHANNEL_ID;
+import static org.juicecode.telehlam.notifications.App.CHANNEL_ID;
 
 public class NotificationService extends Service {
     @Nullable
@@ -29,10 +31,13 @@ public class NotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //sending notification
-        Message message = (Message) intent.getSerializableExtra("message");
-        String fullName = intent.getStringExtra("fullName");
-        createNotification(message, fullName);
+        boolean isActive = intent.getBooleanExtra("isActive",true);
+        if(!(intent.getBooleanExtra("isActive",true))){
+            //sending notification
+            Message message = (Message) intent.getSerializableExtra("message");
+            createNotification(message);
+
+        }
         stopSelf();
         return START_NOT_STICKY;
     }
@@ -41,27 +46,25 @@ public class NotificationService extends Service {
     public void onDestroy() {
         super.onDestroy();
     }
-
-    public void createNotification(Message message, String fullName) {
+    public void createNotification(Message message){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_icon);
-
-        Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        if (new SharedPreferencesRepository(this).getFingerPrint()) {
-            builder.setContentTitle("New message")
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
+        if(new SharedPreferencesRepository(this).getFingerPrint()){
+                    builder.setContentTitle("New message from JOhn DAun")
                     .setContentText("Go to app to check message")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setContentIntent(pendingIntent)
-                    .setColor(Color.BLUE);
+                    .setContentIntent(pendingIntent);
         } else {
-            builder.setContentTitle(fullName)
+            builder.setContentTitle(message.getAuthorLogin())
                     .setContentText(message.getText())
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                    .bigText(message.getText()))
+                    .setColor(Color.BLUE)
+                    .setAutoCancel(true)
+                    .setOnlyAlertOnce(true)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText(message.getText()))
-                    .setContentIntent(pendingIntent)
-                    .setColor(Color.BLUE);
-
+                    .setContentIntent(pendingIntent);
         }
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(1, builder.build());

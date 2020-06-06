@@ -23,6 +23,16 @@ public class Message implements Serializable {
     private long receiverId;
     private boolean isRead;
 
+    public String getAuthorLogin() {
+        return authorLogin;
+    }
+
+    public void setAuthorLogin(String authorLogin) {
+        this.authorLogin = authorLogin;
+    }
+
+    private String authorLogin;
+
     @TypeConverters(Status.class)
     private Status status;
 
@@ -31,19 +41,21 @@ public class Message implements Serializable {
     }
 
     @Ignore
-    public Message(int type, String text, long authorId, long receiverId) {
+    public Message(int type, String text, long authorId, long receiverId,String authorLogin) {
         this.type = type;
         this.authorId = authorId;
         this.receiverId = receiverId;
         this.text = text;
         this.timestamp = (new Date().getTime());
         this.status = Status.NONE;
+        this.authorLogin = authorLogin;
         this.isRead = true;
     }
 
     @Ignore
-    public Message(int type, String text, long authorId, long receiverId, long timestamp, boolean isRead) {
+    public Message(int type, String text, long authorId, long receiverId, long timestamp, boolean isRead, String authorLogin) {
         this.type = type;
+        this.authorLogin = authorLogin;
         this.authorId = authorId;
         this.receiverId = receiverId;
         this.text = text;
