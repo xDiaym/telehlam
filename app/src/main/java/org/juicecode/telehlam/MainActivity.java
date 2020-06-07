@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Switch;
 
 import androidx.annotation.NonNull;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
         repository = new SharedPreferencesRepository(this);
 
         // Block screenshots
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
