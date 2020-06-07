@@ -138,10 +138,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
                         @Override
                         public void onChanged(User user) {
                             userRepositoryDatabase.insert(user);
-                            //fullName = user.getSurname()+" "+user.getName();
-                            // We insert message here, cuz get user byId execute in other thread
                             messageRepository.insert(message);
-
 
                         }
                     });
@@ -253,7 +250,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManagerSi
     public void login() {
         if (socket != null) {
             socket.connect();
-
         }
         AuthInfo info = new AuthInfo(-1,
                 new SharedPreferencesRepository(this).getToken());
